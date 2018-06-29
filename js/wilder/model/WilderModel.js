@@ -7,14 +7,40 @@ define( function( require ) {
   'use strict';
 
   // modules
-  var inherit = require( 'PHET_CORE/inherit' );
-  var wilder = require( 'WILDER/wilder' );
+  const inherit = require( 'PHET_CORE/inherit' );
+  const wilder = require( 'WILDER/wilder' );
+
+  // constants
+  const something = 'foo';
 
   /**
    * @constructor
    */
   function WilderModel() {
-    //TODO
+    // block scoping for let/const
+    let blocky = 'outside';
+    if ( window ) {
+      let blocky = 'inside';
+      console.log( `Should be block-scoped inside: ${blocky}` );
+    }
+    for ( let blocky = 0; blocky <= 0; blocky++ ) {
+      console.log( `Should be block-scoped 0: ${blocky}` );
+    }
+    console.log( `Should be block-scoped outside: ${blocky}` );
+
+    // Expression-based arrow functions
+    console.log( _.range( 0, 5 ).map( x => x * x ) );
+
+    // Statement-based arrow functions
+    console.log( _.range( 0, 5 ).map( x => {
+      console.log( `${something}:${x}` );
+      return x * x;
+    } ) );
+
+    var self = this;
+    [ 1 ].map( element => {
+      console.log( `self === this in arrow function: ${self === this}` );
+    } );
   }
 
   wilder.register( 'WilderModel', WilderModel );
