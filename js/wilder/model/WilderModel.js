@@ -21,47 +21,41 @@ define( function( require ) {
     let blocky = 'outside';
     if ( window ) {
       let blocky = 'inside';
-      console.log( `Should be block-scoped inside: ${blocky}` );
+      assert && assert( blocky === 'inside' );
     }
     for ( let blocky = 0; blocky <= 0; blocky++ ) {
-      console.log( `Should be block-scoped 0: ${blocky}` );
+      assert && assert( blocky === 0 );
     }
-    console.log( `Should be block-scoped outside: ${blocky}` );
+    assert && assert( blocky === 'outside' );
 
     // Expression-based arrow functions
-    console.log( _.range( 0, 5 ).map( x => x * x ) );
+    assert && assert( _.range( 0, 5 ).map( x => x * x )[ 3 ] === 9 );
 
     // Statement-based arrow functions
-    console.log( _.range( 0, 5 ).map( x => {
-      console.log( `${something}:${x}` );
+    assert && assert( _.range( 0, 5 ).map( x => {
+      assert && assert( x < 5 );
       return x * x;
-    } ) );
+    } )[ 3 ] === 9 );
 
     var self = this;
     [ 1 ].map( element => {
-      console.log( `self === this in arrow function: ${self === this}` );
+      assert && assert( this === self );
     } );
 
-    // Invoke test for default function parameters
-    const result = testDefaults( 0 );
-    console.log( 'testing defaults, expected 5, received: ' + result );
-    if ( result !== 5 ) {
-      throw new Error( 'bad defaults' );
+    // Default function parameters
+    function defaults( x = 1, y = 2, z = 3 ) {
+      return x + y + z;
     }
+    assert && assert( defaults( 0 ) === 5 );
+
+    // Rest parameters
+    function rest( x, y, ...others ) {
+      return x + y + others.length;
+    }
+    assert && assert( rest( 1, 2, 3, 4, 5, 6 ) === 7 );
   }
 
   wilder.register( 'WilderModel', WilderModel );
-
-  /**
-   * This function tests default parameter values.
-   * @param {number} x
-   * @param {number} y
-   * @param {number} z
-   * @returns {number}
-   */
-  const testDefaults = function( x = 1, y = 2, z = 3 ) {
-    return x + y + z;
-  };
 
   return inherit( Object, WilderModel, {
 
