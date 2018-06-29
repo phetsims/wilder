@@ -41,9 +41,27 @@ define( function( require ) {
     [ 1 ].map( element => {
       console.log( `self === this in arrow function: ${self === this}` );
     } );
+
+    // Invoke test for default function parameters
+    const result = testDefaults( 0 );
+    console.log( 'testing defaults, expected 5, received: ' + result );
+    if ( result !== 5 ) {
+      throw new Error( 'bad defaults' );
+    }
   }
 
   wilder.register( 'WilderModel', WilderModel );
+
+  /**
+   * This function tests default parameter values.
+   * @param {number} x
+   * @param {number} y
+   * @param {number} z
+   * @returns {number}
+   */
+  const testDefaults = function( x = 1, y = 2, z = 3 ) {
+    return x + y + z;
+  };
 
   return inherit( Object, WilderModel, {
 
