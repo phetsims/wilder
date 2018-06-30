@@ -9,7 +9,6 @@ define( function( require ) {
   'use strict';
 
   // modules
-  const inherit = require( 'PHET_CORE/inherit' );
   const Node = require( 'SCENERY/nodes/Node' );
   const wilder = require( 'WILDER/wilder' );
   const Text = require( 'SCENERY/nodes/Text' );
