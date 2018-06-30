@@ -10,6 +10,7 @@ define( function( require ) {
   var inherit = require( 'PHET_CORE/inherit' );
   var ResetAllButton = require( 'SCENERY_PHET/buttons/ResetAllButton' );
   var ScreenView = require( 'JOIST/ScreenView' );
+  var WilderNode = require( 'WILDER/wilder/view/WilderNode' );
   var wilder = require( 'WILDER/wilder' );
 
   /**
@@ -20,12 +21,16 @@ define( function( require ) {
 
     ScreenView.call( this );
 
+    const wilderNode = new WilderNode( { x: 100, y: 100 } );
+    wilderNode.flipOver();
+    this.addChild( wilderNode );
+
     // Reset All button
-    var resetAllButton = new ResetAllButton( {
+    const resetAllButton = new ResetAllButton( {
       listener: function() {
         wilderModel.reset();
       },
-      right:  this.layoutBounds.maxX - 10,
+      right: this.layoutBounds.maxX - 10,
       bottom: this.layoutBounds.maxY - 10
     } );
     this.addChild( resetAllButton );
