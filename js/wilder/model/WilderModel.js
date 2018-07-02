@@ -193,7 +193,7 @@ define( function( require ) {
 
     // TODO: generator function method notation fun*(...){}
     // TODO: modules?
-    // TODO: more about classes
+    // TODO: more about classes (SR: there is a start in WilderNode).
     // TODO: use Symbols (?) and see if they work for enumerations. Can Symbol.for() be used for phet-io tandems?
     // TODO: async/await checks?
     // TODO: Promises and generators with https://babeljs.io/docs/en/babel-polyfill/
