@@ -10,8 +10,10 @@ define( function( require ) {
   const inherit = require( 'PHET_CORE/inherit' );
   const interleave = require( 'PHET_CORE/interleave' );
   const Node = require( 'SCENERY/nodes/Node' );
-  const Util = require( 'DOT/Util' );
   const wilder = require( 'WILDER/wilder' );
+
+  // Commented out for the currently-unsupported ES6 features
+  // const Util = require( 'DOT/Util' );
 
   // constants
   const something = 'foo';
@@ -187,49 +189,44 @@ define( function( require ) {
     hardAssert( new SecretNode( { opacity: 0.5 } ).opacity === 0.5 );
     hardAssert( SecretNode.createSecretNode().secret === 0 );
 
+    // Unsupported without babel-polyfill, commented out for now. DO NOT USE in simulations. May be used in the future.
     // Iterable class (with a generator method)
-    class RelativePrimes {
-      constructor( n ) {
-        // @private {number}
-        this.n = n;
-      }
-      *[Symbol.iterator]() {
-        for ( let i = 1;; i++ ) {
-          if ( Util.gcd( i, this.n ) === 1 ) {
-            yield i;
-          }
-        }
-      }
-    }
-    // Find all relative primes to 5 less than 12.
-    const relativePrimes = [];
-    for ( const n of new RelativePrimes( 5 ) ) {
-      if ( n >= 12 ) { break; }
-      relativePrimes.push( n );
-    }
-    hardAssert( _.isEqual( relativePrimes, [ 1, 2, 3, 4, 6, 7, 8, 9, 11 ] ) );
+    // class RelativePrimes {
+    //   constructor( n ) {
+    //     // @private {number}
+    //     this.n = n;
+    //   }
+    //   *[Symbol.iterator]() {
+    //     for ( let i = 1;; i++ ) {
+    //       if ( Util.gcd( i, this.n ) === 1 ) {
+    //         yield i;
+    //       }
+    //     }
+    //   }
+    // }
+    // // Find all relative primes to 5 less than 12.
+    // const relativePrimes = [];
+    // for ( const n of new RelativePrimes( 5 ) ) {
+    //   if ( n >= 12 ) { break; }
+    //   relativePrimes.push( n );
+    // }
+    // hardAssert( _.isEqual( relativePrimes, [ 1, 2, 3, 4, 6, 7, 8, 9, 11 ] ) );
 
+    // Unsupported without babel-polyfill, commented out for now. DO NOT USE in simulations. May be used in the future.
     // Sets
-    const bag = new Set();
-    bag.add( 'a' ).add( 'b' ).add( 'a' );
-    hardAssert( bag.size === 2 );
-    hardAssert( bag.has( 'a' ) );
-    hardAssert( !bag.has( 'c' ) );
+    // const bag = new Set();
+    // bag.add( 'a' ).add( 'b' ).add( 'a' );
+    // hardAssert( bag.size === 2 );
+    // hardAssert( bag.has( 'a' ) );
+    // hardAssert( !bag.has( 'c' ) );
 
+    // Unsupported without babel-polyfill, commented out for now. DO NOT USE in simulations. May be used in the future.
     // Maps
-    const map = new Map();
-    map.set( bag, 5 );
-    map.set( Node, 2 );
-    hardAssert( map.get( bag ) === 5 );
-    hardAssert( map.get( Node ) === 2 );
-
-    // TODO: generator function method notation fun*(...){}
-    // TODO: modules?
-    // TODO: more about classes (SR: there is a start in WilderNode).
-    // TODO: use Symbols (?) and see if they work for enumerations. Can Symbol.for() be used for phet-io tandems?
-    // TODO: async/await checks?
-    // TODO: Promises and generators with https://babeljs.io/docs/en/babel-polyfill/
-    // TODO: Object.assign instead of _extend?
+    // const map = new Map();
+    // map.set( bag, 5 );
+    // map.set( Node, 2 );
+    // hardAssert( map.get( bag ) === 5 );
+    // hardAssert( map.get( Node ) === 2 );
   }
 
   wilder.register( 'WilderModel', WilderModel );
