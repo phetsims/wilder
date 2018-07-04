@@ -1,0 +1,83 @@
+{
+  "comment": "# wilder 1.0.0-es6.1 Tue Jul 03 2018 21:01:34 GMT-0600 (MDT)",
+  "assert": {
+    "sha": "928741cfc8fe804334d5b35292140314511f8678",
+    "branch": "master"
+  },
+  "axon": {
+    "sha": "be2fe88a9fe9c5c4da86d9c8c557c3c225acdb80",
+    "branch": "master"
+  },
+  "brand": {
+    "sha": "89d28f6309a83eb51b6c1fc0130e76ad7935f09e",
+    "branch": "master"
+  },
+  "chipper": {
+    "sha": "80b4ad62cd8f2057b844f18d3c00cf5c0c89ed8d",
+    "branch": "es6"
+  },
+  "dot": {
+    "sha": "91c5aee1faa69cfb4f6f9707625c13fc0d9c11da",
+    "branch": "master"
+  },
+  "joist": {
+    "sha": "80a44cefe8c4cd1ba2013b5630d7f801f39b4240",
+    "branch": "master"
+  },
+  "kite": {
+    "sha": "d08fb3c757566cb77db0fd3089105698d952a27c",
+    "branch": "master"
+  },
+  "phet-core": {
+    "sha": "d70b745c7bef7947249270f5af010d7cd5bc3693",
+    "branch": "master"
+  },
+  "phet-io": {
+    "sha": "1258b792e2863328d0dd5dbd32ce3f57e8d68fa7",
+    "branch": "master"
+  },
+  "phet-io-wrapper-classroom-activity": {
+    "sha": "c1caa58b5b827c5deb7fe8fae8eea4d68b3596f8",
+    "branch": "master"
+  },
+  "phet-io-wrapper-lab-book": {
+    "sha": "06e39193920e0f7bfae949ca1b5c7a9bf49e86e6",
+    "branch": "master"
+  },
+  "phet-io-wrappers": {
+    "sha": "1295ab6961671dfee20d96b096ba15c9d7c91f77",
+    "branch": "master"
+  },
+  "phetcommon": {
+    "sha": "6ec8cd890b154f1f58b45112efd51a0b037e0451",
+    "branch": "master"
+  },
+  "query-string-machine": {
+    "sha": "64ec01d51e0deb6b2ec87f1413898f5fd5622f0e",
+    "branch": "master"
+  },
+  "scenery": {
+    "sha": "99b5c22256dd04303b0ba603b7b0ea28cfcc49e2",
+    "branch": "master"
+  },
+  "scenery-phet": {
+    "sha": "9b700193410f4b7f834bb84f166883f25238edfe",
+    "branch": "master"
+  },
+  "sherpa": {
+    "sha": "3a83012524d3df8ac0ac551e2165ad84a54c47aa",
+    "branch": "master"
+  },
+  "sun": {
+    "sha": "c340bbba1120d184bdb51f1e45c273a1e16dcb40",
+    "branch": "master"
+  },
+  "tandem": {
+    "sha": "a40e2a0e484d9b0f80d72f8975fb8d256f6a954b",
+    "branch": "master"
+  },
+  "wilder": {
+    "sha": "60ce9c918c3d713972916ffe776fdfa35d6f7f84",
+    "branch": "es6"
+  }
+}
