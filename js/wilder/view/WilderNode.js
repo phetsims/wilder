@@ -5,7 +5,7 @@
  *
  * @author Sam Reid (PhET Interactive Simulations)
  */
-define( function( require ) {
+define( ( require ) => {
   'use strict';
 
   // modules
@@ -33,7 +33,5 @@ define( function( require ) {
     }
   }
 
-  wilder.register( 'WilderNode', WilderNode );
-
-  return WilderNode;
+  return wilder.register( 'WilderNode', WilderNode );
 } );
