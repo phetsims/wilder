@@ -10,8 +10,8 @@ define( function( require ) {
   var inherit = require( 'PHET_CORE/inherit' );
   var ResetAllButton = require( 'SCENERY_PHET/buttons/ResetAllButton' );
   var ScreenView = require( 'JOIST/ScreenView' );
-  var WilderNode = require( 'WILDER/wilder/view/WilderNode' );
   var wilder = require( 'WILDER/wilder' );
+  var WilderNode = require( 'WILDER/wilder/view/WilderNode' );
 
   /**
    * @param {WilderModel} wilderModel

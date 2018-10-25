@@ -10,8 +10,8 @@ define( ( require ) => {
 
   // modules
   const Node = require( 'SCENERY/nodes/Node' );
-  const wilder = require( 'WILDER/wilder' );
   const Text = require( 'SCENERY/nodes/Text' );
+  const wilder = require( 'WILDER/wilder' );
 
   class WilderNode extends Node {
 
