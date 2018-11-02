@@ -164,13 +164,16 @@ define( function( require ) {
     const MUTATOR_KEYS = [ ...Node.prototype._mutatorKeys, 'secret' ];
     class SecretNode extends Node {
       constructor( options ) {
-        // Can't reference `this` before the super() call
 
-        super(); // Can't pass options here, since we don't have a good way of setting up a default before mutate
+        // Can't reference `this` before the super() call
+        // Don't pass options here, since want to initialize defaults before passing options to mutate. We still only
+        // want to call mutate once per constructor.
+        super();
 
         // @private {number}
         this._secret = 42;
 
+        // mutate after instance variables have been assigned.
         this.mutate( options );
       }
       get _mutatorKeys() { return MUTATOR_KEYS; }
