@@ -30,9 +30,9 @@ define( function( require ) {
     }
 
     // block scoping for let/const
-    let blocky = 'outside';
+    const blocky = 'outside';
     if ( window ) {
-      let blocky = 'inside';
+      const blocky = 'inside';
       hardAssert( blocky === 'inside' );
     }
     for ( let blocky = 0; blocky <= 0; blocky++ ) {
@@ -58,12 +58,14 @@ define( function( require ) {
     function defaults( x = 1, y = 2, z = 3 ) {
       return x + y + z;
     }
+
     hardAssert( defaults( 0 ) === 5 );
 
     // Rest parameters
     function rest( x, y, ...others ) {
       return x + y + others.length;
     }
+
     hardAssert( rest( 1, 2, 3, 4, 5, 6 ) === 7 );
 
     // Spread operator
@@ -78,7 +80,8 @@ define( function( require ) {
     function quoter( strings, ...quotations ) {
       return interleave( strings, i => `"${quotations[ i ]}"` ).join( '' );
     }
-    hardAssert( quoter`He said ${something} but then answered ${3*2}` === 'He said "foo" but then answered "6"' );
+
+    hardAssert( quoter`He said ${something} but then answered ${3 * 2}` === 'He said "foo" but then answered "6"' );
 
     const multiLineString = `This
  is a test of the emergency
@@ -144,6 +147,7 @@ define( function( require ) {
     function destruct( { cat, mouse: { animals: [ firstAnimal ] } } ) {
       return cat + firstAnimal;
     }
+
     hardAssert( destruct( destObject ) === destObject.cat + destObject.mouse.animals[ 0 ] );
 
     // Options object destructuring with defaults
@@ -162,6 +166,7 @@ define( function( require ) {
 
     // Class extending current hierarchy
     const MUTATOR_KEYS = [ ...Node.prototype._mutatorKeys, 'secret' ];
+
     class SecretNode extends Node {
       constructor( options ) {
 
@@ -176,8 +181,11 @@ define( function( require ) {
         // mutate after instance variables have been assigned.
         this.mutate( options );
       }
+
       get _mutatorKeys() { return MUTATOR_KEYS; }
+
       set secret( value ) { this._secret = value; }
+
       get secret() { return this._secret; }
 
       // overridden method
@@ -188,6 +196,7 @@ define( function( require ) {
 
       static createSecretNode() { return new SecretNode( { secret: 0 } ); }
     }
+
     hardAssert( new SecretNode( { secret: 5 } ).secret === 5 );
     hardAssert( new SecretNode( { opacity: 0.5 } ).opacity === 0.5 );
     hardAssert( SecretNode.createSecretNode().secret === 0 );
