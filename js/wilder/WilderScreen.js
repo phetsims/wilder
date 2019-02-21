@@ -1,36 +1,35 @@
-// Copyright 2018, University of Colorado Boulder
+// Copyright 2018-2019, University of Colorado Boulder
 
 /**
  * @author AUTHOR
  */
-define( function( require ) {
+define( require => {
   'use strict';
 
   // modules
-  var inherit = require( 'PHET_CORE/inherit' );
-  var Property = require( 'AXON/Property' );
-  var Screen = require( 'JOIST/Screen' );
-  var wilder = require( 'WILDER/wilder' );
-  var WilderModel = require( 'WILDER/wilder/model/WilderModel' );
-  var WilderScreenView = require( 'WILDER/wilder/view/WilderScreenView' );
+  const Property = require( 'AXON/Property' );
+  const Screen = require( 'JOIST/Screen' );
+  const wilder = require( 'WILDER/wilder' );
+  const WilderModel = require( 'WILDER/wilder/model/WilderModel' );
+  const WilderScreenView = require( 'WILDER/wilder/view/WilderScreenView' );
 
   /**
    * @constructor
    */
-  function WilderScreen() {
+  class WilderScreen {
+    constructor() {
 
-    var options = {
-      backgroundColorProperty: new Property( 'white' )
-    };
+      const options = {
+        backgroundColorProperty: new Property( 'white' )
+      };
 
-    Screen.call( this,
-      function() { return new WilderModel(); },
-      function( model ) { return new WilderScreenView( model ); },
-      options
-    );
+      Screen.call( this,
+        () => { return new WilderModel(); },
+        model => { return new WilderScreenView( model ); },
+        options
+      );
+    }
   }
 
-  wilder.register( 'WilderScreen', WilderScreen );
-
-  return inherit( Screen, WilderScreen );
+  return wilder.register( 'WilderScreen', WilderScreen );
 } );

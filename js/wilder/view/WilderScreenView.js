@@ -1,49 +1,41 @@
-// Copyright 2018, University of Colorado Boulder
+// Copyright 2018-2019, University of Colorado Boulder
 
 /**
  * @author AUTHOR
  */
-define( function( require ) {
+define( require => {
   'use strict';
 
   // modules
-  var inherit = require( 'PHET_CORE/inherit' );
-  var ResetAllButton = require( 'SCENERY_PHET/buttons/ResetAllButton' );
-  var ScreenView = require( 'JOIST/ScreenView' );
-  var wilder = require( 'WILDER/wilder' );
-  var WilderNode = require( 'WILDER/wilder/view/WilderNode' );
+  const ResetAllButton = require( 'SCENERY_PHET/buttons/ResetAllButton' );
+  const ScreenView = require( 'JOIST/ScreenView' );
+  const wilder = require( 'WILDER/wilder' );
+  const WilderNode = require( 'WILDER/wilder/view/WilderNode' );
 
-  /**
-   * @param {WilderModel} wilderModel
-   * @constructor
-   */
-  function WilderScreenView( wilderModel ) {
+  class WilderScreenView {
 
-    ScreenView.call( this );
+    /**
+     * @param {WilderModel} wilderModel
+     */
+    constructor( wilderModel ) {
 
-    const wilderNode = new WilderNode( { x: 100, y: 100 } );
-    wilderNode.flipOver();
-    this.addChild( wilderNode );
+      ScreenView.call( this );
 
-    // Reset All button
-    const resetAllButton = new ResetAllButton( {
-      listener: function() {
-        wilderModel.reset();
-      },
-      right: this.layoutBounds.maxX - 10,
-      bottom: this.layoutBounds.maxY - 10
-    } );
-    this.addChild( resetAllButton );
+      const wilderNode = new WilderNode( { x: 100, y: 100 } );
+      wilderNode.flipOver();
+      this.addChild( wilderNode );
+
+      // Reset All button
+      const resetAllButton = new ResetAllButton( {
+        listener: function() {
+          wilderModel.reset();
+        },
+        right: this.layoutBounds.maxX - 10,
+        bottom: this.layoutBounds.maxY - 10
+      } );
+      this.addChild( resetAllButton );
+    }
   }
 
-  wilder.register( 'WilderScreenView', WilderScreenView );
-
-  return inherit( ScreenView, WilderScreenView, {
-
-    //TODO Called by the animation loop. Optional, so if your view has no animation, please delete this.
-    // @public
-    step: function( dt ) {
-      //TODO Handle view animation here.
-    }
-  } );
+  return wilder.register( 'WilderScreenView', WilderScreenView );
 } );
