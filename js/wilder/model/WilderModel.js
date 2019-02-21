@@ -88,12 +88,12 @@ define( function( require ) {
       // Binary
       hardAssert( 0b111 === 3 + 4 );
 
-    // Object shorthand
-    const a = 5;
-    const b = 4;
-    const shortObj = { a, b };
-    hardAssert( shortObj.a === a );
-    hardAssert( shortObj.b === b );
+      // Object shorthand is not allowed in PhET code! Note that method shorthand is ok, like `{ listener(){} }`
+      const a = 5;
+      const b = 4;
+      const shortObj = { a, b }; // eslint-disable-line phet-object-shorthand
+      hardAssert( shortObj.a === a );
+      hardAssert( shortObj.b === b );
 
       // Computed property names
       const computedObj = {
