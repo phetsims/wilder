@@ -237,6 +237,10 @@ define( function( require ) {
       // hardAssert( map.get( bag ) === 5 );
       // hardAssert( map.get( Node ) === 2 );
     }
+
+    reset(){
+      console.log( 'reset');
+    }
   }
 
   return wilder.register( 'WilderModel', WilderModel );

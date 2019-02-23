@@ -12,14 +12,13 @@ define( require => {
   const wilder = require( 'WILDER/wilder' );
   const WilderNode = require( 'WILDER/wilder/view/WilderNode' );
 
-  class WilderScreenView {
+  class WilderScreenView extends ScreenView {
 
     /**
      * @param {WilderModel} wilderModel
      */
     constructor( wilderModel ) {
-
-      ScreenView.call( this );
+      super();
 
       const wilderNode = new WilderNode( { x: 100, y: 100 } );
       wilderNode.flipOver();
@@ -27,7 +26,7 @@ define( require => {
 
       // Reset All button
       const resetAllButton = new ResetAllButton( {
-        listener: function() {
+        listener: () => {
           wilderModel.reset();
         },
         right: this.layoutBounds.maxX - 10,

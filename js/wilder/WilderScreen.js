@@ -16,15 +16,14 @@ define( require => {
   /**
    * @constructor
    */
-  class WilderScreen {
+  class WilderScreen extends Screen {
     constructor() {
 
       const options = {
         backgroundColorProperty: new Property( 'white' )
       };
 
-      Screen.call( this,
-        () => { return new WilderModel(); },
+      super( () => { return new WilderModel(); },
         model => { return new WilderScreenView( model ); },
         options
       );
