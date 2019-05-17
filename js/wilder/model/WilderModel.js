@@ -123,6 +123,8 @@ define( function( require ) {
       hardAssert( woof === 5 );
 
       // Object destructuring
+      // NOTE: This is not allowed in PhET code because of the challenge it creates in renaming object keys,
+      // see https://github.com/phetsims/chipper/issues/758
       const destObject = {
         cat: 5,
         mouse: {
