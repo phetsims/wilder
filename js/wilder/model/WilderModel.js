@@ -1,7 +1,12 @@
 // Copyright 2018-2019, University of Colorado Boulder
 
 /**
- * @author AUTHOR
+ * This file contains the subset of es6 features that are supported in the PhET sim codebase. If there is desirable
+ * es6 code that isn't in this file. Likely it should be discussed in a dev meeting and tested with babel transpiling
+ * before use. Commented out es6 features in this file are disallowed in the code base. They likely are accompanied by
+ * a comment explaining why it is off limits.
+ *
+ * @author Jonathan Olson <jonathan.olson@colorado.edu>
  */
 define( function( require ) {
   'use strict';
@@ -240,8 +245,8 @@ define( function( require ) {
       // hardAssert( map.get( Node ) === 2 );
     }
 
-    reset(){
-      console.log( 'reset');
+    reset() {
+      console.log( 'reset' );
     }
   }
 
