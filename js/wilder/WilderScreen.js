@@ -23,8 +23,8 @@ define( require => {
         backgroundColorProperty: new Property( 'white' )
       };
 
-      super( () => { return new WilderModel(); },
-        model => { return new WilderScreenView( model ); },
+      super( () => new WilderModel(),
+        model => new WilderScreenView( model ),
         options
       );
     }

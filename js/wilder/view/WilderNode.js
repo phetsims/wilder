@@ -5,7 +5,7 @@
  *
  * @author Sam Reid (PhET Interactive Simulations)
  */
-define( ( require ) => {
+define( require => {
   'use strict';
 
   // modules

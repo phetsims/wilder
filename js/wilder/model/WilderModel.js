@@ -8,7 +8,7 @@
  *
  * @author Jonathan Olson <jonathan.olson@colorado.edu>
  */
-define( function( require ) {
+define( require => {
   'use strict';
 
   // modules
@@ -24,6 +24,7 @@ define( function( require ) {
 
   class WilderModel {
     constructor() {
+
       // We want a built version to error out for these "asserts"
       function hardAssert( condition, message = '' ) {
         if ( !condition ) {
