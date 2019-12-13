@@ -1,1 +1,1 @@
-TODO model description
+There is no model in this sim, it is just an example of es6 features available to phetsim developers.

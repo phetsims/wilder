@@ -1,1 +1,1 @@
-TODO implementation overview
+`WilderModel.js` holds all the es6 features phetsims uses, as a way to test these on all platforms and devices.
