@@ -17,7 +17,7 @@ define( require => {
   const wilder = require( 'WILDER/wilder' );
 
   // Commented out for the currently-unsupported ES6 features
-  // const Util = require( 'DOT/Util' );
+  // const Utils = require( 'DOT/Utils' );
 
   // constants
   const something = 'foo';
@@ -215,7 +215,7 @@ define( require => {
       //   }
       //   *[Symbol.iterator]() {
       //     for ( let i = 1;; i++ ) {
-      //       if ( Util.gcd( i, this.n ) === 1 ) {
+      //       if ( Utils.gcd( i, this.n ) === 1 ) {
       //         yield i;
       //       }
       //     }
