@@ -3,32 +3,29 @@
 /**
  * @author AUTHOR
  */
-define( require => {
-  'use strict';
 
-  // modules
-  const Property = require( 'AXON/Property' );
-  const Screen = require( 'JOIST/Screen' );
-  const wilder = require( 'WILDER/wilder' );
-  const WilderModel = require( 'WILDER/wilder/model/WilderModel' );
-  const WilderScreenView = require( 'WILDER/wilder/view/WilderScreenView' );
+import Property from '../../../axon/js/Property.js';
+import Screen from '../../../joist/js/Screen.js';
+import wilder from '../wilder.js';
+import WilderModel from './model/WilderModel.js';
+import WilderScreenView from './view/WilderScreenView.js';
 
-  /**
-   * @constructor
-   */
-  class WilderScreen extends Screen {
-    constructor() {
+/**
+ * @constructor
+ */
+class WilderScreen extends Screen {
+  constructor() {
 
-      const options = {
-        backgroundColorProperty: new Property( 'white' )
-      };
+    const options = {
+      backgroundColorProperty: new Property( 'white' )
+    };
 
-      super( () => new WilderModel(),
-        model => new WilderScreenView( model ),
-        options
-      );
-    }
+    super( () => new WilderModel(),
+      model => new WilderScreenView( model ),
+      options
+    );
   }
+}
 
-  return wilder.register( 'WilderScreen', WilderScreen );
-} );
+wilder.register( 'WilderScreen', WilderScreen );
+export default WilderScreen;

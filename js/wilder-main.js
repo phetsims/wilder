@@ -5,30 +5,26 @@
  *
  * @author AUTHOR
  */
-define( require => {
-  'use strict';
 
-  // modules
-  const Sim = require( 'JOIST/Sim' );
-  const SimLauncher = require( 'JOIST/SimLauncher' );
-  const WilderScreen = require( 'WILDER/wilder/WilderScreen' );
+import Sim from '../../joist/js/Sim.js';
+import SimLauncher from '../../joist/js/SimLauncher.js';
+import wilderStrings from './wilder-strings.js';
+import WilderScreen from './wilder/WilderScreen.js';
 
-  // strings
-  const wilderTitleString = require( 'string!WILDER/wilder.title' );
+const wilderTitleString = wilderStrings.wilder.title;
 
-  const simOptions = {
-    credits: {
-      leadDesign: '',
-      softwareDevelopment: '',
-      team: '',
-      qualityAssurance: '',
-      graphicArts: '',
-      thanks: ''
-    }
-  };
+const simOptions = {
+  credits: {
+    leadDesign: '',
+    softwareDevelopment: '',
+    team: '',
+    qualityAssurance: '',
+    graphicArts: '',
+    thanks: ''
+  }
+};
 
-  SimLauncher.launch( () => {
-    const sim = new Sim( wilderTitleString, [ new WilderScreen() ], simOptions );
-    sim.start();
-  } );
+SimLauncher.launch( () => {
+  const sim = new Sim( wilderTitleString, [ new WilderScreen() ], simOptions );
+  sim.start();
 } );

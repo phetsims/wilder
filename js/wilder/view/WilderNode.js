@@ -5,34 +5,31 @@
  *
  * @author Sam Reid (PhET Interactive Simulations)
  */
-define( require => {
-  'use strict';
 
-  // modules
-  const merge = require( 'PHET_CORE/merge' );
-  const Node = require( 'SCENERY/nodes/Node' );
-  const Text = require( 'SCENERY/nodes/Text' );
-  const wilder = require( 'WILDER/wilder' );
+import merge from '../../../../phet-core/js/merge.js';
+import Node from '../../../../scenery/js/nodes/Node.js';
+import Text from '../../../../scenery/js/nodes/Text.js';
+import wilder from '../../wilder.js';
 
-  class WilderNode extends Node {
+class WilderNode extends Node {
 
-    /**
-     * @param {Object} [options]
-     */
-    constructor( options ) {
-      options = merge( {
-        children: [ new Text( 'hello wilder' ) ]
-      }, options );
-      super( options );
-    }
-
-    /**
-     * Rotates the node by PI, demonstrates a class method.
-     */
-    flipOver() {
-      this.rotate( Math.PI );
-    }
+  /**
+   * @param {Object} [options]
+   */
+  constructor( options ) {
+    options = merge( {
+      children: [ new Text( 'hello wilder' ) ]
+    }, options );
+    super( options );
   }
 
-  return wilder.register( 'WilderNode', WilderNode );
-} );
+  /**
+   * Rotates the node by PI, demonstrates a class method.
+   */
+  flipOver() {
+    this.rotate( Math.PI );
+  }
+}
+
+wilder.register( 'WilderNode', WilderNode );
+export default WilderNode;
