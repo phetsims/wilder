@@ -68,7 +68,8 @@ class WilderModel {
 
     hardAssert( rest( 1, 2, 3, 4, 5, 6 ) === 7 );
 
-    // Spread operator
+    // Spread operator - NOTE Do not use this on "array like" things, it doesn't get transpiled correctly. Instead use
+    // `Array.from`. See https://github.com/phetsims/perennial/issues/153
     const constArray = [ 1, 2, 3 ];
     hardAssert( [ ...constArray, 4, 5, ...constArray ].length === 8 );
     hardAssert( rest( 4, ...constArray ) === 7 );
