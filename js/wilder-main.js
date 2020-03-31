@@ -8,7 +8,7 @@
 
 import Sim from '../../joist/js/Sim.js';
 import SimLauncher from '../../joist/js/SimLauncher.js';
-import wilderStrings from './wilder-strings.js';
+import wilderStrings from './wilderStrings.js';
 import WilderScreen from './wilder/WilderScreen.js';
 
 const wilderTitleString = wilderStrings.wilder.title;
