@@ -7,7 +7,7 @@
  */
 
 import Sim from '../../joist/js/Sim.js';
-import SimLauncher from '../../joist/js/SimLauncher.js';
+import simLauncher from '../../joist/js/simLauncher.js';
 import wilderStrings from './wilderStrings.js';
 import WilderScreen from './wilder/WilderScreen.js';
 
@@ -24,7 +24,7 @@ const simOptions = {
   }
 };
 
-SimLauncher.launch( () => {
+simLauncher.launch( () => {
   const sim = new Sim( wilderTitleString, [ new WilderScreen() ], simOptions );
   sim.start();
 } );
