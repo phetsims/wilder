@@ -24,6 +24,7 @@ class WilderNode extends Node {
   }
 
   /**
+   * @public
    * Rotates the node by PI, demonstrates a class method.
    */
   flipOver() {
