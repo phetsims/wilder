@@ -229,21 +229,19 @@ class WilderModel {
     // }
     // hardAssert( _.isEqual( relativePrimes, [ 1, 2, 3, 4, 6, 7, 8, 9, 11 ] ) );
 
-    // Unsupported without babel-polyfill, commented out for now. DO NOT USE in simulations. May be used in the future.
     // Sets
-    // const bag = new Set();
-    // bag.add( 'a' ).add( 'b' ).add( 'a' );
-    // hardAssert( bag.size === 2 );
-    // hardAssert( bag.has( 'a' ) );
-    // hardAssert( !bag.has( 'c' ) );
+    const bag = new Set();
+    bag.add( 'a' ).add( 'b' ).add( 'a' );
+    hardAssert( bag.size === 2 );
+    hardAssert( bag.has( 'a' ) );
+    hardAssert( !bag.has( 'c' ) );
 
-    // Unsupported without babel-polyfill, commented out for now. DO NOT USE in simulations. May be used in the future.
     // Maps
-    // const map = new Map();
-    // map.set( bag, 5 );
-    // map.set( Node, 2 );
-    // hardAssert( map.get( bag ) === 5 );
-    // hardAssert( map.get( Node ) === 2 );
+    const map = new Map();
+    map.set( bag, 5 );
+    map.set( Node, 2 );
+    hardAssert( map.get( bag ) === 5 );
+    hardAssert( map.get( Node ) === 2 );
   }
 
   /**
