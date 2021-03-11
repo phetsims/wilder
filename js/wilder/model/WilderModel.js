@@ -90,7 +90,7 @@ class WilderModel {
     hardAssert( multiLineString.length === 48 );
 
     // Binary
-    hardAssert( 0b111 === 3 + 4 );
+    hardAssert( 3 + 4 === 0b111 );
 
     // Object shorthand is not allowed in PhET code! Note that method shorthand is ok, like `{ listener(){} }`
     const a = 5;
