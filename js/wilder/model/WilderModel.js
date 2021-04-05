@@ -50,7 +50,7 @@ class WilderModel {
     } )[ 3 ] === 9 );
 
     const self = this;
-    [ 1 ].map( element => {
+    [ 1 ].forEach( element => {
       hardAssert( this === self );
     } );
 
