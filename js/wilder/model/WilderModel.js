@@ -1,4 +1,4 @@
-// Copyright 2018-2020, University of Colorado Boulder
+// Copyright 2018-2021, University of Colorado Boulder
 
 /**
  * This file contains the subset of es6 features that are supported in the PhET sim codebase. If there is desirable
