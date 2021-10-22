@@ -19,11 +19,15 @@ import wilder from '../../wilder.js';
 // constants
 const something = 'foo';
 
+declare namespace _ {
+  function range( a: number, b?: number, c?: number ): number[]; // eslint-disable-line no-unused-vars
+}
+
 class WilderModel {
   constructor() {
 
     // We want a built version to error out for these "asserts"
-    function hardAssert( condition, message = '' ) {
+    function hardAssert( condition: any, message = '' ) {
       if ( !condition ) {
         throw new Error( message );
       }
@@ -41,10 +45,10 @@ class WilderModel {
     hardAssert( blocky === 'outside' );
 
     // Expression-based arrow functions
-    hardAssert( _.range( 0, 5 ).map( x => x * x )[ 3 ] === 9 );
+    hardAssert( _.range( 0, 5 ).map( ( x: number ) => x * x )[ 3 ] === 9 );
 
     // Statement-based arrow functions
-    hardAssert( _.range( 0, 5 ).map( x => {
+    hardAssert( _.range( 0, 5 ).map( ( x: number ) => {
       hardAssert( x < 5 );
       return x * x;
     } )[ 3 ] === 9 );
@@ -62,7 +66,7 @@ class WilderModel {
     hardAssert( defaults( 0 ) === 5 );
 
     // Rest parameters
-    function rest( x, y, ...others ) {
+    function rest( x: number, y: number, ...others: any[] ) {
       return x + y + others.length;
     }
 
@@ -72,14 +76,13 @@ class WilderModel {
     // `Array.from`. See https://github.com/phetsims/perennial/issues/153
     const constArray = [ 1, 2, 3 ];
     hardAssert( [ ...constArray, 4, 5, ...constArray ].length === 8 );
-    hardAssert( rest( 4, ...constArray ) === 7 );
 
     // String interpolation
     hardAssert( `Testing ${2 + 3}` === 'Testing 5' );
 
     // Custom interpolation
-    function quoter( strings, ...quotations ) {
-      return interleave( strings, i => `"${quotations[ i ]}"` ).join( '' );
+    function quoter( strings: TemplateStringsArray, ...quotations: any[] ) {
+      return interleave( strings, ( i: any ) => `"${quotations[ i ]}"` ).join( '' );
     }
 
     hardAssert( quoter`He said ${something} but then answered ${3 * 2}` === 'He said "foo" but then answered "6"' );
@@ -107,7 +110,7 @@ class WilderModel {
 
     // Method notation
     const methodObj = {
-      add( a, b ) {
+      add( a: number, b: number ) {
         return a + b;
       }
     };
@@ -143,18 +146,21 @@ class WilderModel {
     hardAssert( tabby === destObject.cat );
     const { mouse: { animals } } = destObject;
     hardAssert( animals === destObject.mouse.animals );
-    const { unmatched = 'default' } = destObject;
-    hardAssert( unmatched === 'default' );
 
     // Parameter destructuring
-    function destruct( { cat, mouse: { animals: [ firstAnimal ] } } ) {
+    function destruct( { cat, mouse: { animals: [ firstAnimal ] } }: { cat: number, mouse: { animals: number[] } } ) {
       return cat + firstAnimal;
     }
 
     hardAssert( destruct( destObject ) === destObject.cat + destObject.mouse.animals[ 0 ] );
 
     // Options object destructuring with defaults
-    const optionsObject = {
+    type OptionsType = {
+      tree?: number,
+      forest?: number,
+      leaf?: number
+    };
+    const optionsObject: OptionsType = {
       tree: 4,
       forest: 5
     };
@@ -167,25 +173,24 @@ class WilderModel {
     hardAssert( forest === 5 );
     hardAssert( leaf === 1024 );
 
-    // Class extending current hierarchy
-    const MUTATOR_KEYS = [ ...Node.prototype._mutatorKeys, 'secret' ];
 
     class SecretNode extends Node {
-      constructor( options ) {
+
+      public _mutatorKeys = [ ...Node.prototype._mutatorKeys, 'secret' ];
+      private _secret: number;
+
+      constructor( options?: Partial<{}> ) {
 
         // Can't reference `this` before the super() call
         // Don't pass options here, since want to initialize defaults before passing options to mutate. We still only
         // want to call mutate once per constructor.
         super();
 
-        // @private {number}
         this._secret = 42;
 
         // mutate after instance variables have been assigned.
         this.mutate( options );
       }
-
-      get _mutatorKeys() { return MUTATOR_KEYS; }
 
       set secret( value ) { this._secret = value; }
 

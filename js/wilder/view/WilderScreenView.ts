@@ -8,13 +8,14 @@ import ScreenView from '../../../../joist/js/ScreenView.js';
 import ResetAllButton from '../../../../scenery-phet/js/buttons/ResetAllButton.js';
 import wilder from '../../wilder.js';
 import WilderNode from './WilderNode.js';
+import WilderModel from '../model/WilderModel.js';
 
 class WilderScreenView extends ScreenView {
 
   /**
    * @param {WilderModel} wilderModel
    */
-  constructor( wilderModel ) {
+  constructor( wilderModel: WilderModel ) {
     super();
 
     const wilderNode = new WilderNode( { x: 100, y: 100 } );

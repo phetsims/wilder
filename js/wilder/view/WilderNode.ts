@@ -12,11 +12,7 @@ import Text from '../../../../scenery/js/nodes/Text.js';
 import wilder from '../../wilder.js';
 
 class WilderNode extends Node {
-
-  /**
-   * @param {Object} [options]
-   */
-  constructor( options ) {
+  constructor( options?: Partial<{}> ) {
     options = merge( {
       children: [ new Text( 'hello wilder' ) ]
     }, options );

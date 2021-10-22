@@ -21,7 +21,7 @@ class WilderScreen extends Screen {
     };
 
     super( () => new WilderModel(),
-      model => new WilderScreenView( model ),
+      ( model: WilderModel ) => new WilderScreenView( model ),
       options
     );
   }
