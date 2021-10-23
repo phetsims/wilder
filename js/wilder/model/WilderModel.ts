@@ -176,6 +176,7 @@ class WilderModel {
 
     class SecretNode extends Node {
 
+      // @ts-ignore
       public _mutatorKeys = [ ...Node.prototype._mutatorKeys, 'secret' ];
       private _secret: number;
 
