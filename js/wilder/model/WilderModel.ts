@@ -12,7 +12,7 @@
 import interleave from '../../../../phet-core/js/interleave.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
 import wilder from '../../wilder.js';
-import WilderOptionsTypescriptTestModel from './WilderOptionsTypescriptTestNode.js';
+import WilderOptionsTypescriptTestModel from './WilderOptionsTypescriptTestModel.js';
 
 // Commented out for the currently-unsupported ES6 features
 // const Utils = require( '/dot/js/Utils' );

@@ -3,7 +3,12 @@
 /**
  * Demonstrates using PhET Options patterns inheritance and composition.
  *
- * General structure, and terminology:
+ * The general structure of options are to define a `type`, and then to have each optional entry (perhaps all of them)
+ * be marked with a `?`, as optional. Then during merge, cast the merge-returned object as the `Required<T>` version of
+ * these options, because by then all defaults for the constructor-optional object have been filled in. Instead of overwriting
+ * "options", you need to define a new variable so that TypeScript can give it a separate Type.
+ *
+ * Structure and terminology of classes defined in this file:
  * class Person (supertype)
  * class CoolPerson (subtype)
  * `new CoolPerson` (usage)
@@ -20,6 +25,17 @@
  * 8. Run the entire test but instead of config, there should be options?: XXX instead of config: (required)
  *
  * Comments below annotate where these constraints are tested.
+ *
+ * In general, the pattern is to define that there are 3 different Types for a single options object in a class.
+ * A. The type that you can pass in as options (the public one). This is anded with any and all supertype options.
+ * B. The options that the specific type defines and uses.
+ * C. The options that are available after merge within the type (constructor or elsewhere), and always consist of the
+ * class-defined options (B), but could also potentially consist of supertype options, but only if opting in.
+ *
+ * In many simpler cases, (B) and (C) are the same, but (C) may need to be defined in addition (see CoolPersonNodeImplementationOptions)
+ *
+ * Because typescript now codifies the difference between config and options, there is no need to have anything but "options"
+ * as the variable name.
  *
  * @author Sam Reid (PhET Interactive Simulations)
  * @author Michael Kauzmann (PhET Interactive Simulations)
@@ -90,16 +106,16 @@ class Person {
   }
 }
 
-// 1. Options owned and used by CoolPerson
+// B. Options owned and used by CoolPerson
 type CoolPersonNodeDefinedOptions = {
   isAwesome?: boolean,
   isRequiredAwesome: boolean
 };
 
-// 2. What is allowed in constructor, will be the public-facing API options, so name it as the normal convention (ClassOptions)
+// A. What is allowed in constructor, will be the public-facing API options, so name it as the normal convention (ClassOptions)
 type CoolPersonNodeOptions = CoolPersonNodeDefinedOptions & Omit<PersonOptions, 'attitude'>;
 
-// 3. What is allowed in object used in type/constructor.
+// C. What is allowed in object used in type/constructor.
 type CoolPersonNodeImplementationOptions = Required<CoolPersonNodeDefinedOptions> &
   Pick<CoolPersonNodeOptions, 'name' | 'age' | 'dogOptions' | 'hasShirt'> &
   Pick<PersonOptions, 'attitude'>
