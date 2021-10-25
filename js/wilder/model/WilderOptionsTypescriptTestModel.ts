@@ -23,6 +23,7 @@
  * 6. Support for sub-options patterns throughout (like visiblePropertyOptions)
  * 7. Parent has config (required params too)
  * 8. Run the entire test but instead of config, there should be options?: XXX instead of config: (required)
+ * 9. Options as a parameter must support being optional.
  *
  * Comments below annotate where these constraints are tested.
  *
@@ -32,7 +33,7 @@
  * C. The options that are available after merge within the type (constructor or elsewhere), and always consist of the
  * class-defined options (B), but could also potentially consist of supertype options, but only if opting in.
  *
- * In many simpler cases, (B) and (C) are the same, but (C) may need to be defined in addition (see CoolPersonNodeImplementationOptions)
+ * In many simpler cases, (B) and (C) are the same, but (C) may need to be defined in addition (see CoolPersonImplementationOptions)
  *
  * Because typescript now codifies the difference between config and options, there is no need to have anything but "options"
  * as the variable name.
@@ -85,12 +86,12 @@ class Person {
 
     const filledConfig = merge( {
       hasShirt: true,
-      // name: required( options.name ), // not needed because it is supported by the type (1) (7) // TODO: we don't need `required()` anymore in typescript.
+      // name: required( options.name ), // not needed because it is supported by the type (1) (7) // TODO: we don't need `required()` anymore in typescript. https://github.com/phetsims/chipper/issues/1128
       height: 50, // (1)
       attitude: '',
       age: 0,
       dogOptions: {}
-    }, options ) as Required<PersonOptions>; // TODO: infer Required<PersonOptions>, perhaps by converting merge to typescript. This is a bandaid, fix usages when time by looking for `merge\((\n|.)* as Required<`
+    }, options ) as Required<PersonOptions>; // TODO: infer Required<PersonOptions>, perhaps by converting merge to typescript. This is a bandaid, fix usages when time by looking for `merge\((\n|.)* as Required<` https://github.com/phetsims/chipper/issues/1128
 
     console.log(
       'Person',
@@ -107,40 +108,40 @@ class Person {
 }
 
 // B. Options owned and used by CoolPerson
-type CoolPersonNodeDefinedOptions = {
+type CoolPersonDefinedOptions = {
   isAwesome?: boolean,
   isRequiredAwesome: boolean
 };
 
 // A. What is allowed in constructor, will be the public-facing API options, so name it as the normal convention (ClassOptions)
-type CoolPersonNodeOptions = CoolPersonNodeDefinedOptions & Omit<PersonOptions, 'attitude'>;
+type CoolPersonOptions = CoolPersonDefinedOptions & Omit<PersonOptions, 'attitude'>;
 
 // C. What is allowed in object used in type/constructor.
-type CoolPersonNodeImplementationOptions = Required<CoolPersonNodeDefinedOptions> &
-  Pick<CoolPersonNodeOptions, 'name' | 'age' | 'dogOptions' | 'hasShirt'> &
+type CoolPersonImplementationOptions = Required<CoolPersonDefinedOptions> &
+  Pick<CoolPersonOptions, 'name' | 'age' | 'dogOptions' | 'hasShirt'> &
   Pick<PersonOptions, 'attitude'>
 
 class CoolPerson1 extends Person {
-  constructor( options: CoolPersonNodeOptions ) {
+  constructor( options: CoolPersonOptions ) {
 
     // before merge because it is required
     console.log( options.isRequiredAwesome );
 
     const filledConfig = merge( {
-      // isRequiredAwesome: required( options.isRequiredAwesome ), // (0) // TODO: don't need required in typescript anymore.
+      // isRequiredAwesome: required( options.isRequiredAwesome ), // (0) // TODO: don't need required in typescript anymore. https://github.com/phetsims/chipper/issues/1128
       isAwesome: true, // (2)
       hasShirt: false, // (3)
       age: 5
-    }, options ) as CoolPersonNodeImplementationOptions; // We cannot even potentially infer this here (like we possible can in Person), because we need to accept specific supertype options into the subtype constructor object for using.
+    }, options ) as CoolPersonImplementationOptions; // We cannot even potentially infer this here (like we possible can in Person), because we need to accept specific supertype options into the subtype constructor object for using.
 
     // (5)
     filledConfig.attitude = 'cool';
 
     // (4)
     // @ts-ignore
-    console.log( 'My age is', filledConfig.age - 1 ); // cool people seem younger // TODO: how to add age?!?!
+    console.log( 'My age is', filledConfig.age - 1 ); // cool people seem younger // TODO: how to add age?!?! https://github.com/phetsims/chipper/issues/1128
 
-    // TODO: why is this case useful?
+    // TODO: why is this case useful? https://github.com/phetsims/chipper/issues/1128
     if ( filledConfig.hasOwnProperty( 'dogOptions' ) ) {
       console.log( 'Nondefault dog options, I AM GETTING A DOG', filledConfig.dogOptions ); // cool people seem younger
     }
@@ -158,10 +159,23 @@ class CoolPerson1 extends Person {
 
 }
 
+class JohnTheCoolPerson extends CoolPerson1 {
+  constructor( options?: CoolPersonOptions ) { // (9), note that if options are optional, then they get a question mark here.
+
+    const filledOptions = <CoolPersonOptions>merge( {
+      // name: 'John, so cool', // TODO: why doesn't this fail! It is a required argument to CoolPersonOptions right?  https://github.com/phetsims/chipper/issues/1128
+      isRequiredAwesome: true
+    }, options );
+
+    super( filledOptions );
+  }
+}
+
 
 class WilderOptionsTypescriptTestModel {
   private coolPerson1: CoolPerson1;
   private coolPerson1Other: CoolPerson1;
+  private john: JohnTheCoolPerson;
 
   constructor() {
 
@@ -180,6 +194,8 @@ class WilderOptionsTypescriptTestModel {
 
       // attitude: 'hi' // (5) working as expected, this will throw a compile error if uncommented
     } );
+
+    this.john = new JohnTheCoolPerson(); // (9)
   }
 }
 
