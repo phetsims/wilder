@@ -10,6 +10,7 @@ import merge from '../../../../phet-core/js/merge.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
 import Text from '../../../../scenery/js/nodes/Text.js';
 import wilder from '../../wilder.js';
+import SimpleNodeTrait from './SimpleNodeTrait.js';
 
 class WilderNode extends Node {
   constructor( options?: Partial<{}> ) {
@@ -17,6 +18,18 @@ class WilderNode extends Node {
       children: [ new Text( 'hello wilder' ) ]
     }, options );
     super( options );
+
+    class FooNode extends SimpleNodeTrait( Node ) {
+
+    }
+
+    const fooNode = new FooNode( {
+      someField: 'test'
+    } );
+
+    this.addChild( fooNode );
+
+    console.log( fooNode.someField );
   }
 
   /**
