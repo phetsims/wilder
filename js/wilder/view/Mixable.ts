@@ -203,7 +203,7 @@ const Poolable = <Type extends Constructor, Initializer extends ( ...args: any[]
      *
      * @returns {type}
      */
-    dirtyFromPool(): Type {
+    dirtyFromPool(): PoolableVersion<Type> {
       return pool.length ? pool.pop() : new DefaultConstructor();
     },
 
@@ -212,7 +212,7 @@ const Poolable = <Type extends Constructor, Initializer extends ( ...args: any[]
      * being created (if the pool is empty), or it may use the constructor to mutate an object from the pool.
      * @public
      */
-    createFromPool( ...args: Parameters<Initializer> ): Type {
+    createFromPool( ...args: Parameters<Initializer> ): PoolableVersion<Type> {
       let result;
 
       if ( pool.length ) {
@@ -284,7 +284,7 @@ const Poolable = <Type extends Constructor, Initializer extends ( ...args: any[]
   return type as unknown as PoolableClass<Type, Initializer>;
 };
 
-const SimpleType = Poolable( class SimpleType {
+const VectorClass = class Vector {
   x!: number
   y!: number
 
@@ -297,19 +297,20 @@ const SimpleType = Poolable( class SimpleType {
     this.x = x;
     this.y = y;
   }
-}, {
+};
+// eslint-disable-next-line
+const Vector = Poolable<typeof VectorClass, ( x: number, y: number ) => void>( VectorClass, {
   defaultArguments: [ 0, 0 ]
 } );
 
-const q = new SimpleType( 1, 2 );
+const q = new Vector( 1, 2 );
 q.freeToPool();
-const q1 = SimpleType.createFromPool( 4, 5 );
+const q1 = Vector.createFromPool( 4, 5 );
 q1.freeToPool();
-const q2 = SimpleType.dirtyFromPool();
+const q2 = Vector.dirtyFromPool();
 console.log( `x: ${q2.x}, y: ${q2.y}` );
-const qbad = SimpleType.createFromPool( 4, 5, 6 );
-console.log( qbad );
+console.log( q instanceof Vector );
 
 wilder.register( 'Mixable', Mixable );
-export { NodeMixed, TextMixed };
+export { NodeMixed, TextMixed, Vector };
 export default Mixable;
