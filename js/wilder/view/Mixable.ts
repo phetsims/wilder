@@ -36,21 +36,19 @@ const Mixable = memoize( <SuperType extends Constructor>( type: SuperType ) => {
   assert && assert( _.includes( inheritance( type ), Node ) );
 
   const result = class extends type {
-    #someField: string;
+    _someField: string;
 
     constructor( ...args: any[] ) {
       super( ...args );
 
-      this.#someField = 'Testing';
+      this._someField = 'Testing';
     }
 
-    get someField(): string { return this.#someField; }
-    set someField( value: string ) { this.#someField = value; }
+    get someField(): string { return this._someField; }
+    set someField( value: string ) { this._someField = value; }
 
     setVisible( value: boolean ): this {
-      const t = this as unknown as Node;
-
-      console.log( `our bounds: ${t.bounds}` );
+      console.log( `our bounds: ${( this as unknown as Node ).bounds}` );
 
       // @ts-ignore
       return super.setVisible( value );

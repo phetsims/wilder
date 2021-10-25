@@ -10,7 +10,6 @@ import merge from '../../../../phet-core/js/merge.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
 import Text from '../../../../scenery/js/nodes/Text.js';
 import wilder from '../../wilder.js';
-import SimpleNodeTrait from './SimpleNodeTrait.js';
 import Mixable from './Mixable.js';
 
 class WilderNode extends Node {
@@ -20,19 +19,7 @@ class WilderNode extends Node {
     }, options );
     super( options );
 
-    class FooNode extends SimpleNodeTrait( Node ) {
-
-    }
-
     console.log( Mixable );
-
-    const fooNode = new FooNode( {
-      someField: 'test'
-    } );
-
-    this.addChild( fooNode );
-
-    console.log( fooNode.someField );
   }
 
   /**
