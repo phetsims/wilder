@@ -31,7 +31,6 @@ function memoize<Key,Value>( func: ( k: Key ) => Value ) {
 
 type Constructor<T = {}> = new ( ...args: any[] ) => T;
 
-// @ts-ignore
 const Mixable = memoize( <SuperType extends Constructor>( type: SuperType ) => {
   assert && assert( _.includes( inheritance( type ), Node ) );
 
