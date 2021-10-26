@@ -125,9 +125,9 @@ const g = new GenericMixed();
 console.log( g.someField );
 
 //////////////////////////////////////////////////////
-type PoolableOptions<Initializer extends ( ...args: any[] ) => any> = {
-  defaultArguments?: Parameters<Initializer>,
-  initialize?: Initializer,
+type PoolableOptions<Type extends Constructor> = {
+  defaultArguments?: ConstructorParameters<Type>,
+  initialize?: PoolableInitializer<Type>,
   maxSize?: number,
   initialSize?: number,
   useDefaultConstruction?: boolean
@@ -136,16 +136,17 @@ interface PoolableInstance {
   freeToPool(): void
 }
 type PoolableVersion<Type extends Constructor> = InstanceType<Type> & PoolableInstance;
-type PoolableClass<Type extends Constructor, Initializer extends ( ...args: any[] ) => any> = ( new ( ...args: ConstructorParameters<Type> ) => ( PoolableVersion<Type> ) ) & PoolableType<Type, Initializer>;
-interface PoolableType<Type extends Constructor, Initializer extends ( ...args: any[] ) => any> {
+type PoolableInitializer<Type extends Constructor> = ( ...args: ConstructorParameters<Type> ) => any;
+type PoolableClass<Type extends Constructor> = ( new ( ...args: ConstructorParameters<Type> ) => ( PoolableVersion<Type> ) ) & PoolableType<Type>;
+interface PoolableType<Type extends Constructor> {
   pool: PoolableVersion<Type>[]
   dirtyFromPool(): PoolableVersion<Type>
-  createFromPool( ...args: Parameters<Initializer> ): PoolableVersion<Type>
+  createFromPool( ...args: ConstructorParameters<Type> ): PoolableVersion<Type>
   get poolSize(): number
   set maxPoolSize( value: number )
   get maxPoolSize(): number
 }
-const Poolable = <Type extends Constructor, Initializer extends ( ...args: any[] ) => any>( type: Type, options?: PoolableOptions<Initializer> ) : PoolableClass<Type, Initializer> => {
+const Poolable = <Type extends Constructor>( type: Type, options?: PoolableOptions<Type> ) : PoolableClass<Type> => {
   const filledOptions = merge( {
     // {Array.<*>} - If an object needs to be created without a direct call (say, to fill the pool initially), these
     // are the arguments that will be passed into the constructor
@@ -165,7 +166,7 @@ const Poolable = <Type extends Constructor, Initializer extends ( ...args: any[]
     // {boolean} - If true, when constructing the default arguments will always be used (and then initialized with
     // the initializer) instead of just providing the arguments straight to the constructor.
     useDefaultConstruction: false
-  }, options ) as Required<PoolableOptions<Initializer>>;
+  }, options ) as Required<PoolableOptions<Type>>;
 
   assert && assert( filledOptions.maxSize >= 0 );
   assert && assert( filledOptions.initialSize >= 0 );
@@ -212,7 +213,7 @@ const Poolable = <Type extends Constructor, Initializer extends ( ...args: any[]
      * being created (if the pool is empty), or it may use the constructor to mutate an object from the pool.
      * @public
      */
-    createFromPool( ...args: Parameters<Initializer> ): PoolableVersion<Type> {
+    createFromPool( ...args: ConstructorParameters<Type> ): PoolableVersion<Type> {
       let result;
 
       if ( pool.length ) {
@@ -281,10 +282,10 @@ const Poolable = <Type extends Constructor, Initializer extends ( ...args: any[]
     pool.push( new DefaultConstructor() );
   }
 
-  return type as unknown as PoolableClass<Type, Initializer>;
+  return type as unknown as PoolableClass<Type>;
 };
 
-const VectorClass = class Vector {
+const Vector = Poolable( class Vector {
   x!: number
   y!: number
 
@@ -297,9 +298,7 @@ const VectorClass = class Vector {
     this.x = x;
     this.y = y;
   }
-};
-// eslint-disable-next-line
-const Vector = Poolable<typeof VectorClass, ( x: number, y: number ) => void>( VectorClass, {
+}, {
   defaultArguments: [ 0, 0 ]
 } );
 
