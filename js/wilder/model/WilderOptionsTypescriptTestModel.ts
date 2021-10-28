@@ -1,7 +1,7 @@
 // Copyright 2021, University of Colorado Boulder
 
 /**
- * Demonstrates using PhET Options patterns inheritance and composition.
+ * Demonstrates using PhET Options patterns with inheritance and composition.
  *
  * The general structure of options are to define a `type`, and then to have each optional entry (perhaps all of them)
  * be marked with a `?`, as optional. Then during merge, cast the merge-returned object as the `Required<T>` version of
@@ -35,12 +35,17 @@
  *
  * In many simpler cases, (B) and (C) are the same, but (C) may need to be defined in addition (see CoolPersonImplementationOptions)
  *
- * Because typescript now codifies the difference between config and options, there is no need to have anything but "options"
+ * Variable naming:
+ * - Because typescript now codifies the difference between config and options, there is no need to have anything but "options"
  * as the variable name.
+ * - We cannot override the value of a variable and also change its type, thus the options argument must be named differently from the
+ * value returned from the `merge` call. It is conventional to call the parameter "providedOptions" and the merged object "options".
  *
  * @author Sam Reid (PhET Interactive Simulations)
  * @author Michael Kauzmann (PhET Interactive Simulations)
  */
+
+// TODO: assert mutually exclusive options? like PHET_CORE/assertMutuallyExclusiveOptions, https://github.com/phetsims/chipper/issues/1128
 
 import merge from '../../../../phet-core/js/merge.js';
 import wilder from '../../wilder.js';
@@ -59,12 +64,12 @@ type PersonOptions = {
 }
 
 class Dog {
-  constructor( options?: DogOptions ) {
-    const filledOptions = merge( {
+  constructor( providedOptions?: DogOptions ) {
+    const options = merge( {
       age: 0
-    }, options ) as Required<DogOptions>;
+    }, providedOptions ) as Required<DogOptions>;
 
-    this.printAge( filledOptions.age );
+    this.printAge( options.age );
   }
 
   /**
@@ -79,31 +84,31 @@ class Dog {
 class Person {
   dog: Dog;
 
-  constructor( options: PersonOptions ) {
+  constructor( providedOptions: PersonOptions ) {
 
     // Access before merge, only because it's required.
-    console.log( options.name );
+    console.log( providedOptions.name );
 
-    const filledConfig = merge( {
+    const options = merge( {
       hasShirt: true,
       // name: required( options.name ), // not needed because it is supported by the type (1) (7) // TODO: we don't need `required()` anymore in typescript. https://github.com/phetsims/chipper/issues/1128
       height: 50, // (1)
       attitude: '',
       age: 0,
       dogOptions: {}
-    }, options ) as Required<PersonOptions>; // TODO: infer Required<PersonOptions>, perhaps by converting merge to typescript. This is a bandaid, fix usages when time by looking for `merge\((\n|.)* as Required<` https://github.com/phetsims/chipper/issues/1128
+    }, providedOptions ) as Required<PersonOptions>; // TODO: infer Required<PersonOptions>, perhaps by converting merge to typescript. This is a bandaid, fix usages when time by looking for `merge\((\n|.)* as Required<` https://github.com/phetsims/chipper/issues/1128
 
     console.log(
       'Person',
-      filledConfig.name,
-      filledConfig.hasShirt,
-      filledConfig.height,
-      filledConfig.attitude,
-      filledConfig.age,
-      filledConfig.dogOptions
+      options.name,
+      options.hasShirt,
+      options.height,
+      options.attitude,
+      options.age,
+      options.dogOptions
     );
 
-    this.dog = new Dog( filledConfig.dogOptions );
+    this.dog = new Dog( options.dogOptions );
   }
 }
 
@@ -122,52 +127,52 @@ type CoolPersonImplementationOptions = Required<CoolPersonDefinedOptions> &
   Pick<PersonOptions, 'attitude'>
 
 class CoolPerson1 extends Person {
-  constructor( options: CoolPersonOptions ) {
+  constructor( providedOptions: CoolPersonOptions ) {
 
     // before merge because it is required
-    console.log( options.isRequiredAwesome );
+    console.log( providedOptions.isRequiredAwesome );
 
-    const filledConfig = merge( {
+    const options = merge( {
       // isRequiredAwesome: required( options.isRequiredAwesome ), // (0) // TODO: don't need required in typescript anymore. https://github.com/phetsims/chipper/issues/1128
       isAwesome: true, // (2)
       hasShirt: false, // (3)
       age: 5
-    }, options ) as CoolPersonImplementationOptions; // We cannot even potentially infer this here (like we possible can in Person), because we need to accept specific supertype options into the subtype constructor object for using.
+    }, providedOptions ) as CoolPersonImplementationOptions; // We cannot even potentially infer this here (like we possible can in Person), because we need to accept specific supertype options into the subtype constructor object for using.
 
     // (5)
-    filledConfig.attitude = 'cool';
+    options.attitude = 'cool';
 
     // (4)
     // @ts-ignore
-    console.log( 'My age is', filledConfig.age - 1 ); // cool people seem younger // TODO: how to add age?!?! https://github.com/phetsims/chipper/issues/1128
+    console.log( 'My age is', options.age - 1 ); // cool people seem younger // TODO: how to add age?!?! https://github.com/phetsims/chipper/issues/1128
 
     // TODO: why is this case useful? https://github.com/phetsims/chipper/issues/1128
-    if ( filledConfig.hasOwnProperty( 'dogOptions' ) ) {
-      console.log( 'Nondefault dog options, I AM GETTING A DOG', filledConfig.dogOptions ); // cool people seem younger
+    if ( options.hasOwnProperty( 'dogOptions' ) ) {
+      console.log( 'Nondefault dog options, I AM GETTING A DOG', options.dogOptions ); // cool people seem younger
     }
 
     console.log(
       'CoolPerson1',
-      filledConfig.name,
-      filledConfig.isAwesome,
-      filledConfig.hasShirt,
-      filledConfig.isRequiredAwesome
+      options.name,
+      options.isAwesome,
+      options.hasShirt,
+      options.isRequiredAwesome
     );
 
-    super( filledConfig );
+    super( options );
   }
 
 }
 
 class JohnTheCoolPerson extends CoolPerson1 {
-  constructor( options?: CoolPersonOptions ) { // (9), note that if options are optional, then they get a question mark here.
+  constructor( providedOptions?: CoolPersonOptions ) { // (9), note that if options are optional, then they get a question mark here.
 
-    const filledOptions = <CoolPersonOptions>merge( {
+    const options = <CoolPersonOptions>merge( {
       // name: 'John, so cool', // TODO: why doesn't this fail! It is a required argument to CoolPersonOptions right?  https://github.com/phetsims/chipper/issues/1128
       isRequiredAwesome: true
-    }, options );
+    }, providedOptions );
 
-    super( filledOptions );
+    super( options );
   }
 }
 
