@@ -17,7 +17,7 @@ class WilderEnumerationsTypescriptTestModel {}
 /************************************************************************
  * Level 1: String union type.
  * Use this when you don't need values.
- * Strings are idiomatic for TypeScript enumrations, they are type safe and easy to understand in the debugger.
+ * Strings are idiomatic for TypeScript enumerations, they are type safe and easy to understand in the debugger.
  */
 
 type PetChoice = 'dog' | 'cat';
@@ -45,13 +45,12 @@ p2.value = 'tiger';
 /************************************************************************
  * Level 3: Rich enumeration types
  * Use this when you need methods on the enumeration values.
- * At runtime, values do not have a nice display by default
+ * At runtime, values do not have a nice display by default.
  */
-
-class XDirection {
-  static LEFT = new XDirection();
-  static RIGHT = new XDirection();
-  static phetioDocumentation = 'Describes the directionality of the ...';
+class MammalType {
+  static PUPPY = new MammalType();
+  static KITTY = new MammalType();
+  static phetioDocumentation = 'Describes the type of the mammal.';
 
   // @public
   sayHello() {
@@ -62,13 +61,13 @@ class XDirection {
   private constructor() { }
 }
 
-const p3 = new RichEnumerationProperty<XDirection>( XDirection, XDirection.LEFT );
-p3.link( ( x: XDirection ) => {
+const p3 = new RichEnumerationProperty<MammalType>( MammalType, MammalType.KITTY );
+p3.link( ( x: MammalType ) => {
   console.log( x );
   x.sayHello();
 } );
-p3.value = XDirection.RIGHT;
-// p3.value = XDirection.WRONG;
+p3.value = MammalType.KITTY;
+// p3.value = MammalType.WRONG;
 // p3.value = 'left';
 
 wilder.register( 'WilderEnumerationsTypescriptTestModel', WilderEnumerationsTypescriptTestModel );
