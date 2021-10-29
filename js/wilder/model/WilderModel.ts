@@ -13,6 +13,7 @@ import interleave from '../../../../phet-core/js/interleave.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
 import wilder from '../../wilder.js';
 import WilderOptionsTypescriptTestModel from './WilderOptionsTypescriptTestModel.js';
+import WilderEnumerationsTypescriptTestModel from './WilderEnumerationsTypescriptTestModel.js';
 
 // Commented out for the currently-unsupported ES6 features
 // const Utils = require( '/dot/js/Utils' );
@@ -26,11 +27,13 @@ declare namespace _ {
 
 class WilderModel {
   private wilderOptionsTypescriptTestModel: WilderOptionsTypescriptTestModel;
+  private wilderEnumerationsTypescriptTestModel: WilderEnumerationsTypescriptTestModel;
 
   constructor() {
 
     // @private
     this.wilderOptionsTypescriptTestModel = new WilderOptionsTypescriptTestModel();
+    this.wilderEnumerationsTypescriptTestModel = new WilderEnumerationsTypescriptTestModel();
 
     // We want a built version to error out for these "asserts"
     function hardAssert( condition: any, message = '' ) {
