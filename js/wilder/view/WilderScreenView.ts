@@ -9,14 +9,15 @@ import ResetAllButton from '../../../../scenery-phet/js/buttons/ResetAllButton.j
 import wilder from '../../wilder.js';
 import WilderNode from './WilderNode.js';
 import WilderModel from '../model/WilderModel.js';
+import Tandem from '../../../../tandem/js/Tandem.js';
+
+type WilderScreenViewOptions = {
+  tandem: Tandem
+};
 
 class WilderScreenView extends ScreenView {
-
-  /**
-   * @param {WilderModel} wilderModel
-   */
-  constructor( wilderModel: WilderModel ) {
-    super();
+  constructor( wilderModel: WilderModel, providedOptions: WilderScreenViewOptions ) {
+    super( providedOptions );
 
     const wilderNode = new WilderNode( { x: 100, y: 100 } );
     wilderNode.flipOver();
@@ -28,7 +29,8 @@ class WilderScreenView extends ScreenView {
         wilderModel.reset();
       },
       right: this.layoutBounds.maxX - 10,
-      bottom: this.layoutBounds.maxY - 10
+      bottom: this.layoutBounds.maxY - 10,
+      tandem: providedOptions.tandem.createTandem( 'resetAllButton' )
     } );
     this.addChild( resetAllButton );
   }

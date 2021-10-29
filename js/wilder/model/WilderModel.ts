@@ -14,6 +14,7 @@ import Node from '../../../../scenery/js/nodes/Node.js';
 import wilder from '../../wilder.js';
 import WilderOptionsTypescriptTestModel from './WilderOptionsTypescriptTestModel.js';
 import WilderEnumerationsTypescriptTestModel from './WilderEnumerationsTypescriptTestModel.js';
+import Tandem from '../../../../tandem/js/Tandem.js';
 
 // Commented out for the currently-unsupported ES6 features
 // const Utils = require( '/dot/js/Utils' );
@@ -25,15 +26,21 @@ declare namespace _ {
   function range( a: number, b?: number, c?: number ): number[]; // eslint-disable-line no-unused-vars
 }
 
+type WilderModelOptions = {
+  tandem: Tandem
+};
+
 class WilderModel {
   private wilderOptionsTypescriptTestModel: WilderOptionsTypescriptTestModel;
   private wilderEnumerationsTypescriptTestModel: WilderEnumerationsTypescriptTestModel;
 
-  constructor() {
+  constructor( providedOptions: WilderModelOptions ) {
 
     // @private
     this.wilderOptionsTypescriptTestModel = new WilderOptionsTypescriptTestModel();
-    this.wilderEnumerationsTypescriptTestModel = new WilderEnumerationsTypescriptTestModel();
+    this.wilderEnumerationsTypescriptTestModel = new WilderEnumerationsTypescriptTestModel( {
+      tandem: providedOptions.tandem.createTandem( 'enumerationsModel' )
+    } );
 
     // We want a built version to error out for these "asserts"
     function hardAssert( condition: any, message = '' ) {
