@@ -45,8 +45,6 @@
  * @author Michael Kauzmann (PhET Interactive Simulations)
  */
 
-// TODO: assert mutually exclusive options? like PHET_CORE/assertMutuallyExclusiveOptions, https://github.com/phetsims/chipper/issues/1128
-
 import wilder from '../../wilder.js';
 
 // constants
