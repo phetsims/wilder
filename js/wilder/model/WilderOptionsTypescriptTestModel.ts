@@ -95,8 +95,11 @@ function merge<T, U = T>( target: Invert<T> & Partial<U>, source?: U ) {
   return <Required<T> & U>target;
 }
 
+// You can mention the age or the height of a dog, but not both.
 type DogOptions = {
-  age?: number;
+  age: number; height?: never
+} | {
+  age?: never; height: number
 };
 
 type PersonOptions = {
@@ -104,17 +107,21 @@ type PersonOptions = {
   hasShirt?: boolean;
   height?: number;
   attitude?: string; // (5)
-  dogOptions?: DogOptions; // (6)
+  dogOptions?: DogOptions; // (6) // TODO: remove the question mark and note a problem here, a usage is marked as wrong,but a default is filled in up the hierarchy before we get to PersonOptions, booo, https://github.com/phetsims/chipper/issues/1128
   age?: number;
 }
 
 class Dog {
-  constructor( providedOptions?: DogOptions ) {
-    const options = merge( {
-      age: 0
-    }, providedOptions ) as Required<DogOptions>;
+  constructor( providedOptions: DogOptions ) {
 
-    this.printAge( options.age );
+    let age = providedOptions.age;
+
+    // infer height from age;
+    if ( age === undefined ) {
+      age = providedOptions.height! / 10;
+    }
+
+    this.printAge( age );
   }
 
   /**
@@ -140,7 +147,7 @@ class Person {
       height: 50, // (1)
       attitude: '',
       age: 0,
-      dogOptions: {}
+      dogOptions: { height: 1000 } // TODO: this doesn't yet support the XOR piece of dogOptions, because it will merge age into this with height also, and be fine!
     }, providedOptions );
 
     console.log(
@@ -232,6 +239,7 @@ class WilderOptionsTypescriptTestModel {
     this.coolPerson1 = new CoolPerson1( {
       isRequiredAwesome: true, // (2)
       isAwesome: false, // (2)
+      dogOptions: { age: 3 },
       name: 'Georgey' // (1)
     } );
     this.coolPerson1Other = new CoolPerson1( {
