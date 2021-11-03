@@ -15,7 +15,6 @@ import wilder from '../../wilder.js';
 import WilderOptionsTypescriptTestModel from './WilderOptionsTypescriptTestModel.js';
 import WilderEnumerationsTypescriptTestModel from './WilderEnumerationsTypescriptTestModel.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
-import WilderOptionsDestructuringModel from './WilderOptionsDestructuringModel.js';
 
 // Commented out for the currently-unsupported ES6 features
 // const Utils = require( '/dot/js/Utils' );
@@ -34,13 +33,11 @@ type WilderModelOptions = {
 class WilderModel {
   private wilderOptionsTypescriptTestModel: WilderOptionsTypescriptTestModel;
   private wilderEnumerationsTypescriptTestModel: WilderEnumerationsTypescriptTestModel;
-  private wilderOptionsDestructuringModel: WilderOptionsDestructuringModel;
 
   constructor( providedOptions: WilderModelOptions ) {
 
     // @private
     this.wilderOptionsTypescriptTestModel = new WilderOptionsTypescriptTestModel();
-    this.wilderOptionsDestructuringModel = new WilderOptionsDestructuringModel();
     this.wilderEnumerationsTypescriptTestModel = new WilderEnumerationsTypescriptTestModel( {
       tandem: providedOptions.tandem.createTandem( 'enumerationsModel' )
     } );
