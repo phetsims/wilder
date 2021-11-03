@@ -47,8 +47,8 @@ const Mixable = memoize( <SuperType extends Constructor>( type: SuperType, super
       const superArguments = args.slice( MIXIN_PARAMETER_COUNT ).slice( 0, superParameterCount );
       const nodeOptions = args[ superParameterCount + MIXIN_PARAMETER_COUNT ] as ( {} | undefined );
 
-      console.log( `mixable passed a node: ${node}` );
-      console.log( `mixable passed node options: ${JSON.stringify( nodeOptions )}` );
+      // console.log( `mixable passed a node: ${node}` );
+      // console.log( `mixable passed node options: ${JSON.stringify( nodeOptions )}` );
 
       super( ...superArguments );
 
@@ -68,7 +68,7 @@ const Mixable = memoize( <SuperType extends Constructor>( type: SuperType, super
      * @override
      */
     setVisible( value: boolean ): this {
-      console.log( `our bounds: ${( this as unknown as Node ).bounds}` );
+      // console.log( `our bounds: ${( this as unknown as Node ).bounds}` );
 
       // @ts-ignore
       return super.setVisible( value );

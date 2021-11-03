@@ -129,7 +129,7 @@ class Dog {
    * @param {number} x
    */
   printAge( x: number ) {
-    console.log( x );
+    // console.log( x );
   }
 }
 
@@ -139,7 +139,7 @@ class Person {
   constructor( providedOptions: PersonOptions ) {
 
     // Access before merge, only because it's required.
-    console.log( providedOptions.name );
+    // console.log( providedOptions.name );
 
     const options = merge<PersonOptions>( {
       hasShirt: true,
@@ -150,15 +150,15 @@ class Person {
       dogOptions: { height: 1000 } // TODO: this doesn't yet support the XOR piece of dogOptions, because it will merge age into this with height also, and be fine!
     }, providedOptions );
 
-    console.log(
-      'Person',
-      options.name,
-      options.hasShirt,
-      options.height,
-      options.attitude,
-      options.age,
-      options.dogOptions
-    );
+    // console.log(
+    //   'Person',
+    //   options.name,
+    //   options.hasShirt,
+    //   options.height,
+    //   options.attitude,
+    //   options.age,
+    //   options.dogOptions
+    // );
 
     this.dog = new Dog( options.dogOptions );
   }
@@ -180,7 +180,7 @@ class CoolPerson1 extends Person {
   constructor( providedOptions: CoolPersonOptions ) {
 
     // before merge because it is required
-    console.log( providedOptions.isRequiredAwesome );
+    // console.log( providedOptions.isRequiredAwesome );
 
     const options = merge<CoolPersonDefinedOptions, CoolPersonOptions>( {
       // isRequiredAwesome: required( options.isRequiredAwesome ), // (0) // TODO: don't need required in typescript anymore. https://github.com/phetsims/chipper/issues/1128
@@ -194,20 +194,20 @@ class CoolPerson1 extends Person {
 
     // (4)
     // @ts-ignore
-    console.log( 'My age is', options.age - 1 ); // cool people seem younger // TODO: how to add age?!?! https://github.com/phetsims/chipper/issues/1128
+    // console.log( 'My age is', options.age - 1 ); // cool people seem younger // TODO: how to add age?!?! https://github.com/phetsims/chipper/issues/1128
 
     // TODO: why is this case useful? https://github.com/phetsims/chipper/issues/1128
     if ( options.hasOwnProperty( 'dogOptions' ) ) {
-      console.log( 'Nondefault dog options, I AM GETTING A DOG', options.dogOptions ); // cool people seem younger
+      // console.log( 'Nondefault dog options, I AM GETTING A DOG', options.dogOptions ); // cool people seem younger
     }
 
-    console.log(
-      'CoolPerson1',
-      options.name,
-      options.isAwesome,
-      options.hasShirt,
-      options.isRequiredAwesome
-    );
+    // console.log(
+    //   'CoolPerson1',
+    //   options.name,
+    //   options.isAwesome,
+    //   options.hasShirt,
+    //   options.isRequiredAwesome
+    // );
 
     // (5) create a new object to pass up options that we set in this constructor for the supertype.
     super( { ...options, ...{ attitude: 'cool' } } );

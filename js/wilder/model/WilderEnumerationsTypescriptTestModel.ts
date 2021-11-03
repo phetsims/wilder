@@ -45,7 +45,7 @@ class WilderEnumerationsTypescriptTestModel {
       tandem: providedOptions.tandem.createTandem( 'animalChoiceProperty' )
     } );
     p2.link( ( animal: AnimalChoice ) => {
-      console.log( animal );
+      // console.log( animal );
     } );
     p2.value = 'panda';
     p2.value = 'tiger';
@@ -62,7 +62,7 @@ class WilderEnumerationsTypescriptTestModel {
 
       // @public
       sayHello() {
-        console.log( 'hello' );
+        // console.log( 'hello' );
       }
 
       // Emulate a sealed class
@@ -73,7 +73,7 @@ class WilderEnumerationsTypescriptTestModel {
       tandem: providedOptions.tandem.createTandem( 'mammalTypeProperty' )
     } );
     p3.link( ( x: MammalType ) => {
-      console.log( x );
+      // console.log( x );
       x.sayHello();
     } );
     p3.value = MammalType.KITTY;

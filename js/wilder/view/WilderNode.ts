@@ -19,7 +19,7 @@ class WilderNode extends Node {
     }, options );
     super( options );
 
-    console.log( Mixable );
+    Mixable;
   }
 
   /**

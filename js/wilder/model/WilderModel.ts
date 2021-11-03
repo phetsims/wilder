@@ -270,7 +270,7 @@ class WilderModel {
    * @public
    */
   reset() {
-    console.log( 'reset' );
+    // console.log( 'reset' );
   }
 }
 
