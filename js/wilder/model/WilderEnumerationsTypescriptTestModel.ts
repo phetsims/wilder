@@ -44,7 +44,7 @@ class WilderEnumerationsTypescriptTestModel {
     const p2 = new StringEnumerationProperty<AnimalChoice>( AnimalChoiceValues, 'tiger', {
       tandem: providedOptions.tandem.createTandem( 'animalChoiceProperty' )
     } );
-    p2.link( ( animal: AnimalChoice ) => {
+    p2.link( animal => {
       // console.log( animal );
     } );
     p2.value = 'panda';
@@ -72,7 +72,7 @@ class WilderEnumerationsTypescriptTestModel {
     const p3 = new RichEnumerationProperty<MammalType>( MammalType, MammalType.KITTY, {
       tandem: providedOptions.tandem.createTandem( 'mammalTypeProperty' )
     } );
-    p3.link( ( x: MammalType ) => {
+    p3.link( x => {
       // console.log( x );
       x.sayHello();
     } );
