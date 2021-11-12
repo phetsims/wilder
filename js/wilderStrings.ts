@@ -3,11 +3,17 @@
 /**
  * Auto-generated from modulify, DO NOT manually modify.
  */
-
+/* eslint-disable */
 import getStringModule from '../../chipper/js/getStringModule.js';
 import wilder from './wilder.js';
 
-const wilderStrings = getStringModule( 'WILDER' );
+type StringsType = {
+  'wilder': {
+    'title': string
+  }
+};
+
+const wilderStrings = getStringModule( 'WILDER' ) as StringsType;
 
 wilder.register( 'wilderStrings', wilderStrings );
 
