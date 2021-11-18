@@ -69,7 +69,7 @@ class WilderEnumerationsTypescriptTestModel {
       private constructor() { }
     }
 
-    const p3 = new RichEnumerationProperty<MammalType>( MammalType, MammalType.KITTY, {
+    const p3 = new RichEnumerationProperty( MammalType, MammalType.KITTY, {
       tandem: providedOptions.tandem.createTandem( 'mammalTypeProperty' )
     } );
     p3.link( x => {
