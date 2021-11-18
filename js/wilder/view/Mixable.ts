@@ -13,7 +13,7 @@ import inheritance from '../../../../phet-core/js/inheritance.js';
 import merge from '../../../../phet-core/js/merge.js';
 import extend from '../../../../phet-core/js/extend.js';
 
-// Just memoizes first argument
+// Just memoizes first argument.
 function memoize<Key, Value>( func: ( k: Key, ...args: any[] ) => Value ) {
   assert && assert( typeof func === 'function' );
 
