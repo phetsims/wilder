@@ -88,9 +88,8 @@ function merge<T, U = T>( target: Invert<T> & Partial<U>, source?: U ) {
     }
   }
 
-
   //..._.reduce( sources, ( theReturn, next ) => {  return { ...theReturn, ...next } } )
-  return <Required<T> & U>target;
+  return target as unknown as Required<T> & U;
 }
 
 // You can mention the age or the height of a dog, but not both.
