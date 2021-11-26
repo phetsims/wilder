@@ -10,7 +10,7 @@
  */
 
 import interleave from '../../../../phet-core/js/interleave.js';
-import Node from '../../../../scenery/js/nodes/Node.js';
+import { Node } from '../../../../scenery/js/imports.js';
 import wilder from '../../wilder.js';
 import WilderOptionsTypescriptTestModel from './WilderOptionsTypescriptTestModel.js';
 import WilderEnumerationsTypescriptTestModel from './WilderEnumerationsTypescriptTestModel.js';
