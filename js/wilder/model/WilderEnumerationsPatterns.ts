@@ -14,12 +14,12 @@ import RichEnumerationProperty from '../../../../axon/js/RichEnumerationProperty
 import Tandem from '../../../../tandem/js/Tandem.js';
 import RichEnumeration from '../../../../phet-core/js/RichEnumeration.js';
 
-type WilderEnumerationsTypescriptTestModelOptions = {
+type WilderEnumerationPatternsOptions = {
   tandem: Tandem
 };
 
-class WilderEnumerationsTypescriptTestModel {
-  constructor( providedOptions: WilderEnumerationsTypescriptTestModelOptions ) {
+class WilderEnumerationsPatterns {
+  constructor( providedOptions: WilderEnumerationPatternsOptions ) {
 
     /************************************************************************
      * Level 1: String union type.
@@ -87,6 +87,5 @@ class WilderEnumerationsTypescriptTestModel {
   }
 }
 
-
-wilder.register( 'WilderEnumerationsTypescriptTestModel', WilderEnumerationsTypescriptTestModel );
-export default WilderEnumerationsTypescriptTestModel;
+wilder.register( 'WilderEnumerationsPatterns', WilderEnumerationsPatterns );
+export default WilderEnumerationsPatterns;

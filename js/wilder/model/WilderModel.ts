@@ -13,7 +13,7 @@ import interleave from '../../../../phet-core/js/interleave.js';
 import { Node } from '../../../../scenery/js/imports.js';
 import wilder from '../../wilder.js';
 import WilderOptionsTypescriptTestModel from './WilderOptionsTypescriptTestModel.js';
-import WilderEnumerationsTypescriptTestModel from './WilderEnumerationsTypescriptTestModel.js';
+import WilderEnumerationsPatterns from './WilderEnumerationsPatterns.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 
 // Commented out for the currently-unsupported ES6 features
@@ -32,13 +32,13 @@ type WilderModelOptions = {
 
 class WilderModel {
   private wilderOptionsTypescriptTestModel: WilderOptionsTypescriptTestModel;
-  private wilderEnumerationsTypescriptTestModel: WilderEnumerationsTypescriptTestModel;
+  private wilderEnumerationsTypescriptTestModel: WilderEnumerationsPatterns;
 
   constructor( providedOptions: WilderModelOptions ) {
 
     // @private
     this.wilderOptionsTypescriptTestModel = new WilderOptionsTypescriptTestModel();
-    this.wilderEnumerationsTypescriptTestModel = new WilderEnumerationsTypescriptTestModel( {
+    this.wilderEnumerationsTypescriptTestModel = new WilderEnumerationsPatterns( {
       tandem: providedOptions.tandem.createTandem( 'enumerationsModel' )
     } );
 
