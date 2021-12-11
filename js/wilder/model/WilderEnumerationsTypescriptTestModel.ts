@@ -12,6 +12,7 @@ import wilder from '../../wilder.js';
 import StringEnumerationProperty from '../../../../axon/js/StringEnumerationProperty.js';
 import RichEnumerationProperty from '../../../../axon/js/RichEnumerationProperty.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
+import RichEnumeration from '../../../../phet-core/js/RichEnumeration.js';
 
 type WilderEnumerationsTypescriptTestModelOptions = {
   tandem: Tandem
@@ -59,6 +60,8 @@ class WilderEnumerationsTypescriptTestModel {
       static PUPPY = new MammalType();
       static KITTY = new MammalType();
       static phetioDocumentation = 'Describes the type of the mammal.';
+
+      static rich = new RichEnumeration<MammalType>( MammalType );
 
       // @public
       sayHello() {
