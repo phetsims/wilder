@@ -40,8 +40,12 @@ class WilderEnumerationsTypescriptTestModel {
 
     const AnimalChoiceValues = [ 'panda', 'tiger' ] as const; // The values
     type AnimalChoice = ( typeof AnimalChoiceValues )[number]; // Type
-// export { AnimalChoice as default, AnimalChoiceValues };
 
+    // Then...
+    // register the values with the namespace
+    // export both on separate lines
+
+    // Sample usage
     const p2 = new StringEnumerationProperty<AnimalChoice>( AnimalChoiceValues, 'tiger', {
       tandem: providedOptions.tandem.createTandem( 'animalChoiceProperty' )
     } );
@@ -60,30 +64,27 @@ class WilderEnumerationsTypescriptTestModel {
       static PUPPY = new MammalType();
       static KITTY = new MammalType();
 
+      // Gets a list of keys, values and mapping between them.  For use in RichEnumerationProperty and PhET-iO
       static enum = new RichEnumeration<MammalType>( MammalType, {
         phetioDocumentation: 'Describes the type of the mammal.'
       } );
 
-      // @public
       sayHello() {
-        // console.log( 'hello' );
+        console.log( 'hello' );
       }
 
-      // Emulate a sealed class
+      // Emulate a sealed class, so no other clients can create instances of type MammalType
       private constructor() { }
     }
 
     const p3 = new RichEnumerationProperty( MammalType, MammalType.KITTY, {
       tandem: providedOptions.tandem.createTandem( 'mammalTypeProperty' )
     } );
-    p3.link( x => {
-      // console.log( x );
-      x.sayHello();
-    } );
+    p3.link( x => x.sayHello() );
     p3.value = MammalType.KITTY;
-// p3.value = MammalType.WRONG;
-// p3.value = 'left';
 
+    // p3.value = MammalType.WRONG; // type error
+    // p3.value = 'left';  // type error
   }
 }
 
