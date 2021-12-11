@@ -23,7 +23,7 @@ class WilderEnumerationsTypescriptTestModel {
 
     /************************************************************************
      * Level 1: String union type.
-     * Use this when you don't need values.
+     * Use this when you need a type, but not values.
      * Strings are idiomatic for TypeScript enumerations, they are type safe and easy to understand in the debugger.
      */
 
@@ -34,7 +34,7 @@ class WilderEnumerationsTypescriptTestModel {
     p1.value = 'cat';
 
     /************************************************************************
-     * Level 2: String union type from DRY values.
+     * Level 2: String union type and ability to get the values at runtime.
      * Use this when you need values, and it is OK to be a string.
      */
 
@@ -57,8 +57,7 @@ class WilderEnumerationsTypescriptTestModel {
 
     /************************************************************************
      * Level 3: Rich enumeration types
-     * Use this when you need methods on the enumeration values.
-     * At runtime, values do not have a nice display by default.
+     * Use this when you need methods or data on the enumeration values.
      */
     class MammalType {
       static PUPPY = new MammalType();
