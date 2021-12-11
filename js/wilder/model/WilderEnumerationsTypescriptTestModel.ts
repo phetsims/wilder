@@ -9,7 +9,7 @@
 
 import Property from '../../../../axon/js/Property.js';
 import wilder from '../../wilder.js';
-import StringEnumerationProperty from './StringEnumerationProperty.js';
+import StringEnumerationProperty from '../../../../axon/js/StringEnumerationProperty.js';
 import RichEnumerationProperty from './RichEnumerationProperty.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 
