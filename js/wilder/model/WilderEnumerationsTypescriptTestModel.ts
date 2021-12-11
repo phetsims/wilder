@@ -59,9 +59,10 @@ class WilderEnumerationsTypescriptTestModel {
     class MammalType {
       static PUPPY = new MammalType();
       static KITTY = new MammalType();
-      static phetioDocumentation = 'Describes the type of the mammal.';
 
-      static enum = new RichEnumeration<MammalType>( MammalType );
+      static enum = new RichEnumeration<MammalType>( MammalType, {
+        phetioDocumentation: 'Describes the type of the mammal.'
+      } );
 
       // @public
       sayHello() {
