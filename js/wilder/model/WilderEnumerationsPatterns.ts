@@ -36,14 +36,16 @@ class WilderEnumerationsPatterns {
     /************************************************************************
      * Level 2: String union type and ability to get the values at runtime.
      * Use this when you need values, and it is OK to be a string.
+     * Filename = AnimalChoice.ts
      */
 
     const AnimalChoiceValues = [ 'panda', 'tiger' ] as const; // The values
-    type AnimalChoice = ( typeof AnimalChoiceValues )[number]; // Type
+    type AnimalChoice = typeof AnimalChoiceValues[number]; // Type
 
     // Then...
-    // register the values with the namespace
-    // export both on separate lines
+    // register the AnimalChoiceValues with the namespace
+    // export { AnimalChoiceValues };
+    // export default AnimalChoice;
 
     // Sample usage
     const p2 = new StringEnumerationProperty<AnimalChoice>( AnimalChoiceValues, 'tiger', {
