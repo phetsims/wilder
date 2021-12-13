@@ -78,11 +78,11 @@ class WilderEnumerationPatterns {
       private constructor() { }
     }
 
-    const p3 = new RichEnumerationProperty( MammalType, MammalType.KITTY, {
+    const mammalTypeProperty = new RichEnumerationProperty( MammalType, MammalType.KITTY, {
       tandem: providedOptions.tandem.createTandem( 'mammalTypeProperty' )
     } );
-    p3.link( x => x.sayHello() );
-    p3.value = MammalType.KITTY;
+    mammalTypeProperty.link( x => x.sayHello() );
+    mammalTypeProperty.value = MammalType.KITTY;
 
     // p3.value = MammalType.WRONG; // type error
     // p3.value = 'left';  // type error
