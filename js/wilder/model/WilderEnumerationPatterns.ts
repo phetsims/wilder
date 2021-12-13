@@ -7,7 +7,6 @@
  * @author Michael Kauzmann (PhET Interactive Simulations)
  */
 
-import Property from '../../../../axon/js/Property.js';
 import wilder from '../../wilder.js';
 import StringEnumerationProperty from '../../../../axon/js/StringEnumerationProperty.js';
 import RichEnumerationProperty from '../../../../axon/js/RichEnumerationProperty.js';
@@ -28,10 +27,12 @@ class WilderEnumerationPatterns {
      */
 
     type PetChoice = 'dog' | 'cat';
+    // export default PetChoice;
 
-    const phetChoiceProperty = new Property<PetChoice>( 'cat' );
-    phetChoiceProperty.set( 'dog' );
-    phetChoiceProperty.value = 'cat';
+    // sample usage
+    const x: PetChoice = 'dog';
+    // const y: PetChoice = 'parrot'; // Error
+    console.log( x );
 
     /************************************************************************
      * Level 2: String union type and ability to get the values at runtime.
