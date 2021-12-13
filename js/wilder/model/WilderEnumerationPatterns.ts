@@ -18,7 +18,7 @@ type WilderEnumerationPatternsOptions = {
   tandem: Tandem
 };
 
-class WilderEnumerationsPatterns {
+class WilderEnumerationPatterns {
   constructor( providedOptions: WilderEnumerationPatternsOptions ) {
 
     /************************************************************************
@@ -89,5 +89,5 @@ class WilderEnumerationsPatterns {
   }
 }
 
-wilder.register( 'WilderEnumerationsPatterns', WilderEnumerationsPatterns );
-export default WilderEnumerationsPatterns;
+wilder.register( 'WilderEnumerationPatterns', WilderEnumerationPatterns );
+export default WilderEnumerationPatterns;
