@@ -29,9 +29,9 @@ class WilderEnumerationPatterns {
 
     type PetChoice = 'dog' | 'cat';
 
-    const p1 = new Property<PetChoice>( 'cat' );
-    p1.set( 'dog' );
-    p1.value = 'cat';
+    const phetChoiceProperty = new Property<PetChoice>( 'cat' );
+    phetChoiceProperty.set( 'dog' );
+    phetChoiceProperty.value = 'cat';
 
     /************************************************************************
      * Level 2: String union type and ability to get the values at runtime.
@@ -48,14 +48,14 @@ class WilderEnumerationPatterns {
     // export default AnimalChoice;
 
     // Sample usage
-    const p2 = new StringEnumerationProperty<AnimalChoice>( AnimalChoiceValues, 'tiger', {
+    const animalChoiceProperty = new StringEnumerationProperty<AnimalChoice>( AnimalChoiceValues, 'tiger', {
       tandem: providedOptions.tandem.createTandem( 'animalChoiceProperty' )
     } );
-    p2.link( animal => {
+    animalChoiceProperty.link( animal => {
       // console.log( animal );
     } );
-    p2.value = 'panda';
-    p2.value = 'tiger';
+    animalChoiceProperty.value = 'panda';
+    animalChoiceProperty.value = 'tiger';
 
     /************************************************************************
      * Level 3: Rich enumeration types
