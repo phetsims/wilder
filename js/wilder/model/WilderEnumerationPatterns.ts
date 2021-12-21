@@ -33,6 +33,10 @@ class WilderEnumerationPatterns {
     const x: PetChoice = 'dog';
     // const y: PetChoice = 'parrot'; // Error
     console.log( x );
+    const favoritePet = ( choice: PetChoice ) => {
+      console.log( 'my favorite pet is:', choice );
+    };
+    favoritePet( 'cat' );
 
     /************************************************************************
      * Level 2: String union type and ability to get the values at runtime.
