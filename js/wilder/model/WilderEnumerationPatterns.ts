@@ -85,7 +85,7 @@ class WilderEnumerationPatterns {
       private constructor() { super(); }
     }
 
-    const mammalTypeProperty = new RichEnumerationProperty( MammalType, MammalType.KITTY, {
+    const mammalTypeProperty = new RichEnumerationProperty( MammalType.KITTY, {
       tandem: providedOptions.tandem.createTandem( 'mammalTypeProperty' )
     } );
     mammalTypeProperty.link( x => x.sayHello() );
