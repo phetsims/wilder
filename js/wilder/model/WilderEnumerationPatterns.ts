@@ -94,6 +94,31 @@ class WilderEnumerationPatterns {
 
     // p3.value = MammalType.WRONG; // type error
     // p3.value = 'left';  // type error
+
+    /************************************************************************
+     * Level 3.A: Augmenting Rich Enumeration Types. Use this only when you need to create a new enumeration that
+     * takes all the values of another enumeration and adds more values. This should be rarely used.
+     */
+    class TreeType extends EnumerationValue {
+      static ASH = new TreeType();
+      static BIRCH = new TreeType();
+
+      static enumeration = new RichEnumeration<TreeType>( TreeType );
+
+      // no private constructor, since this must be accessible from the subtype
+    }
+
+    class SpecialTreeType extends TreeType {
+      static CEDAR = new SpecialTreeType();
+
+      static enumeration = new RichEnumeration<TreeType>( SpecialTreeType, {
+
+        // Match any static member of SpecialTreeType that is instanceof TreeType, so it will include the existing ASH, BIRCH and also the new value CEDAR
+        instanceType: TreeType
+      } );
+    }
+
+    console.log( SpecialTreeType.enumeration.values ); // Prints ASH, BIRCH, CEDAR
   }
 }
 
