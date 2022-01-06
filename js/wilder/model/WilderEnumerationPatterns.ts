@@ -8,7 +8,6 @@
  */
 
 import wilder from '../../wilder.js';
-import StringEnumerationProperty from '../../../../axon/js/StringEnumerationProperty.js';
 import RichEnumerationProperty from '../../../../axon/js/RichEnumerationProperty.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import RichEnumeration from '../../../../phet-core/js/RichEnumeration.js';
@@ -22,57 +21,13 @@ class WilderEnumerationPatterns {
   constructor( providedOptions: WilderEnumerationPatternsOptions ) {
 
     /************************************************************************
-     * Level 1: String union type.
-     * Use this when you need a type, but not values.
-     * Strings are idiomatic for TypeScript enumerations, they are type safe and easy to understand in the debugger.
-     */
-
-    type PetChoice = 'DOG' | 'CAT';
-    // export default PetChoice;
-
-    // sample usage
-    const x: PetChoice = 'DOG';
-    // const y: PetChoice = 'PARROT'; // Error
-    console.log( x );
-    const favoritePet = ( choice: PetChoice ) => {
-      console.log( 'my favorite pet is:', choice );
-    };
-    favoritePet( 'CAT' );
-
-    /************************************************************************
-     * Level 2: String union type and ability to get the values at runtime.
-     * Use this when you need values, and it is OK to be a string.
-     * Filename = AnimalChoice.ts
-     */
-
-    const AnimalChoiceValues = [ 'PANDA', 'TIGER' ] as const; // The values
-    type AnimalChoice = typeof AnimalChoiceValues[number]; // Type
-
-    // Then...
-    // register the AnimalChoiceValues with the namespace
-    // export { AnimalChoiceValues };
-    // export default AnimalChoice;
-
-    // Sample usage
-    const animalChoiceProperty = new StringEnumerationProperty<AnimalChoice>( AnimalChoiceValues, 'TIGER', {
-      tandem: providedOptions.tandem.createTandem( 'animalChoiceProperty' )
-    } );
-    animalChoiceProperty.link( animal => {
-      // console.log( animal );
-    } );
-    animalChoiceProperty.value = 'PANDA';
-    animalChoiceProperty.value = 'TIGER';
-
-    /************************************************************************
-     * Level 3: Rich enumeration types
-     * Use this when you need methods or data on the enumeration values.
+     * The primary enumeration pattern.
      */
     class MammalType extends EnumerationValue {
       static PUPPY = new MammalType();
       static KITTY = new MammalType();
 
       // Gets a list of keys, values and mapping between them.  For use in RichEnumerationProperty and PhET-iO
-      // TODO: Let's try to get rid of the type parameter here to avoid the duplication (we think we can make it infer it), https://github.com/phetsims/chipper/issues/1106
       static enumeration = new RichEnumeration<MammalType>( MammalType, {
         phetioDocumentation: 'Describes the type of the mammal.'
       } );
@@ -96,8 +51,9 @@ class WilderEnumerationPatterns {
     // p3.value = 'left';  // type error
 
     /************************************************************************
-     * Level 3.A: Augmenting Rich Enumeration Types. Use this only when you need to create a new enumeration that
-     * takes all the values of another enumeration and adds more values. This should be rarely used.
+     * Example: Augmenting an enumeration.
+     * Use this only when you need to create a new enumeration that takes all the values of another enumeration and adds
+     * more values. This should be rarely used.
      */
     class TreeType extends EnumerationValue {
       static ASH = new TreeType();
@@ -119,6 +75,46 @@ class WilderEnumerationPatterns {
     }
 
     console.log( SpecialTreeType.enumeration.values ); // Prints ASH, BIRCH, CEDAR
+
+    /************************************************************************
+     * String union type.
+     * Use this when you need a type, but not values.  You may see this more in legacy code, like LayoutBox,
+     * or in APIs where it is preferable for options or parameters to be plain strings.
+     * For instance: new LayoutBox({align:'top'});
+     */
+
+    type PetChoice = 'DOG' | 'CAT';
+    // export default PetChoice;
+
+    // sample usage
+    const x: PetChoice = 'DOG';
+    // const y: PetChoice = 'PARROT'; // Error
+    console.log( x );
+    const favoritePet = ( choice: PetChoice ) => {
+      console.log( 'my favorite pet is:', choice );
+    };
+    favoritePet( 'CAT' );
+
+    /************************************************************************
+     * String union type WITH runtime values.
+     * Typically it will be preferable to use "The primary enumeration pattern." from above, but
+     * special cases may require string union with runtime values.
+     * Filename = AnimalChoice.ts
+     */
+
+    const AnimalChoiceValues = [ 'PANDA', 'TIGER' ] as const; // The values
+    type AnimalChoice = typeof AnimalChoiceValues[number]; // Type
+
+    // Then...
+    // register the AnimalChoiceValues with the namespace
+    // export { AnimalChoiceValues };
+    // export default AnimalChoice;
+
+    console.log( AnimalChoiceValues );// ['PANDA','TIGER']
+    const testFunction = ( a: AnimalChoice ) => {
+      console.log( 'hello: ' + a );
+    };
+    testFunction( 'PANDA' );
   }
 }
 
