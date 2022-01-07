@@ -28,16 +28,13 @@ class WilderEnumerationPatterns {
       static KITTY = new MammalType();
 
       // Gets a list of keys, values and mapping between them.  For use in RichEnumerationProperty and PhET-iO
-      static enumeration = new RichEnumeration<MammalType>( MammalType, {
+      static enumeration = new RichEnumeration( MammalType, {
         phetioDocumentation: 'Describes the type of the mammal.'
       } );
 
       sayHello() {
         console.log( 'hello' );
       }
-
-      // Emulate a sealed class, so no other clients can create instances of type MammalType
-      private constructor() { super(); }
     }
 
     const mammalTypeProperty = new RichEnumerationProperty( MammalType.KITTY, {
@@ -59,15 +56,13 @@ class WilderEnumerationPatterns {
       static ASH = new TreeType();
       static BIRCH = new TreeType();
 
-      static enumeration = new RichEnumeration<TreeType>( TreeType );
-
-      // no private constructor, since this must be accessible from the subtype
+      static enumeration = new RichEnumeration( TreeType );
     }
 
     class SpecialTreeType extends TreeType {
       static CEDAR = new SpecialTreeType();
 
-      static enumeration = new RichEnumeration<TreeType>( SpecialTreeType, {
+      static enumeration = new RichEnumeration( SpecialTreeType, {
 
         // Match any static member of SpecialTreeType that is instanceof TreeType, so it will include the existing ASH, BIRCH and also the new value CEDAR
         instanceType: TreeType
