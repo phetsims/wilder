@@ -14,16 +14,16 @@
  * `new CoolPerson` (usage)
  *
  * Constraints that PhET needs to support in its options pattern:
- * 0. This is a config where it is possible that something is required with others that are optional.
- * 1. from usage to supertype (pass children through to Node, not used by subtype) (required (name) and optional (height))
- * 2. from usage to subtype, supertype doesn't know about this option (required (isRequiredAwesome) and optional (isAwesome))
- * 3. declared in supertype, new default in subtype, optionally passed by usage
- * 4. optionally passed by usage, used in subtype, defined in supertype (either with subtype default or without)
- * 5. Subtype requires usage doesn't pass in, subtype defines and passes to super ("attitude" option)
- * 6. Support for sub-options patterns throughout (like visiblePropertyOptions)
- * 7. Parent has config (required params too)
+ * 0. Some providedOptions are required, others are optional
+ * 1. At instantiation, specify options for supertype that are ignored by subtype (required (name) and optional (height))
+ * 2. At instantiation, specify options for subtype that are unknown by supertype (required (isRequiredAwesome) and optional (isAwesome))
+ * 3. An option defined in the supertype, where the subtype provides a different default
+ * 4. An option defined in the supertype can be used in the subtype. TODO: Decide if the subtype should be allowed to use the option without declaring a default (personitude), https://github.com/phetsims/chipper/issues/1128
+ * 5. Subtype omits a supertype option from providedOptions, subtype defines and passes to super ("attitude" option)
+ * 6. Support for nested sub-options patterns throughout (like dogOptions)
+ * 7. Parent has required parameters too
  * 8. Run the entire test but instead of config, there should be options?: XXX instead of config: (required)
- * 9. Options as a parameter must support being optional.
+ * 9. Options as a parameter must support being optional, like providedOptions?
  *
  * Comments below annotate where these constraints are tested.
  *
@@ -62,6 +62,8 @@ type Invert<T> = {
 }
 
 // A direct copy from PHET_CORE/merge, but outfit with typescript support
+// T is the SubtypeDefinedOptions, the defaults supplied by the subtype
+// U is the ProvidedOptions
 function merge<T, U = T>( target: Invert<T> & Partial<U>, source?: U ) {
   if ( source ) {
     for ( const property in source ) {
@@ -104,7 +106,11 @@ type PersonOptions = {
   hasShirt?: boolean;
   height?: number;
   attitude?: string; // (5)
-  dogOptions?: DogOptions; // (6) // TODO: remove the question mark and note a problem here, a usage is marked as wrong,but a default is filled in up the hierarchy before we get to PersonOptions, booo, https://github.com/phetsims/chipper/issues/1128
+  personitude?: string,
+
+  // (6) // TODO: remove the question mark and note a problem here, a usage is marked as wrong, but a default is filled
+  //        TODO: in up the hierarchy before we get to PersonOptions, booo, https://github.com/phetsims/chipper/issues/1128
+  dogOptions?: DogOptions;
   age?: number;
 }
 
@@ -143,6 +149,7 @@ class Person {
       // name: required( options.name ), // not needed because it is supported by the type (1) (7) // TODO: we don't need `required()` anymore in typescript. https://github.com/phetsims/chipper/issues/1128
       height: 50, // (1)
       attitude: '',
+      personitude: 'very much so',
       age: 0,
       dogOptions: { height: 1000 } // TODO: this doesn't yet support the XOR piece of dogOptions, because it will merge age into this with height also, and be fine!
     }, providedOptions );
@@ -186,12 +193,14 @@ class CoolPerson1 extends Person {
       age: 5
     }, providedOptions );
 
-    // (5)
+    // (5) TODO: this should be allowed, https://github.com/phetsims/chipper/issues/1128
     // options.attitude = 'cool';
 
-    // (4)
-    // @ts-ignore
-    // console.log( 'My age is', options.age - 1 ); // cool people seem younger // TODO: how to add age?!?! https://github.com/phetsims/chipper/issues/1128
+    // (4) TODO: Should this fail without a default??, https://github.com/phetsims/chipper/issues/1128
+    console.log( options.personitude );
+
+    // (4) TODO: how to use age and know it is defined from the default?!?! https://github.com/phetsims/chipper/issues/1128
+    // console.log( 'My age is', options.age - 1 ); // cool people seem younger
 
     // TODO: why is this case useful? https://github.com/phetsims/chipper/issues/1128
     if ( options.hasOwnProperty( 'dogOptions' ) ) {
