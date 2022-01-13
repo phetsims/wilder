@@ -8,9 +8,9 @@
  */
 
 import wilder from '../../wilder.js';
-import RichEnumerationProperty from '../../../../axon/js/RichEnumerationProperty.js';
+import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
-import RichEnumeration from '../../../../phet-core/js/RichEnumeration.js';
+import Enumeration from '../../../../phet-core/js/Enumeration.js';
 import EnumerationValue from '../../../../phet-core/js/EnumerationValue.js';
 
 type WilderEnumerationPatternsOptions = {
@@ -27,8 +27,8 @@ class WilderEnumerationPatterns {
       static PUPPY = new MammalType();
       static KITTY = new MammalType();
 
-      // Gets a list of keys, values and mapping between them.  For use in RichEnumerationProperty and PhET-iO
-      static enumeration = new RichEnumeration( MammalType, {
+      // Gets a list of keys, values and mapping between them.  For use in EnumerationProperty and PhET-iO
+      static enumeration = new Enumeration( MammalType, {
         phetioDocumentation: 'Describes the type of the mammal.'
       } );
 
@@ -37,7 +37,7 @@ class WilderEnumerationPatterns {
       }
     }
 
-    const mammalTypeProperty = new RichEnumerationProperty( MammalType.KITTY, {
+    const mammalTypeProperty = new EnumerationProperty( MammalType.KITTY, {
       tandem: providedOptions.tandem.createTandem( 'mammalTypeProperty' )
     } );
     mammalTypeProperty.link( x => x.sayHello() );
@@ -56,13 +56,13 @@ class WilderEnumerationPatterns {
       static ASH = new TreeType();
       static BIRCH = new TreeType();
 
-      static enumeration = new RichEnumeration( TreeType );
+      static enumeration = new Enumeration( TreeType );
     }
 
     class SpecialTreeType extends TreeType {
       static CEDAR = new SpecialTreeType();
 
-      static enumeration = new RichEnumeration( SpecialTreeType, {
+      static enumeration = new Enumeration( SpecialTreeType, {
 
         // Match any static member of SpecialTreeType that is instanceof TreeType, so it will include the existing ASH, BIRCH and also the new value CEDAR
         instanceType: TreeType
