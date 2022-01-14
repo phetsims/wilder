@@ -73,8 +73,8 @@ class WilderEnumerationPatterns {
 
     /************************************************************************
      * String union type.
-     * Use this when you need a type, but not values.  You may see this more in legacy code, like LayoutBox,
-     * or in APIs where it is preferable for options or parameters to be plain strings.
+     * Use this when you need a type, but not values or phet-io support. You may see this more in legacy code, like
+     * LayoutBox, or in APIs where it is preferable for options or parameters to be plain strings.
      * For instance: new LayoutBox({align:'top'});
      */
 
@@ -91,7 +91,7 @@ class WilderEnumerationPatterns {
     favoritePet( 'CAT' );
 
     /************************************************************************
-     * String union type WITH runtime values.
+     * Union type WITH runtime values.
      * Typically it will be preferable to use "The primary enumeration pattern." from above, but
      * special cases may require string union with runtime values.
      * Filename = AnimalChoice.ts
