@@ -14,16 +14,15 @@
  * `new CoolPerson` (usage)
  *
  * Constraints that PhET needs to support in its options pattern:
- * 0. Some providedOptions are required, others are optional
- * 1. At instantiation, specify options for supertype that are ignored by subtype (required (name) and optional (height))
- * 2. At instantiation, specify options for subtype that are unknown by supertype (required (isRequiredAwesome) and optional (isAwesome))
- * 3. An option defined in the supertype, where the subtype provides a different default
- * 4. An option defined in the supertype can be used in the subtype. TODO: Decide if the subtype should be allowed to use the option without declaring a default (personitude), https://github.com/phetsims/chipper/issues/1128
- * 5. Subtype omits a supertype option from providedOptions, subtype defines and passes to super ("attitude" option)
- * 6. Support for nested sub-options patterns throughout (like dogOptions)
- * 7. Parent has required parameters too
- * 8. Run the entire test but instead of config, there should be options?: XXX instead of config: (required)
- * 9. Options as a parameter must support being optional, like providedOptions?
+ * (0) Some providedOptions are required, others are optional
+ * (1) At instantiation, specify options for supertype that are ignored by subtype (required (name) and optional (height))
+ * (2) At instantiation, specify options for subtype that are unknown by supertype (required (isRequiredAwesome) and optional (isAwesome))
+ * (3) An option defined in the supertype, where the subtype provides a different default
+ * (4) An option defined in the supertype can be used in the subtype (personitude, age)
+ * (5) Subtype omits a supertype option from providedOptions, subtype defines and passes to super ("attitude" option)
+ * (6) Support for nested sub-options patterns throughout (like dogOptions)
+ * (7) Parent has required parameters too
+ * (8) Options as a parameter must support being optional, like `providedOptions?`
  *
  * Comments below annotate where these constraints are tested.
  *
@@ -37,7 +36,7 @@
  *
  * Variable naming:
  * - Because typescript now codifies the difference between config and options, there is no need to have anything but "options"
- * as the variable name.
+ * as the variable name. As a developer consensus, we no longer need to name any parameters "config" in typescript.
  * - We cannot override the value of a variable and also change its type, thus the options argument must be named differently from the
  * value returned from the `merge` call. It is conventional to call the parameter "providedOptions" and the merged object "options".
  *
@@ -45,61 +44,29 @@
  * @author Michael Kauzmann (PhET Interactive Simulations)
  */
 
+import merge from '../../../../phet-core/js/merge.js';
 import wilder from '../../wilder.js';
-
-// constants
-const OPTIONS_SUFFIX = 'Options';
-
-type OptionalKeys<T> = {
-  [K in keyof T]-?: undefined extends { [K2 in keyof T]: K2 }[K] ? K : never
-}[keyof T]
-type RequiredKeys<T> = Exclude<keyof T, OptionalKeys<T>>
-
-type Invert<T> = {
-  [K in OptionalKeys<T>]-?: NonNullable<T[K]>
-} & {
-  [K in RequiredKeys<T>]+?: T[K]
-}
-
-// A direct copy from PHET_CORE/merge, but outfit with typescript support
-// T is the SubtypeDefinedOptions, the defaults supplied by the subtype
-// U is the ProvidedOptions
-function merge<T, U = T>( target: Invert<T> & Partial<U>, source?: U ) {
-  if ( source ) {
-    for ( const property in source ) {
-
-      // @ts-ignore
-      if ( source.hasOwnProperty( property ) ) {
-        const sourceProperty = source[ property ];
-
-        // Recurse on keys that end with 'Options', but not on keys named 'Options'.
-        if ( _.endsWith( property, OPTIONS_SUFFIX ) && property !== OPTIONS_SUFFIX ) {
-
-          // *Options property value cannot be undefined, if truthy, it we be validated with assertIsMergeable via recursion.
-          assert && assert( sourceProperty !== undefined, 'nested *Options should not be undefined' );
-
-          // @ts-ignore
-          target[ property ] = merge( target[ property ] || {}, sourceProperty );
-        }
-        else {
-
-          // @ts-ignore
-          target[ property ] = sourceProperty;
-        }
-      }
-    }
-  }
-
-  //..._.reduce( sources, ( theReturn, next ) => {  return { ...theReturn, ...next } } )
-  return target as unknown as Required<T> & U;
-}
 
 // You can mention the age or the height of a dog, but not both.
 type DogOptions = {
-  age: number; height?: never
-} | {
-  age?: never; height: number
+  name: string;
+  age?: number;
 };
+
+class Dog {
+  age: number;
+  name: string;
+
+  constructor( providedOptions: DogOptions ) {
+    const options = merge( { age: 0 }, providedOptions );
+    this.age = options.age;
+    this.name = options.name;
+  }
+
+  printAge() {
+    console.log( this.age );
+  }
+}
 
 type PersonOptions = {
   name: string; // (1)
@@ -114,27 +81,15 @@ type PersonOptions = {
   age?: number;
 }
 
-class Dog {
-  constructor( providedOptions: DogOptions ) {
-
-    let age = providedOptions.age;
-
-    // infer height from age;
-    if ( age === undefined ) {
-      age = providedOptions.height! / 10;
-    }
-
-    this.printAge( age );
-  }
-
-  /**
-   * @private
-   * @param {number} x
-   */
-  printAge( x: number ) {
-    // console.log( x );
-  }
-}
+const PERSON_DEFAULTS = {
+  // (0) (7) New pattern doesn't use `required()` for non-optional options. (like for `name`)
+  hasShirt: true,
+  height: 50, // (1)
+  attitude: '',
+  personitude: 'very much so',
+  age: 0,
+  dogOptions: { age: 2 }
+};
 
 class Person {
   dog: Dog;
@@ -142,90 +97,65 @@ class Person {
   constructor( providedOptions: PersonOptions ) {
 
     // Access before merge, only because it's required.
-    // console.log( providedOptions.name );
+    console.log( providedOptions.name );
 
-    const options = merge<PersonOptions>( {
-      hasShirt: true,
-      // name: required( options.name ), // not needed because it is supported by the type (1) (7) // TODO: we don't need `required()` anymore in typescript. https://github.com/phetsims/chipper/issues/1128
-      height: 50, // (1)
-      attitude: '',
-      personitude: 'very much so',
-      age: 0,
-      dogOptions: { height: 1000 } // TODO: this doesn't yet support the XOR piece of dogOptions, because it will merge age into this with height also, and be fine!
-    }, providedOptions );
-
-    // console.log(
-    //   'Person',
-    //   options.name,
-    //   options.hasShirt,
-    //   options.height,
-    //   options.attitude,
-    //   options.age,
-    //   options.dogOptions
-    // );
+    const options = merge( {}, PERSON_DEFAULTS, providedOptions );
 
     this.dog = new Dog( options.dogOptions );
   }
 }
 
-// B. Options owned and used by CoolPerson
-type CoolPersonDefinedOptions = {
+type EmployeeOptions = {
   isAwesome?: boolean,
   isRequiredAwesome: boolean
-};
+} & Omit<PersonOptions, 'attitude'>;
 
-// A. What is allowed in constructor, will be the public-facing API options, so name it as the normal convention (ClassOptions)
-type CoolPersonOptions = CoolPersonDefinedOptions & Omit<PersonOptions, 'attitude'>;
-
-// C. What is allowed in object used in type/constructor. TODO: do we need to append back in attitude to be set in options, or should we just allow a new object to be created https://github.com/phetsims/chipper/issues/1128
-// type CoolPersonImplementationOptions = CoolPersonOptions & Pick<PersonOptions, 'attitude'>
-
-class CoolPerson1 extends Person {
-  constructor( providedOptions: CoolPersonOptions ) {
+class Employee extends Person {
+  constructor( providedOptions: EmployeeOptions ) {
 
     // before merge because it is required
-    // console.log( providedOptions.isRequiredAwesome );
+    console.log( providedOptions.isRequiredAwesome );
 
-    const options = merge<CoolPersonDefinedOptions, CoolPersonOptions>( {
-      // isRequiredAwesome: required( options.isRequiredAwesome ), // (0) // TODO: don't need required in typescript anymore. https://github.com/phetsims/chipper/issues/1128
-      isAwesome: true, // (2)
-      hasShirt: false, // (3)
-      age: 5
-    }, providedOptions );
+    const options = merge( {
+        isAwesome: true, // (2)
+        // hasShirt: false, // (3)
+        // personitude: 'hello', // (4).a
+        // attitude: 'cool' // (5).a
+        // personitude: PERSON_DEFAULTS.personitude, // (4).b This is one way to indicate to the type system that personitude will be used in the constructor
+        age: 5
+      },
+      // PERSON_DEFAULTS, // (4).c This is one way to indicate to the type system that personitude will be used in the constructor
+      providedOptions );
 
-    // (5) TODO: this should be allowed, https://github.com/phetsims/chipper/issues/1128
+    // (5) Use a strategy like (4).b (4).c to "tell" TypeScript that options has an attitude attribute
+    // Or just define it there in the first place, like (5).a
     // options.attitude = 'cool';
 
-    // (4) TODO: Should this fail without a default??, https://github.com/phetsims/chipper/issues/1128
-    console.log( options.personitude );
+    // (4) This would only work if you supply (4)(a) (b) or (c) above.
+    // const x: string = options.personitude;
+    // console.log( x );
 
-    // (4) TODO: how to use age and know it is defined from the default?!?! https://github.com/phetsims/chipper/issues/1128
-    // console.log( 'My age is', options.age - 1 ); // cool people seem younger
+    // (4) If you have optional usage sites in the constructor, you can leave it optional in the merge types
+    const a = ( m?: string ) => {};
+    a( options.personitude );
+
+    // (4) Merge knows age is defined here because it appears in Employee's merge
+    console.log( 'My age is', options.age - 1 ); // cool people seem younger
 
     // TODO: why is this case useful? https://github.com/phetsims/chipper/issues/1128
     if ( options.hasOwnProperty( 'dogOptions' ) ) {
       // console.log( 'Nondefault dog options, I AM GETTING A DOG', options.dogOptions ); // cool people seem younger
     }
 
-    // console.log(
-    //   'CoolPerson1',
-    //   options.name,
-    //   options.isAwesome,
-    //   options.hasShirt,
-    //   options.isRequiredAwesome
-    // );
-
-    // (5) create a new object to pass up options that we set in this constructor for the supertype.
-    super( { ...options, ...{ attitude: 'cool' } } );
+    super( options );
   }
-
 }
 
-class JohnTheCoolPerson extends CoolPerson1 {
-  constructor( providedOptions?: CoolPersonOptions ) { // (9), note that if options are optional, then they get a question mark here.
+class EmployeeOfTheMonth extends Employee {
+  constructor( providedOptions?: EmployeeOptions ) { // (8), note that if options are optional, then they get a question mark here.
 
-    const options = merge<{}, CoolPersonOptions>( {
-      // name: 'John, so cool', // TODO: why doesn't this fail! It is a required argument to CoolPersonOptions right?  https://github.com/phetsims/chipper/issues/1128
+    const options = merge( {
+      // name: 'John, so cool', // TODO: why doesn't this fail when commented out! It is a required argument to EmployeeOptions but providedOptions is optional?  https://github.com/phetsims/chipper/issues/1128
       isRequiredAwesome: true
     }, providedOptions );
 
@@ -233,32 +163,31 @@ class JohnTheCoolPerson extends CoolPerson1 {
   }
 }
 
-
 class WilderOptionsTypescriptTestModel {
-  private coolPerson1: CoolPerson1;
-  private coolPerson1Other: CoolPerson1;
-  private john: JohnTheCoolPerson;
+  private bob: Employee;
+  private charlie: Employee;
+  private alice: EmployeeOfTheMonth;
 
   constructor() {
 
-    // Strategy 1
-    this.coolPerson1 = new CoolPerson1( {
+    this.bob = new Employee( {
       isRequiredAwesome: true, // (2)
       isAwesome: false, // (2)
-      dogOptions: { age: 3 },
-      name: 'Georgey' // (1)
+      dogOptions: { age: 3, name: 'dog name' },
+      name: 'Bob' // (1)
     } );
-    this.coolPerson1Other = new CoolPerson1( {
+    this.charlie = new Employee( {
       isRequiredAwesome: true, // (2)
       isAwesome: false, // (2)
-      name: 'Georgey2', // (1)
+      name: 'Charlie', // (1) if you comment this out, it will be an error because it is a required option
       height: 49, // (1)
       hasShirt: true // (3)
 
-      // attitude: 'hi' // (5) working as expected, this will throw a compile error if uncommented
+      // countryOfOrigin: 'america' ERROR countryOfOrigin is not in any known options.
+      // attitude: 'hi' // ERROR (5) not allowed in EmployeeOptions
     } );
 
-    this.john = new JohnTheCoolPerson(); // (9)
+    this.alice = new EmployeeOfTheMonth(); // (8) no argument needed because everything is optional.
   }
 }
 
