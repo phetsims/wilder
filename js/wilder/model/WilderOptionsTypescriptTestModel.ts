@@ -23,6 +23,8 @@
  * (6) Support for nested sub-options patterns throughout (like dogOptions)
  * (7) Parent has required parameters too
  * (8) Options as a parameter must support being optional, like `providedOptions?`
+ * (9) The type checker indicates if you specified an unknown key
+ * (10) IDE support navigates from usage sites to key declarations.
  *
  * Comments below annotate where these constraints are tested.
  *
