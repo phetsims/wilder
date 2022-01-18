@@ -45,22 +45,26 @@
  */
 
 import merge from '../../../../phet-core/js/merge.js';
+import optionize from '../../../../phet-core/js/optionize.js';
 import wilder from '../../wilder.js';
 
-// You can mention the age or the height of a dog, but not both.
 type DogOptions = {
   name: string;
   age?: number;
+  isGood?: boolean;
 };
 
 class Dog {
   age: number;
   name: string;
+  isGood?: boolean; // Note that since there was no default, Typescript knows it must support undefined
 
   constructor( providedOptions: DogOptions ) {
     const options = merge( { age: 0 }, providedOptions );
     this.age = options.age;
     this.name = options.name;
+
+    this.isGood = options.isGood;
   }
 
   printAge() {
@@ -68,47 +72,50 @@ class Dog {
   }
 }
 
-type PersonOptions = {
+type PersonSelfOptions = {
   name: string; // (1)
   hasShirt?: boolean;
   height?: number;
   attitude?: string; // (5)
   personitude?: string,
 
-  // (6) // TODO: remove the question mark and note a problem here, a usage is marked as wrong, but a default is filled
-  //        TODO: in up the hierarchy before we get to PersonOptions, booo, https://github.com/phetsims/chipper/issues/1128
+  // (6) This needs to be a required property because it has a nested, required option
+  // (6) TODO, no error for required nested things if you add a "?", is this acceptable? https://github.com/phetsims/chipper/issues/1128
   dogOptions?: DogOptions;
   age?: number;
 }
 
-const PERSON_DEFAULTS = {
-  // (0) (7) New pattern doesn't use `required()` for non-optional options. (like for `name`)
-  hasShirt: true,
-  height: 50, // (1)
-  attitude: '',
-  personitude: 'very much so',
-  age: 0,
-  dogOptions: { age: 2 }
-};
+type PersonOptions = PersonSelfOptions & {}; // no parent options
 
 class Person {
   dog: Dog;
 
-  constructor( providedOptions: PersonOptions ) {
+  constructor( providedOptions: PersonSelfOptions ) {
 
-    // Access before merge, only because it's required.
-    console.log( providedOptions.name );
-
-    const options = merge( {}, PERSON_DEFAULTS, providedOptions );
+    const options = optionize<PersonSelfOptions, {}, PersonOptions>()( {
+      // (0) (7) New pattern doesn't use `required()` for non-optional options. (like for `name`)
+      hasShirt: true,
+      height: 7, // <-- I commented this out to see this ERROR
+      attitude: '',
+      personitude: 'very much so',
+      age: 0,
+      dogOptions: { name: 'spot' }
+    }, providedOptions );
+    options.dogOptions;
+    options.age;
+    options.hasShirt;
 
     this.dog = new Dog( options.dogOptions );
   }
 }
 
-type EmployeeOptions = {
-  isAwesome?: boolean,
-  isRequiredAwesome: boolean
-} & Omit<PersonOptions, 'attitude'>;
+type EmployeeSelfOptions = {
+  isAwesome?: boolean;
+  isRequiredAwesome: boolean;
+  age?: number;
+};
+
+type EmployeeOptions = EmployeeSelfOptions & Omit<PersonOptions, 'attitude'>;
 
 class Employee extends Person {
   constructor( providedOptions: EmployeeOptions ) {
@@ -116,12 +123,12 @@ class Employee extends Person {
     // before merge because it is required
     console.log( providedOptions.isRequiredAwesome );
 
-    const options = merge( {
+    const options = optionize<EmployeeSelfOptions, PersonOptions, EmployeeOptions, 'personitude'>()( {
         isAwesome: true, // (2)
         // hasShirt: false, // (3)
         // personitude: 'hello', // (4).a
         // attitude: 'cool' // (5).a
-        // personitude: PERSON_DEFAULTS.personitude, // (4).b This is one way to indicate to the type system that personitude will be used in the constructor
+        personitude: 'personable',
         age: 5
       },
       // PERSON_DEFAULTS, // (4).c This is one way to indicate to the type system that personitude will be used in the constructor
@@ -139,7 +146,7 @@ class Employee extends Person {
     const a = ( m?: string ) => {};
     a( options.personitude );
 
-    // (4) Merge knows age is defined here because it appears in Employee's merge
+    // (4) Merge knows age is defined here because it is optional in EmployeeSelfOptions, so it must have a default.
     console.log( 'My age is', options.age - 1 ); // cool people seem younger
 
     // TODO: why is this case useful? https://github.com/phetsims/chipper/issues/1128
