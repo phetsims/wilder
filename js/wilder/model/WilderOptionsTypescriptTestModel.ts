@@ -92,7 +92,7 @@ class Person {
 
   constructor( providedOptions: PersonSelfOptions ) {
 
-    const options = optionize<PersonSelfOptions, {}, PersonOptions>()( {
+    const options = optionize<PersonSelfOptions, {}, PersonOptions>( {
       // (0) (7) New pattern doesn't use `required()` for non-optional options. (like for `name`)
       hasShirt: true,
       height: 7, // <-- I commented this out to see this ERROR
@@ -123,7 +123,7 @@ class Employee extends Person {
     // before merge because it is required
     console.log( providedOptions.isRequiredAwesome );
 
-    const options = optionize<EmployeeSelfOptions, PersonOptions, EmployeeOptions, 'personitude'>()( {
+    const options = optionize<EmployeeSelfOptions, PersonOptions, EmployeeOptions, 'personitude'>( {
         isAwesome: true, // (2)
         // hasShirt: false, // (3)
         // personitude: 'hello', // (4).a
