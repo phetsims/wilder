@@ -184,7 +184,7 @@ class EmployeeOfTheMonth extends Employee {
   }
 }
 
-class WilderOptionsTypescriptTestModel {
+class WilderOptionsPatterns {
   private bob: Employee;
   private charlie: Employee;
   private alice: EmployeeOfTheMonth;
@@ -214,5 +214,5 @@ class WilderOptionsTypescriptTestModel {
   }
 }
 
-wilder.register( 'WilderOptionsTypescriptTestModel', WilderOptionsTypescriptTestModel );
-export default WilderOptionsTypescriptTestModel;
+wilder.register( 'WilderOptionsPatterns', WilderOptionsPatterns );
+export default WilderOptionsPatterns;

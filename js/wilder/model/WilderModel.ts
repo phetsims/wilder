@@ -12,7 +12,7 @@
 import interleave from '../../../../phet-core/js/interleave.js';
 import { Node } from '../../../../scenery/js/imports.js';
 import wilder from '../../wilder.js';
-import WilderOptionsTypescriptTestModel from './WilderOptionsTypescriptTestModel.js';
+import WilderOptionsPatterns from './WilderOptionsPatterns.js';
 import WilderEnumerationPatterns from './WilderEnumerationPatterns.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 
@@ -31,15 +31,15 @@ type WilderModelOptions = {
 };
 
 class WilderModel {
-  private wilderOptionsTypescriptTestModel: WilderOptionsTypescriptTestModel;
+  private wilderOptionsPatterns: WilderOptionsPatterns;
   private wilderEnumerationPatterns: WilderEnumerationPatterns;
 
   constructor( providedOptions: WilderModelOptions ) {
 
     // @private
-    this.wilderOptionsTypescriptTestModel = new WilderOptionsTypescriptTestModel();
+    this.wilderOptionsPatterns = new WilderOptionsPatterns();
     this.wilderEnumerationPatterns = new WilderEnumerationPatterns( {
-      tandem: providedOptions.tandem.createTandem( 'enumerationsModel' )
+      tandem: providedOptions.tandem.createTandem( 'wilderEnumerationPatterns' )
     } );
 
     // We want a built version to error out for these "asserts"
