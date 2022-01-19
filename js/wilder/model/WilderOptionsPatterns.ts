@@ -10,8 +10,8 @@
  *
  * Structure and terminology of classes defined in this file:
  * class Person (supertype)
- * class CoolPerson (subtype)
- * `new CoolPerson` (usage)
+ * class Employee (subtype)
+ * `new Employee` (usage)
  *
  * Constraints that PhET needs to support in its options pattern:
  * (0) Some providedOptions are required, others are optional
@@ -30,11 +30,12 @@
  *
  * In general, the pattern is to define that there are 3 different Types for a single options object in a class.
  * A. The type that you can pass in as options (the public one). This is anded with any and all supertype options.
- * B. The options that the specific type defines and uses.
- * C. The options that are available after merge within the type (constructor or elsewhere), and always consist of the
- * class-defined options (B), but could also potentially consist of supertype options, but only if opting in.
- *
- * In many simpler cases, (B) and (C) are the same, but (C) may need to be defined in addition (see CoolPersonImplementationOptions)
+ * This is the type of providedOptions, the constructor parameter.
+ * B. The options that the specific type defines and uses. This is SubclassSelfOptions, the first generic parameter to
+ * optionize.js.
+ * C. The options that are available after merge within the type (constructor or elsewhere), and always consist of
+ * SubclassSelfOptions (B), but could also potentially consist of supertype options, but only if opting in.  This
+ * variable is typically named options.
  *
  * Variable naming:
  * - Because typescript now codifies the difference between config and options, there is no need to have anything but "options"
@@ -89,7 +90,8 @@ type PersonSelfOptions = {
   attitude?: string; // (5)
   personitude?: string,
 
-  // (6) (I) If it is optional here, then it better be in the providedOptions, otherwise, just make it required here for more type safety and less flexibility.
+  // (6) (I) If it is optional here, then it better be in the default options or providedOptions, otherwise, just make
+  // it required here for more type safety and less flexibility.
   dogOptions?: Partial<DogOptions>;
   age?: number;
 }
@@ -130,6 +132,11 @@ type EmployeeSelfOptions = {
 type EmployeeOptions = EmployeeSelfOptions & Omit<PersonOptions, 'attitude'>;
 
 class Employee extends Person {
+
+  private isAwesome: boolean;
+  private isRequiredAwesome: boolean;
+  private age: number;
+
   constructor( providedOptions: EmployeeOptions ) {
 
     // before merge because it is required
@@ -169,14 +176,20 @@ class Employee extends Person {
     console.log( 'My age is', options.age - 1 ); // cool people seem younger
 
     super( options );
+
+    this.isAwesome = options.isAwesome;
+    this.isRequiredAwesome = options.isRequiredAwesome;
+    this.age = options.age;
   }
 }
 
-class EmployeeOfTheMonth extends Employee {
-  constructor( providedOptions?: EmployeeOptions ) { // (8), note that if options are optional, then they get a question mark here.
+type EmployeeOfTheMonthOptions = Omit< EmployeeOptions, 'isRequiredAwesome'>
 
-    const options = optionize<{}, EmployeeOptions>( {
-      // name: 'Bob, so cool', // Limitation (I) why doesn't this fail when commented out! It is a required argument to EmployeeOptions but providedOptions is optional?  https://github.com/phetsims/chipper/issues/1128
+class EmployeeOfTheMonth extends Employee {
+  constructor( providedOptions: EmployeeOfTheMonthOptions ) { // (8), note that if options are optional, then they get a question mark here.
+
+    const options = optionize<{}, EmployeeOptions, 'isRequiredAwesome', EmployeeOfTheMonthOptions >( {
+      // name: 'Bob', // Limitation (I) why doesn't this fail when commented out! It is a required argument to EmployeeOptions but providedOptions is optional?  https://github.com/phetsims/chipper/issues/1128
       isRequiredAwesome: true
     }, providedOptions );
 
@@ -210,7 +223,9 @@ class WilderOptionsPatterns {
       // attitude: 'hi' // ERROR (5) not allowed in EmployeeOptions
     } );
 
-    this.alice = new EmployeeOfTheMonth(); // (8) no argument needed because everything is optional.
+    this.alice = new EmployeeOfTheMonth( {
+      name: 'Melissa' // (8) if not for limitation (I), EmployeeOfTheMonth would always have name 'Bob'
+    } );
   }
 }
 
