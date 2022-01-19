@@ -52,7 +52,6 @@
  * @author Michael Kauzmann (PhET Interactive Simulations)
  */
 
-import merge from '../../../../phet-core/js/merge.js';
 import optionize from '../../../../phet-core/js/optionize.js';
 import wilder from '../../wilder.js';
 
@@ -68,7 +67,10 @@ class Dog {
   isGood?: boolean; // Note that since there was no default, Typescript knows it must support undefined
 
   constructor( providedOptions: DogOptions ) {
-    const options = merge( { age: 0 }, providedOptions );
+    const options = optionize<DogOptions>( {
+      age: 0,
+      isGood: true
+    }, providedOptions );
     this.age = options.age;
     this.name = options.name;
 
