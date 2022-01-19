@@ -101,7 +101,6 @@ class Person {
 
   constructor( providedOptions: PersonOptions ) {
 
-    // TODO: Lint rule that optionize( is bad text, see https://github.com/phetsims/chipper/issues/1128
     const options = optionize<PersonSelfOptions>( {
       // (0) (7) New pattern doesn't use `required()` for non-optional options. (like for `name`)
       hasShirt: true,
