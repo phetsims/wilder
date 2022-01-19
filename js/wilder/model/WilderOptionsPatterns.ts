@@ -56,6 +56,183 @@
 import optionize from '../../../../phet-core/js/optionize.js';
 import wilder from '../../wilder.js';
 
+////////////////////////////////////////////////////////////////////////////////////////////////
+// Basic Examples that utilize common PhET options patterns.
+
+// Here is a classic Super class implementation, let's call it Node
+
+type NodeOptions = {
+  children?: Node[];
+  x?: number;
+  y?: number
+};
+
+class Node {
+  private children: Node[];
+  private x: number;
+  private y: any;
+
+  constructor( providedOptions?: NodeOptions ) {
+
+    // In the simplest case, optionize just takes the options that this class defines.
+    const options = optionize<NodeOptions>( {
+      children: [],
+      x: 0,
+      y: 0
+    }, providedOptions );
+    this.children = options.children;
+    this.x = options.x;
+    this.y = options.y;
+  }
+
+  getChildren() {
+    return this.children;
+  }
+}
+
+const nodes: Node[] = [];
+
+
+////////
+// Example One: Basic subtype creates options and uses supertype options:
+type MyNodeSelfOptions = {
+  mySpecialNumber?: number
+};
+
+type MyNodeOptions = MyNodeSelfOptions & NodeOptions;
+
+class MyNode extends Node {
+  private mySpecialNumber: number;
+
+  constructor( providedOptions?: MyNodeOptions ) {
+
+    // Here optionize takes all options that it defines, and also its parent options so that those are allowed to be
+    // passed through the super call. By default, optionize knows what the combined type of "providedOptions" (defaults to SelfOptions & ParentOptions).
+    const options = optionize<MyNodeSelfOptions, NodeOptions>( {
+      mySpecialNumber: 2,
+      x: 10,
+      y: 10
+      // blarg: false // ERROR - optionize knows what options from this class and the parent are allowed, and no others are accepted.
+    }, providedOptions );
+
+    super( options );
+
+    this.mySpecialNumber = options.mySpecialNumber;
+  }
+}
+
+nodes.push( new MyNode() );
+nodes.push( new MyNode( { mySpecialNumber: 4 } ) );
+nodes.push( new MyNode( { x: 100, y: 100 } ) );
+
+
+////////
+// Example Two: A Required parameter
+
+type TreeNodeSelfOptions = {
+  treeType: 'cedar' | 'pine'
+}
+type TreeNodeOptions = TreeNodeSelfOptions & NodeOptions;
+
+class TreeNode extends Node {
+  private treeType: TreeNodeSelfOptions[ 'treeType' ];
+
+  constructor( providedOptions: TreeNodeOptions ) {
+    const options = optionize<TreeNodeSelfOptions, NodeOptions>( {}, providedOptions );
+    super( options );
+    this.treeType = options.treeType;
+  }
+}
+
+// nodes.push( new TreeNode() ); // ERROR: required parameter
+nodes.push( new TreeNode( { treeType: 'cedar' } ) );
+nodes.push( new TreeNode( {
+  treeType: 'pine',
+  children: [ new Node() ] // eslint-disable-line no-html-constructors
+} ) );
+
+
+////////
+// Example Three: nested options
+type NodeContainerOptions = {
+  nodeOptions?: NodeOptions
+};
+
+class NodeContainer {
+  private node: Node;
+
+  constructor( providedOptions: NodeContainerOptions ) {
+    const options = optionize<NodeContainerOptions>( {
+      nodeOptions: {
+        x: 5,
+        y: 5
+      }
+    }, providedOptions );
+
+    this.node = new Node( options.nodeOptions ); // eslint-disable-line no-html-constructors
+  }
+}
+
+const container = new NodeContainer( {
+  nodeOptions: {
+    children: [ new MyNode() ]
+  }
+} );
+console.log( container );
+
+
+////////
+// Example Four: Narrowing parent options scope
+
+// Another way to do this in this case would be Pick<NodeOptions, 'children'>, depending on opt-in/opt-out preference for narrowing API
+type StationaryNodeOptions = Omit<NodeOptions, 'x' | 'y'>
+
+class StationaryNode extends Node {
+  constructor( providedOptions?: StationaryNodeOptions ) {
+
+    // Here, since there are no self options, and instead just modified parent options, pass the public options in as the parent options
+    const options = optionize<{}, StationaryNodeOptions>( {}, providedOptions );
+
+    super( options );
+  }
+}
+
+nodes.push( new StationaryNode() );
+// nodes.push( new StationaryNode( { x: 6 } ) ); // ERROR
+
+////////
+// Example Five: Using a parent option in the subtype constructor
+
+// It is a bit safer in common code to keep this alias, even when identical. This way, if you export your public
+// options, you don't skip a level and need to do a global refactor if you want to add an option to this subtype.
+type ChildrenAdapterNodeOptions = NodeOptions
+
+class ChildrenAdapterNode extends Node {
+  constructor( providedOptions?: ChildrenAdapterNodeOptions ) {
+
+    // Adding the third argument makes sure that children is known to be defined, for usage later in the constructor
+    const options = optionize<{}, ChildrenAdapterNodeOptions, 'children'>( {
+      children: [ new MyNode() ]
+    }, providedOptions );
+
+    // Without the 'children' type in optionize, typescript would think that options.children could be undefined
+    options.children.push( new MyNode() );
+
+    super( options );
+  }
+}
+
+nodes.push( new ChildrenAdapterNode() );
+nodes.push( new ChildrenAdapterNode( { children: [ new MyNode() ] } ) );
+nodes.push( new ChildrenAdapterNode( { children: [ new MyNode() ], x: 10, y: 10 } ) );
+
+////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////
+// Below is a class hierarchy meant to exercise the complete feature set (and limitation set) of the current options
+// pattern. It is much more complicated, and it is recommended to start in the above examples.
+
 type DogOptions = {
   name: string;
   age?: number;
@@ -183,12 +360,12 @@ class Employee extends Person {
   }
 }
 
-type EmployeeOfTheMonthOptions = Omit< EmployeeOptions, 'isRequiredAwesome'>
+type EmployeeOfTheMonthOptions = Omit<EmployeeOptions, 'isRequiredAwesome'>
 
 class EmployeeOfTheMonth extends Employee {
   constructor( providedOptions: EmployeeOfTheMonthOptions ) { // (8), note that if options are optional, then they get a question mark here.
 
-    const options = optionize<{}, EmployeeOptions, 'isRequiredAwesome', EmployeeOfTheMonthOptions >( {
+    const options = optionize<{}, EmployeeOptions, 'isRequiredAwesome', EmployeeOfTheMonthOptions>( {
       // name: 'Bob', // Limitation (I) why doesn't this fail when commented out! It is a required argument to EmployeeOptions but providedOptions is optional?  https://github.com/phetsims/chipper/issues/1128
       isRequiredAwesome: true
     }, providedOptions );
