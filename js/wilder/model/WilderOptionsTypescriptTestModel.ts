@@ -46,6 +46,7 @@
  * Current limitations of the options pattern:
  * (I) Required parameters of parent options can potentially be specified by defaults in the subtype, or through
  * providedOptions. The current optionize does not know where it comes from, and cannot guarantee that its return value has the required parameter.
+ * (II) Using the third type parameter for nested options is not ideal. The "Required" piece isn't deep, so defaults aren't filled in as required.
  *
  * @author Sam Reid (PhET Interactive Simulations)
  * @author Michael Kauzmann (PhET Interactive Simulations)
@@ -86,9 +87,8 @@ type PersonSelfOptions = {
   attitude?: string; // (5)
   personitude?: string,
 
-  // (6) This needs to be a required property because it has a nested, required option
-  // (6) TODO, no error for required nested things if you add a "?", is this acceptable? https://github.com/phetsims/chipper/issues/1128
-  dogOptions?: DogOptions;
+  // (6) (I) If it is optional here, then it better be in the providedOptions, otherwise, just make it required here for more type safety and less flexibility.
+  dogOptions?: Partial<DogOptions>;
   age?: number;
 }
 
@@ -107,13 +107,16 @@ class Person {
       attitude: '',
       personitude: 'very much so',
       age: 0,
-      dogOptions: { name: 'spot' }
+      dogOptions: { isGood: false }
     }, providedOptions );
     options.dogOptions;
     options.age;
     options.hasShirt;
 
-    this.dog = new Dog( options.dogOptions );
+    // (I) Remove type cast because name should be known to come from providedOptions. Alternatively, you can specify as
+    // part of PersonOptions that we must get dogOptions.name. This counteracts the `Partial` and lets it be known in
+    // the Person constructor that dogOptions is complete at this point.
+    this.dog = new Dog( options.dogOptions as DogOptions );
   }
 }
 
@@ -131,14 +134,17 @@ class Employee extends Person {
     // before merge because it is required
     console.log( providedOptions.isRequiredAwesome );
 
-    const options = optionize<EmployeeSelfOptions, PersonOptions, 'personitude', EmployeeOptions>( {
+    const options = optionize<EmployeeSelfOptions, PersonOptions, 'personitude' | 'dogOptions', EmployeeOptions>( {
         // blarg: true,
         isAwesome: true, // (2)
         // hasShirt: false, // (3)
         // personitude: 'hello', // (4).a
         // attitude: 'cool' // (5).a
         personitude: 'personable',
-        age: 5
+        age: 5,
+        dogOptions: {
+          isGood: true
+        }
       },
       // PERSON_DEFAULTS, // (4).c This is one way to indicate to the type system that personitude will be used in the constructor
       providedOptions );
@@ -151,17 +157,15 @@ class Employee extends Person {
     // const x: string = options.personitude;
     // console.log( x );
 
+    // (II) dogOptions.isGood is still potentially undefined when using in the constructor, even though we added `dogOptions` as a key in the third arg
+    // console.log( options.dogOptions.isGood );
+
     // (4) If you have optional usage sites in the constructor, you can leave it optional in the merge types
     const a = ( m?: string ) => {};
     a( options.personitude );
 
     // (4) Merge knows age is defined here because it is optional in EmployeeSelfOptions, so it must have a default.
     console.log( 'My age is', options.age - 1 ); // cool people seem younger
-
-    // TODO: why is this case useful? https://github.com/phetsims/chipper/issues/1128
-    if ( options.hasOwnProperty( 'dogOptions' ) ) {
-      // console.log( 'Nondefault dog options, I AM GETTING A DOG', options.dogOptions ); // cool people seem younger
-    }
 
     super( options );
   }
@@ -171,7 +175,7 @@ class EmployeeOfTheMonth extends Employee {
   constructor( providedOptions?: EmployeeOptions ) { // (8), note that if options are optional, then they get a question mark here.
 
     const options = optionize<{}, EmployeeOptions>( {
-      // name: 'John, so cool', // (I) TODO: why doesn't this fail when commented out! It is a required argument to EmployeeOptions but providedOptions is optional?  https://github.com/phetsims/chipper/issues/1128
+      // name: 'Bob, so cool', // Limitation (I) why doesn't this fail when commented out! It is a required argument to EmployeeOptions but providedOptions is optional?  https://github.com/phetsims/chipper/issues/1128
       isRequiredAwesome: true
     }, providedOptions );
 
@@ -197,7 +201,9 @@ class WilderOptionsTypescriptTestModel {
       isAwesome: false, // (2)
       name: 'Charlie', // (1) if you comment this out, it will be an error because it is a required option
       height: 49, // (1)
-      hasShirt: true // (3)
+      hasShirt: true, // (3)
+      dogOptions: { name: 'other dog name' }
+
 
       // countryOfOrigin: 'america' ERROR countryOfOrigin is not in any known options.
       // attitude: 'hi' // ERROR (5) not allowed in EmployeeOptions
