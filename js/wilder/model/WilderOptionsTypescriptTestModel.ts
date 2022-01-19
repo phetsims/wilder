@@ -42,6 +42,11 @@
  * - We cannot override the value of a variable and also change its type, thus the options argument must be named differently from the
  * value returned from the `merge` call. It is conventional to call the parameter "providedOptions" and the merged object "options".
  *
+ *
+ * Current limitations of the options pattern:
+ * (I) Required parameters of parent options can potentially be specified by defaults in the subtype, or through
+ * providedOptions. The current optionize does not know where it comes from, and cannot guarantee that its return value has the required parameter.
+ *
  * @author Sam Reid (PhET Interactive Simulations)
  * @author Michael Kauzmann (PhET Interactive Simulations)
  */
@@ -165,8 +170,8 @@ class Employee extends Person {
 class EmployeeOfTheMonth extends Employee {
   constructor( providedOptions?: EmployeeOptions ) { // (8), note that if options are optional, then they get a question mark here.
 
-    const options = merge( {
-      // name: 'John, so cool', // TODO: why doesn't this fail when commented out! It is a required argument to EmployeeOptions but providedOptions is optional?  https://github.com/phetsims/chipper/issues/1128
+    const options = optionize<{}, EmployeeOptions>( {
+      // name: 'John, so cool', // (I) TODO: why doesn't this fail when commented out! It is a required argument to EmployeeOptions but providedOptions is optional?  https://github.com/phetsims/chipper/issues/1128
       isRequiredAwesome: true
     }, providedOptions );
 
