@@ -48,6 +48,9 @@
  * (I) Required parameters of parent options can potentially be specified by defaults in the subtype, or through
  * providedOptions. The current optionize does not know where it comes from, and cannot guarantee that its return value has the required parameter.
  * (II) Using the third type parameter for nested options is not ideal. The "Required" piece isn't deep, so defaults aren't filled in as required.
+ * (III) Factoring out defaults into "DEFAULT_*_OPTIONS" causes a type inference that doesn't occur when providing an
+ * object literal as the "defaults" argument to optionize. This means that you must provide a type where you declare the
+ * defaults variable in order to get type safety about the contents of those defaults.
  *
  * @author Sam Reid (PhET Interactive Simulations)
  * @author Michael Kauzmann (PhET Interactive Simulations)
@@ -75,7 +78,7 @@ class Item {
   constructor( providedOptions?: ItemOptions ) {
 
     // In the simplest case, optionize just takes the options that this class defines.
-    const options = optionize<ItemOptions>( {
+    const options = optionize<ItemOptions, ItemOptions>( {
       children: [],
       x: 0,
       y: 0
@@ -108,7 +111,7 @@ class MyItem extends Item {
 
     // Here optionize takes all options that it defines, and also its parent options so that those are allowed to be
     // passed through the super call. By default, optionize knows what the combined type of "providedOptions" (defaults to SelfOptions & ParentOptions).
-    const options = optionize<MyItemSelfOptions, ItemOptions>( {
+    const options = optionize<MyItemOptions, MyItemSelfOptions, ItemOptions>( {
       mySpecialNumber: 2,
       x: 10,
       y: 10
@@ -138,7 +141,7 @@ class TreeItem extends Item {
   private treeType: TreeItemSelfOptions[ 'treeType' ];
 
   constructor( providedOptions: TreeItemOptions ) {
-    const options = optionize<TreeItemSelfOptions, ItemOptions>( {}, providedOptions );
+    const options = optionize<TreeItemOptions, TreeItemSelfOptions, ItemOptions>( {}, providedOptions );
     super( options );
     this.treeType = options.treeType;
   }
@@ -162,7 +165,7 @@ class ItemContainer {
   private node: Item;
 
   constructor( providedOptions: ItemContainerOptions ) {
-    const options = optionize<ItemContainerOptions>( {
+    const options = optionize<ItemContainerOptions, ItemContainerOptions>( {
       nodeOptions: {
         x: 5,
         y: 5
@@ -191,7 +194,7 @@ class StationaryItem extends Item {
   constructor( providedOptions?: StationaryItemOptions ) {
 
     // Here, since there are no self options, and instead just modified parent options, pass the public options in as the parent options
-    const options = optionize<{}, StationaryItemOptions>( {}, providedOptions );
+    const options = optionize<StationaryItemOptions, {}, StationaryItemOptions>( {}, providedOptions );
 
     super( options );
   }
@@ -211,7 +214,7 @@ class ChildrenAdapterItem extends Item {
   constructor( providedOptions?: ChildrenAdapterItemOptions ) {
 
     // Adding the third argument makes sure that children is known to be defined, for usage later in the constructor
-    const options = optionize<{}, ChildrenAdapterItemOptions, 'children'>( {
+    const options = optionize<ChildrenAdapterItemOptions, {}, ChildrenAdapterItemOptions, 'children'>( {
       children: [ new MyItem() ]
     }, providedOptions );
 
@@ -245,7 +248,7 @@ class Dog {
   isGood?: boolean; // Note that since there was no default, Typescript knows it must support undefined
 
   constructor( providedOptions: DogOptions ) {
-    const options = optionize<DogOptions>( {
+    const options = optionize<DogOptions, DogOptions>( {
       age: 0,
       isGood: true
     }, providedOptions );
@@ -280,7 +283,7 @@ class Person {
 
   constructor( providedOptions: PersonOptions ) {
 
-    const options = optionize<PersonSelfOptions>( {
+    const options = optionize<PersonOptions, PersonSelfOptions>( {
       // (0) (7) New pattern doesn't use `required()` for non-optional options. (like for `name`)
       hasShirt: true,
       height: 7, // <-- I commented this out to see this ERROR
@@ -319,7 +322,7 @@ class Employee extends Person {
     // before merge because it is required
     console.log( providedOptions.isRequiredAwesome );
 
-    const options = optionize<EmployeeSelfOptions, PersonOptions, 'personitude' | 'dogOptions', EmployeeOptions>( {
+    const options = optionize<EmployeeOptions, EmployeeSelfOptions, PersonOptions, 'personitude' | 'dogOptions'>( {
         // blarg: true,
         isAwesome: true, // (2)
         // hasShirt: false, // (3)
@@ -331,7 +334,10 @@ class Employee extends Person {
           isGood: true
         }
       },
-      // PERSON_DEFAULTS, // (4).c This is one way to indicate to the type system that personitude will be used in the constructor
+
+      // (4).c This is one way to indicate to the type system that personitude will be used in the constructor
+      // (III) Note that PERSON_DEFAULTS needs a type where defined, because it isn't an object literal.
+      // PERSON_DEFAULTS,
       providedOptions );
 
     // (5) Use a strategy like (4).b (4).c to "tell" TypeScript that options has an attitude attribute
@@ -365,7 +371,7 @@ type EmployeeOfTheMonthOptions = Omit<EmployeeOptions, 'isRequiredAwesome'>
 class EmployeeOfTheMonth extends Employee {
   constructor( providedOptions: EmployeeOfTheMonthOptions ) { // (8), note that if options are optional, then they get a question mark here.
 
-    const options = optionize<{}, EmployeeOptions, 'isRequiredAwesome', EmployeeOfTheMonthOptions>( {
+    const options = optionize<EmployeeOfTheMonthOptions, {}, EmployeeOptions, 'isRequiredAwesome'>( {
       // name: 'Bob', // Limitation (I) why doesn't this fail when commented out! It is a required argument to EmployeeOptions but providedOptions is optional?  https://github.com/phetsims/chipper/issues/1128
       isRequiredAwesome: true
     }, providedOptions );
