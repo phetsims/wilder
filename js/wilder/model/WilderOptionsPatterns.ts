@@ -59,23 +59,23 @@ import wilder from '../../wilder.js';
 ////////////////////////////////////////////////////////////////////////////////////////////////
 // Basic Examples that utilize common PhET options patterns.
 
-// Here is a classic Super class implementation, let's call it Node
+// Here is a classic Super class implementation, let's call it Item
 
-type NodeOptions = {
-  children?: Node[];
+type ItemOptions = {
+  children?: Item[];
   x?: number;
   y?: number
 };
 
-class Node {
-  private children: Node[];
+class Item {
+  private children: Item[];
   private x: number;
   private y: any;
 
-  constructor( providedOptions?: NodeOptions ) {
+  constructor( providedOptions?: ItemOptions ) {
 
     // In the simplest case, optionize just takes the options that this class defines.
-    const options = optionize<NodeOptions>( {
+    const options = optionize<ItemOptions>( {
       children: [],
       x: 0,
       y: 0
@@ -90,25 +90,25 @@ class Node {
   }
 }
 
-const nodes: Node[] = [];
+const items: Item[] = [];
 
 
 ////////
 // Example One: Basic subtype creates options and uses supertype options:
-type MyNodeSelfOptions = {
+type MyItemSelfOptions = {
   mySpecialNumber?: number
 };
 
-type MyNodeOptions = MyNodeSelfOptions & NodeOptions;
+type MyItemOptions = MyItemSelfOptions & ItemOptions;
 
-class MyNode extends Node {
+class MyItem extends Item {
   private mySpecialNumber: number;
 
-  constructor( providedOptions?: MyNodeOptions ) {
+  constructor( providedOptions?: MyItemOptions ) {
 
     // Here optionize takes all options that it defines, and also its parent options so that those are allowed to be
     // passed through the super call. By default, optionize knows what the combined type of "providedOptions" (defaults to SelfOptions & ParentOptions).
-    const options = optionize<MyNodeSelfOptions, NodeOptions>( {
+    const options = optionize<MyItemSelfOptions, ItemOptions>( {
       mySpecialNumber: 2,
       x: 10,
       y: 10
@@ -121,110 +121,110 @@ class MyNode extends Node {
   }
 }
 
-nodes.push( new MyNode() );
-nodes.push( new MyNode( { mySpecialNumber: 4 } ) );
-nodes.push( new MyNode( { x: 100, y: 100 } ) );
+items.push( new MyItem() );
+items.push( new MyItem( { mySpecialNumber: 4 } ) );
+items.push( new MyItem( { x: 100, y: 100 } ) );
 
 
 ////////
 // Example Two: A Required parameter
 
-type TreeNodeSelfOptions = {
+type TreeItemSelfOptions = {
   treeType: 'cedar' | 'pine'
 }
-type TreeNodeOptions = TreeNodeSelfOptions & NodeOptions;
+type TreeItemOptions = TreeItemSelfOptions & ItemOptions;
 
-class TreeNode extends Node {
-  private treeType: TreeNodeSelfOptions[ 'treeType' ];
+class TreeItem extends Item {
+  private treeType: TreeItemSelfOptions[ 'treeType' ];
 
-  constructor( providedOptions: TreeNodeOptions ) {
-    const options = optionize<TreeNodeSelfOptions, NodeOptions>( {}, providedOptions );
+  constructor( providedOptions: TreeItemOptions ) {
+    const options = optionize<TreeItemSelfOptions, ItemOptions>( {}, providedOptions );
     super( options );
     this.treeType = options.treeType;
   }
 }
 
-// nodes.push( new TreeNode() ); // ERROR: required parameter
-nodes.push( new TreeNode( { treeType: 'cedar' } ) );
-nodes.push( new TreeNode( {
+// items.push( new TreeItem() ); // ERROR: required parameter
+items.push( new TreeItem( { treeType: 'cedar' } ) );
+items.push( new TreeItem( {
   treeType: 'pine',
-  children: [ new Node() ] // eslint-disable-line no-html-constructors
+  children: [ new Item() ] // eslint-disable-line no-html-constructors
 } ) );
 
 
 ////////
 // Example Three: nested options
-type NodeContainerOptions = {
-  nodeOptions?: NodeOptions
+type ItemContainerOptions = {
+  nodeOptions?: ItemOptions
 };
 
-class NodeContainer {
-  private node: Node;
+class ItemContainer {
+  private node: Item;
 
-  constructor( providedOptions: NodeContainerOptions ) {
-    const options = optionize<NodeContainerOptions>( {
+  constructor( providedOptions: ItemContainerOptions ) {
+    const options = optionize<ItemContainerOptions>( {
       nodeOptions: {
         x: 5,
         y: 5
       }
     }, providedOptions );
 
-    this.node = new Node( options.nodeOptions ); // eslint-disable-line no-html-constructors
+    this.node = new Item( options.nodeOptions ); // eslint-disable-line no-html-constructors
   }
 }
 
-const container = new NodeContainer( {
+const container = new ItemContainer( {
   nodeOptions: {
-    children: [ new MyNode() ]
+    children: [ new MyItem() ]
   }
 } );
 console.log( container );
 
 
 ////////
-// Example Four: Narrowing parent options scope
+// Example Four: Narrowing parent options' scope
 
-// Another way to do this in this case would be Pick<NodeOptions, 'children'>, depending on opt-in/opt-out preference for narrowing API
-type StationaryNodeOptions = Omit<NodeOptions, 'x' | 'y'>
+// Another way to do this in this case would be Pick<ItemOptions, 'children'>, depending on opt-in/opt-out preference for narrowing API
+type StationaryItemOptions = Omit<ItemOptions, 'x' | 'y'>
 
-class StationaryNode extends Node {
-  constructor( providedOptions?: StationaryNodeOptions ) {
+class StationaryItem extends Item {
+  constructor( providedOptions?: StationaryItemOptions ) {
 
     // Here, since there are no self options, and instead just modified parent options, pass the public options in as the parent options
-    const options = optionize<{}, StationaryNodeOptions>( {}, providedOptions );
+    const options = optionize<{}, StationaryItemOptions>( {}, providedOptions );
 
     super( options );
   }
 }
 
-nodes.push( new StationaryNode() );
-// nodes.push( new StationaryNode( { x: 6 } ) ); // ERROR
+items.push( new StationaryItem() );
+// items.push( new StationaryItem( { x: 6 } ) ); // ERROR
 
 ////////
 // Example Five: Using a parent option in the subtype constructor
 
 // It is a bit safer in common code to keep this alias, even when identical. This way, if you export your public
 // options, you don't skip a level and need to do a global refactor if you want to add an option to this subtype.
-type ChildrenAdapterNodeOptions = NodeOptions
+type ChildrenAdapterItemOptions = ItemOptions
 
-class ChildrenAdapterNode extends Node {
-  constructor( providedOptions?: ChildrenAdapterNodeOptions ) {
+class ChildrenAdapterItem extends Item {
+  constructor( providedOptions?: ChildrenAdapterItemOptions ) {
 
     // Adding the third argument makes sure that children is known to be defined, for usage later in the constructor
-    const options = optionize<{}, ChildrenAdapterNodeOptions, 'children'>( {
-      children: [ new MyNode() ]
+    const options = optionize<{}, ChildrenAdapterItemOptions, 'children'>( {
+      children: [ new MyItem() ]
     }, providedOptions );
 
     // Without the 'children' type in optionize, typescript would think that options.children could be undefined
-    options.children.push( new MyNode() );
+    options.children.push( new MyItem() );
 
     super( options );
   }
 }
 
-nodes.push( new ChildrenAdapterNode() );
-nodes.push( new ChildrenAdapterNode( { children: [ new MyNode() ] } ) );
-nodes.push( new ChildrenAdapterNode( { children: [ new MyNode() ], x: 10, y: 10 } ) );
+items.push( new ChildrenAdapterItem() );
+items.push( new ChildrenAdapterItem( { children: [ new MyItem() ] } ) );
+items.push( new ChildrenAdapterItem( { children: [ new MyItem() ], x: 10, y: 10 } ) );
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////
