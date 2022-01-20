@@ -57,6 +57,7 @@
  */
 
 import optionize from '../../../../phet-core/js/optionize.js';
+import { Defaults } from '../../../../phet-core/js/optionize.js';
 import wilder from '../../wilder.js';
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -228,6 +229,41 @@ class ChildrenAdapterItem extends Item {
 items.push( new ChildrenAdapterItem() );
 items.push( new ChildrenAdapterItem( { children: [ new MyItem() ] } ) );
 items.push( new ChildrenAdapterItem( { children: [ new MyItem() ], x: 10, y: 10 } ) );
+
+
+////////
+// Example Six: Using a DEFAULTS* variable instead of an object literal, please note this explains Limitation (III).
+
+// Another way to do this in this case would be Pick<ItemOptions, 'children'>, depending on opt-in/opt-out preference for narrowing API
+type OtherItemSelfOptions = {
+  thing?: number,
+  stuff?: string
+};
+
+type OtherItemOptions = OtherItemSelfOptions & ItemOptions;
+
+class OtherItem extends Item {
+  constructor( providedOptions?: OtherItemOptions ) {
+
+    // NOTE: You must apply a type here in order to get "blarg" to error when uncommented
+    const OTHER_ITEM_DEFAULTS: Defaults<OtherItemSelfOptions, ItemOptions> = {
+      thing: 10,
+      stuff: 'some stuff',
+      x: 10,
+      y: 10
+      // blarg: 'hi' // ERROR
+    };
+
+    // Here, since there are no self options, and instead just modified parent options, pass the public options in as the parent options
+    const options = optionize<OtherItemOptions, OtherItemSelfOptions, ItemOptions>( {}, OTHER_ITEM_DEFAULTS, providedOptions );
+
+    super( options );
+  }
+}
+
+items.push( new OtherItem() );
+// items.push( new StationaryItem( { x: 6 } ) ); // ERROR
+
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////
