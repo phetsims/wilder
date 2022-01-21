@@ -74,7 +74,7 @@ type ItemOptions = {
 class Item {
   private children: Item[];
   private x: number;
-  private y: any;
+  private y: number;
 
   constructor( providedOptions?: ItemOptions ) {
 
