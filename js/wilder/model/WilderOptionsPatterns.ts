@@ -246,7 +246,7 @@ class OtherItem extends Item {
   constructor( providedOptions?: OtherItemOptions ) {
 
     // NOTE: You must apply a type here in order to get "blarg" to error when uncommented
-    const OTHER_ITEM_DEFAULTS: Defaults<OtherItemSelfOptions, ItemOptions> = {
+    const OTHER_ITEM_DEFAULTS: Defaults<OtherItemSelfOptions, ItemOptions, 'x'> = {
       thing: 10,
       stuff: 'some stuff',
       x: 10,
@@ -258,6 +258,13 @@ class OtherItem extends Item {
     const options = optionize<OtherItemOptions, OtherItemSelfOptions, ItemOptions>( {}, OTHER_ITEM_DEFAULTS, providedOptions );
 
     super( options );
+
+    // this.test( options.x ); // TODO: BUG, this should be defined as a number, https://github.com/phetsims/chipper/issues/1128
+    this.test( options.thing );
+  }
+
+  test( x: number ): void {
+    console.log( x );
   }
 }
 
