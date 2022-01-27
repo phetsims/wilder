@@ -3,10 +3,14 @@
 /**
  * Demonstrates using PhET Options patterns with inheritance and composition.
  *
- * The general structure of options are to define a `type`, and then to have each optional entry (perhaps all of them)
- * be marked with a `?`, as optional. Then during merge, cast the merge-returned object as the `Required<T>` version of
- * these options, because by then all defaults for the constructor-optional object have been filled in. Instead of overwriting
- * "options", you need to define a new variable so that TypeScript can give it a separate Type.
+ * The general structure of options is to define the Type of options that are defined at each level of the hierarchy,
+ * as well as a Type for the public, providedOptions for the constructor. Optionize should do the rest for you. All
+ * options that are defined for subtype X should be declared in a type called XSelfOptions. The public API options
+ * should be called XOptions. `optionize` will take these as type parameters, as well as parent options and any keys
+ * that you will use from the parent options in the subtype constructor. See examples below and feel free to ask
+ * @zepumph and @samreid questions as you have them. *
+ *
+ * NOTE: Instead of overwriting "options", you need to define a new variable so that TypeScript can give it a separate Type.
  *
  * Structure and terminology of classes defined in this file:
  * class Person (supertype)
@@ -33,15 +37,14 @@
  * This is the type of providedOptions, the constructor parameter.
  * B. The options that the specific type defines and uses. This is SubclassSelfOptions, the first generic parameter to
  * optionize.js.
- * C. The options that are available after merge within the type (constructor or elsewhere), and always consist of
- * SubclassSelfOptions (B), but could also potentially consist of supertype options, but only if opting in.  This
- * variable is typically named options.
+ * C. The options that are available after optionize within the type (constructor or elsewhere), and always consist of
+ * SubclassSelfOptions (B), but could also potentially consist of supertype options, but only if opting in.
  *
  * Variable naming:
  * - Because typescript now codifies the difference between config and options, there is no need to have anything but "options"
  * as the variable name. As a developer consensus, we no longer need to name any parameters "config" in typescript.
  * - We cannot override the value of a variable and also change its type, thus the options argument must be named differently from the
- * value returned from the `merge` call. It is conventional to call the parameter "providedOptions" and the merged object "options".
+ * value returned from the `optionize` call. It is conventional to call the parameter "providedOptions" and the optionized object "options".
  *
  *
  * Current limitations of the options pattern:
@@ -362,7 +365,7 @@ class Employee extends Person {
 
   constructor( providedOptions: EmployeeOptions ) {
 
-    // before merge because it is required
+    // before optionize because it is required
     console.log( providedOptions.isRequiredAwesome );
 
     const options = optionize<EmployeeOptions, EmployeeSelfOptions, PersonOptions, 'personitude' | 'dogOptions'>( {
@@ -395,11 +398,11 @@ class Employee extends Person {
     // (II) dogOptions.isGood is still potentially undefined when using in the constructor, even though we added `dogOptions` as a key in the third arg
     // console.log( options.dogOptions.isGood );
 
-    // (4) If you have optional usage sites in the constructor, you can leave it optional in the merge types
+    // (4) If you have optional usage sites in the constructor, you can leave it optional in the optionize types
     const a = ( m?: string ) => {};
     a( options.personitude );
 
-    // (4) Merge knows age is defined here because it is optional in EmployeeSelfOptions, so it must have a default.
+    // (4) Optionize knows age is defined here because it is optional in EmployeeSelfOptions, so it must have a default.
     console.log( 'My age is', options.age - 1 ); // cool people seem younger
 
     super( options );
