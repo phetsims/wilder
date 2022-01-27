@@ -370,6 +370,7 @@ class Employee extends Person {
         isAwesome: true, // (2)
         // hasShirt: false, // (3)
         // personitude: 'hello', // (4).a
+        // personitude: PERSON_DEFAULTS.personitude (4).b
         // attitude: 'cool' // (5).a
         personitude: 'personable',
         age: 5,
