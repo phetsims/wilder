@@ -272,8 +272,34 @@ class OtherItem extends Item {
 }
 
 items.push( new OtherItem() );
-// items.push( new StationaryItem( { x: 6 } ) ); // ERROR
 
+////////
+// Example Seven: Everything is required
+
+// Another way to do this in this case would be Pick<ItemOptions, 'children'>, depending on opt-in/opt-out preference for narrowing API
+type RequiredThingOptions = {
+  requiredNumber: number,
+  requriedString: string,
+  // optional?: number // Uncomment to get the error in the optionize defaults.
+};
+
+
+class RequiredThing {
+  constructor( providedOptions?: RequiredThingOptions ) {
+
+    // Here, since there are no self options, and instead just modified parent options, pass the public options in as the parent options
+    const options = optionize<RequiredThingOptions, RequiredThingOptions>( {
+
+      // TODO: this should error, it is required and shouldn't have a default, but you have to have one or more optional
+      //       items in the options for that to occur. https://github.com/phetsims/chipper/issues/1128
+      requiredNumber: 10
+    }, providedOptions );
+
+    console.log( options.requiredNumber );
+  }
+}
+
+console.log( new RequiredThing() );
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////
