@@ -191,14 +191,16 @@ console.log( container );
 ////////
 // Example Four: Narrowing parent options' scope
 
+type StationaryItemSelfOptions = {};
+
 // Another way to do this in this case would be Pick<ItemOptions, 'children'>, depending on opt-in/opt-out preference for narrowing API
-type StationaryItemOptions = Omit<ItemOptions, 'x' | 'y'>
+type StationaryItemOptions = StationaryItemSelfOptions & Omit<ItemOptions, 'x' | 'y'>;
 
 class StationaryItem extends Item {
   constructor( providedOptions?: StationaryItemOptions ) {
 
     // Here, since there are no self options, and instead just modified parent options, pass the public options in as the parent options
-    const options = optionize<StationaryItemOptions, {}, StationaryItemOptions>( {}, providedOptions );
+    const options = optionize<StationaryItemOptions, StationaryItemSelfOptions, ItemOptions>( {}, providedOptions );
 
     super( options );
   }
@@ -210,15 +212,17 @@ items.push( new StationaryItem() );
 ////////
 // Example Five: Using a parent option in the subtype constructor
 
+type ChildrenAdapterItemSelfOptions = {};
+
 // It is a bit safer in common code to keep this alias, even when identical. This way, if you export your public
 // options, you don't skip a level and need to do a global refactor if you want to add an option to this subtype.
-type ChildrenAdapterItemOptions = ItemOptions
+type ChildrenAdapterItemOptions = ChildrenAdapterItemSelfOptions & ItemOptions
 
 class ChildrenAdapterItem extends Item {
   constructor( providedOptions?: ChildrenAdapterItemOptions ) {
 
     // Adding the third argument makes sure that children is known to be defined, for usage later in the constructor
-    const options = optionize<ChildrenAdapterItemOptions, {}, ChildrenAdapterItemOptions, 'children'>( {
+    const options = optionize<ChildrenAdapterItemOptions, ChildrenAdapterItemSelfOptions, ItemOptions, 'children'>( {
       children: [ new MyItem() ]
     }, providedOptions );
 
