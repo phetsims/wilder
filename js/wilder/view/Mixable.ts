@@ -6,12 +6,13 @@
  * @author Jonathan Olson <jonathan.olson@colorado.edu>
  */
 
-import { Node } from '../../../../scenery/js/imports.js';
-import { Text } from '../../../../scenery/js/imports.js';
+import { Node, Text } from '../../../../scenery/js/imports.js';
 import wilder from '../../wilder.js';
 import inheritance from '../../../../phet-core/js/inheritance.js';
 import merge from '../../../../phet-core/js/merge.js';
 import extend from '../../../../phet-core/js/extend.js';
+import Constructor from '../../../../phet-core/js/Constructor.js';
+import Property, { PropertyOptions } from '../../../../axon/js/Property.js';
 
 // Just memoizes first argument.
 function memoize<Key, Value>( func: ( k: Key, ...args: any[] ) => Value ) {
@@ -31,7 +32,36 @@ function memoize<Key, Value>( func: ( k: Key, ...args: any[] ) => Value ) {
   };
 }
 
-type Constructor<T = {}> = new ( ...args: any[] ) => T;
+const GenericMix = memoize( <SuperType extends Constructor>( type: SuperType ) => {
+  const result = class extends type {
+    _someField: string;
+
+    constructor( ...args: any[] ) {
+      super( ...args );
+
+      this._someField = 'Testing';
+    }
+
+    get someField(): string { return this._someField; }
+
+    set someField( value: string ) { this._someField = value; }
+  };
+
+  return result;
+} );
+
+class PropertyMixed<T> extends GenericMix( Property )<T> {
+  constructor( value: T, options?: PropertyOptions<T> ) {
+    super( value, options );
+  }
+}
+
+const pMixed1 = new PropertyMixed<number>( 5 );
+console.log( pMixed1.value, pMixed1.someField );
+
+const pMixed2 = new PropertyMixed<string>( 'hi' );
+console.log( pMixed2.value, pMixed2.someField );
+
 
 const MIXIN_PARAMETER_COUNT = 1;
 const Mixable = memoize( <SuperType extends Constructor>( type: SuperType, superParameterCount: number ) => {
