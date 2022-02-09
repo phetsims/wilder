@@ -305,6 +305,46 @@ class RequiredThing {
 
 console.log( new RequiredThing() );
 
+////////
+// Example Eight: An option is generic
+
+class MyGeneric<G> {
+  optionalThing: G | undefined;
+
+  constructor( optionalThing?: G ) {
+    this.optionalThing = optionalThing;
+  }
+}
+
+type WrapTypeOptions<T> = {
+  favoriteGeneric?: MyGeneric<T>
+};
+
+
+class WrapType<T> {
+  favoriteGeneric: MyGeneric<T>;
+
+  constructor( providedOptions?: WrapTypeOptions<T> ) {
+    const options = optionize<WrapTypeOptions<T>, WrapTypeOptions<T>>( {
+      favoriteGeneric: new MyGeneric<T>()
+    }, providedOptions );
+
+    this.favoriteGeneric = options.favoriteGeneric;
+  }
+
+  getFavoriteItemProperty(): MyGeneric<T> {
+    return this.favoriteGeneric;
+  }
+}
+
+console.log( new WrapType() );
+console.log( new WrapType( {
+  favoriteGeneric: new MyGeneric<boolean>( true )
+} ) );
+console.log( new WrapType( {
+  favoriteGeneric: new MyGeneric<boolean>()
+} ) );
+
 ////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////
