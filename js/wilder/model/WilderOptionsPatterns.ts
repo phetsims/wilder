@@ -114,7 +114,8 @@ class MyItem extends Item {
   constructor( providedOptions?: MyItemOptions ) {
 
     // Here optionize takes all options that it defines, and also its parent options so that those are allowed to be
-    // passed through the super call. By default, optionize knows what the combined type of "providedOptions" (defaults to SelfOptions & ParentOptions).
+    // passed through the super call. By default, optionize knows what the combined type of "providedOptions" (defaults
+    // to SelfOptions & ParentOptions).
     const options = optionize<MyItemOptions, MyItemSelfOptions, ItemOptions>( {
       mySpecialNumber: 2,
       x: 10,
