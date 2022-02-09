@@ -315,9 +315,11 @@ const Poolable = <Type extends Constructor>( type: Type, options?: PoolableOptio
   return type as unknown as PoolableClass<Type>;
 };
 
-const Vector = Poolable( class Vector {
+class VectorImpl {
   x!: number
   y!: number
+
+  private z!: number;
 
   constructor( x: number, y: number ) {
     this.initialize( x, y );
@@ -327,10 +329,10 @@ const Vector = Poolable( class Vector {
   initialize( x: number, y: number ) {
     this.x = x;
     this.y = y;
+    this.z = 0;
   }
-}, {
-  defaultArguments: [ 0, 0 ]
-} );
+}
+const Vector = Poolable( VectorImpl );
 
 const q = new Vector( 1, 2 );
 q.freeToPool();
