@@ -71,7 +71,7 @@ import wilder from '../../wilder.js';
 type ItemOptions = {
   children?: Item[];
   x?: number;
-  y?: number
+  y?: number;
 };
 
 class Item {
@@ -103,7 +103,7 @@ const items: Item[] = [];
 ////////
 // Example One: Basic subtype creates options and uses supertype options:
 type MyItemSelfOptions = {
-  mySpecialNumber?: number
+  mySpecialNumber?: number;
 };
 
 type MyItemOptions = MyItemSelfOptions & ItemOptions;
@@ -138,7 +138,7 @@ items.push( new MyItem( { x: 100, y: 100 } ) );
 // Example Two: A Required parameter
 
 type TreeItemSelfOptions = {
-  treeType: 'cedar' | 'pine'
+  treeType: 'cedar' | 'pine';
 }
 type TreeItemOptions = TreeItemSelfOptions & ItemOptions;
 
@@ -163,7 +163,7 @@ items.push( new TreeItem( {
 ////////
 // Example Three: nested options
 type ItemContainerOptions = {
-  nodeOptions?: ItemOptions
+  nodeOptions?: ItemOptions;
 };
 
 class ItemContainer {
@@ -244,8 +244,8 @@ items.push( new ChildrenAdapterItem( { children: [ new MyItem() ], x: 10, y: 10 
 
 // Another way to do this in this case would be Pick<ItemOptions, 'children'>, depending on opt-in/opt-out preference for narrowing API
 type OtherItemSelfOptions = {
-  thing?: number,
-  stuff?: string
+  thing?: number;
+  stuff?: string;
 };
 
 type OtherItemOptions = OtherItemSelfOptions & ItemOptions;
@@ -283,9 +283,9 @@ items.push( new OtherItem() );
 
 // Another way to do this in this case would be Pick<ItemOptions, 'children'>, depending on opt-in/opt-out preference for narrowing API
 type RequiredThingOptions = {
-  requiredNumber: number,
-  requriedString: string,
-  // optional?: number // Uncomment to get the error in the optionize defaults.
+  requiredNumber: number;
+  requriedString: string;
+  // optional?: number; // Uncomment to get the error in the optionize defaults.
 };
 
 
@@ -318,7 +318,7 @@ class MyGeneric<G> {
 }
 
 type WrapTypeOptions<T> = {
-  favoriteGeneric?: MyGeneric<T>
+  favoriteGeneric?: MyGeneric<T>;
 };
 
 
