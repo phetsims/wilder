@@ -15,10 +15,7 @@ type WilderScreenOptions = {
   tandem: Tandem
 };
 
-/**
- * @constructor
- */
-class WilderScreen extends Screen {
+class WilderScreen extends Screen<WilderModel, WilderScreenView> {
   constructor( providedOptions: WilderScreenOptions ) {
 
     const options = {
@@ -29,7 +26,7 @@ class WilderScreen extends Screen {
     super( () => new WilderModel( {
         tandem: providedOptions.tandem.createTandem( 'model' )
       } ),
-      ( model: WilderModel ) => new WilderScreenView( model, {
+      model => new WilderScreenView( model, {
         tandem: providedOptions.tandem.createTandem( 'view' )
       } ),
       options
