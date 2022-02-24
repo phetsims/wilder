@@ -82,7 +82,7 @@ class Item {
   constructor( providedOptions?: ItemOptions ) {
 
     // In the simplest case, optionize just takes the options that this class defines.
-    const options = optionize<ItemOptions, ItemOptions>( {
+    const options = optionize<ItemOptions>( {
       children: [],
       x: 0,
       y: 0
@@ -170,7 +170,7 @@ class ItemContainer {
   private node: Item;
 
   constructor( providedOptions: ItemContainerOptions ) {
-    const options = optionize<ItemContainerOptions, ItemContainerOptions>( {
+    const options = optionize<ItemContainerOptions>( {
       nodeOptions: {
         x: 5,
         y: 5
@@ -293,7 +293,7 @@ class RequiredThing {
   constructor( providedOptions?: RequiredThingOptions ) {
 
     // Here, since there are no self options, and instead just modified parent options, pass the public options in as the parent options
-    const options = optionize<RequiredThingOptions, RequiredThingOptions>( {
+    const options = optionize<RequiredThingOptions>( {
 
       // TODO: this should error, it is required and shouldn't have a default, but you have to have one or more optional
       //       items in the options for that to occur. https://github.com/phetsims/chipper/issues/1128
