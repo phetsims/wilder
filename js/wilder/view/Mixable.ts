@@ -11,7 +11,7 @@ import wilder from '../../wilder.js';
 import inheritance from '../../../../phet-core/js/inheritance.js';
 import merge from '../../../../phet-core/js/merge.js';
 import extend from '../../../../phet-core/js/extend.js';
-import Constructor from '../../../../phet-core/js/Constructor.js';
+import Constructor from '../../../../phet-core/js/types/Constructor.js';
 import Property, { PropertyOptions } from '../../../../axon/js/Property.js';
 
 // Just memoizes first argument.
