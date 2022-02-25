@@ -346,6 +346,49 @@ console.log( new WrapType( {
   favoriteGeneric: new MyGeneric<boolean>()
 } ) );
 
+////////
+// Example Nine: A work around to Limitation (I)
+type HowSuper = 'totally' | 'a bit' | 'no, not really';
+
+type SuperOptions = {
+  howSuper: HowSuper
+}
+
+class Super {
+  howSuper: HowSuper;
+
+  constructor( providedOptions: SuperOptions ) {
+    this.howSuper = providedOptions.howSuper;
+  }
+
+  isSuper() {
+    return this.howSuper;
+  }
+}
+
+type KingSelfOptions = {
+  hasGoodGroceries?: boolean
+}
+type KingOptions = KingSelfOptions & Partial<SuperOptions>;
+
+class King extends Super {
+  constructor( providedOptions?: KingOptions ) {
+
+    // Without the 4th type arg, the super() call doesn't know that howSuper has been provided. This is a workaround
+    // for Limitation (I). Ideally, we wouldn't need the 4th parameter here.
+    const options = optionize<KingOptions, KingSelfOptions, SuperOptions, 'howSuper'>( {
+      howSuper: 'totally',
+      hasGoodGroceries: true
+    } );
+    super( options );
+  }
+}
+
+const kingSuper = new King( {
+  hasGoodGroceries: false
+} );
+console.log( kingSuper );
+
 ////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////
