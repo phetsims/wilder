@@ -59,6 +59,7 @@
  * @author Michael Kauzmann (PhET Interactive Simulations)
  */
 
+import merge from '../../../../phet-core/js/merge.js';
 import optionize from '../../../../phet-core/js/optionize.js';
 import { Defaults } from '../../../../phet-core/js/optionize.js';
 import wilder from '../../wilder.js';
@@ -389,6 +390,48 @@ const kingSuper = new King( {
 } );
 console.log( kingSuper );
 
+
+////////
+// Example Ten: Defaults from your subtype AND from a common Constants object
+// optionize currently only provides one argument to supply ALL defaults with, so you must merge them all into a
+// variable (of type Defaults<>) and pass that into optionize.
+// TODO: improve on this pattern. Perhaps optionize can take two parameters sometimes and & them together to come up with the defaults? https://github.com/phetsims/chipper/issues/1128
+
+const SIM_CONSTANTS = {
+  ITEM_CONSTANTS: {
+    x: 4,
+    isSad: 'yes'
+  }
+};
+
+type BlueItemSelfOptions = {
+  isSad?: string
+}
+type BlutItemOptions = BlueItemSelfOptions & ItemOptions;
+
+class BlueItem extends Item {
+  constructor( providedOptions?: BlutItemOptions ) {
+
+    // NOTE: isSad can be provided either via the SIM_CONSTANTS objec, or in the object literal, but TypeScript knows
+    // if you leave it out entirely.
+    const defaults: Defaults<BlueItemSelfOptions, ItemOptions> = merge( {}, SIM_CONSTANTS.ITEM_CONSTANTS, {
+      y: 10,
+      isSad: 'always'
+    } );
+
+    const options = optionize<BlutItemOptions, BlueItemSelfOptions, ItemOptions>( {}, defaults, providedOptions );
+
+    super( options );
+
+    this.test( options.isSad );
+  }
+
+  test( isSad: string ): void {
+    console.log( isSad );
+  }
+}
+
+items.push( new BlueItem() );
 ////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////
