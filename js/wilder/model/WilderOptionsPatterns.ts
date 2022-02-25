@@ -48,8 +48,11 @@
  *
  *
  * Current limitations of the options pattern:
- * (I) Required parameters of parent options can potentially be specified by defaults in the subtype, or through
- * providedOptions. The current optionize does not know where it comes from, and cannot guarantee that its return value has the required parameter.
+ * (I) Optionize still struggles in a couple cases to know that defaults has filled in a value. Right now using an
+ * option in the constructor when you have provided a default for it in optionize can still type as (X | undefined).
+ * This occurs in the following cases:
+ *    - providing defaults for required parameters from parent options
+ *    - providing defaults for anything in nested options
  * (II) Using the third type parameter for nested options is not ideal. The "Required" piece isn't deep, so defaults aren't filled in as required.
  * (III) Factoring out defaults into "DEFAULT_*_OPTIONS" causes a type inference that doesn't occur when providing an
  * object literal as the "defaults" argument to optionize. This means that you must provide a type where you declare the
@@ -499,7 +502,10 @@ class Person {
     options.age;
     options.hasShirt;
 
-    // (I) Remove type cast because name should be known to come from providedOptions. Alternatively, you can specify as
+    // Limitation (I): note that isGood is not recognized as being filled in because our optionize doesn't know about nested options.
+    options.dogOptions.isGood;
+
+    // Limitation (I) Remove type cast because name should be known to come from providedOptions. Alternatively, you can specify as
     // part of PersonOptions that we must get dogOptions.name. This counteracts the `Partial` and lets it be known in
     // the Person constructor that dogOptions is complete at this point.
     this.dog = new Dog( options.dogOptions as DogOptions );
