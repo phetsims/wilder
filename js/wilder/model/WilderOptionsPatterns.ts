@@ -64,7 +64,7 @@
 
 import merge from '../../../../phet-core/js/merge.js';
 import optionize from '../../../../phet-core/js/optionize.js';
-import { Defaults } from '../../../../phet-core/js/optionize.js';
+import { OptionizeDefaults } from '../../../../phet-core/js/optionize.js';
 import wilder from '../../wilder.js';
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -258,7 +258,7 @@ class OtherItem extends Item {
   constructor( providedOptions?: OtherItemOptions ) {
 
     // NOTE: You must apply a type here in order to get "blarg" to error when uncommented
-    const OTHER_ITEM_DEFAULTS: Defaults<OtherItemSelfOptions, ItemOptions, 'x'> = {
+    const OTHER_ITEM_DEFAULTS: OptionizeDefaults<OtherItemSelfOptions, ItemOptions, 'x'> = {
       thing: 10,
       stuff: 'some stuff',
       x: 10,
@@ -397,7 +397,7 @@ console.log( kingSuper );
 ////////
 // Example Ten: Defaults from your subtype AND from a common Constants object
 // optionize currently only provides one argument to supply ALL defaults with, so you must merge them all into a
-// variable (of type Defaults<>) and pass that into optionize.
+// variable (of type OptionizeDefaults<>) and pass that into optionize.
 // TODO: improve on this pattern. Perhaps optionize can take two parameters sometimes and & them together to come up with the defaults? https://github.com/phetsims/chipper/issues/1128
 
 const SIM_CONSTANTS = {
@@ -417,7 +417,7 @@ class BlueItem extends Item {
 
     // NOTE: isSad can be provided either via the SIM_CONSTANTS objec, or in the object literal, but TypeScript knows
     // if you leave it out entirely.
-    const defaults: Defaults<BlueItemSelfOptions, ItemOptions> = merge( {}, SIM_CONSTANTS.ITEM_CONSTANTS, {
+    const defaults: OptionizeDefaults<BlueItemSelfOptions, ItemOptions> = merge( {}, SIM_CONSTANTS.ITEM_CONSTANTS, {
       y: 10,
       isSad: 'always'
     } );
