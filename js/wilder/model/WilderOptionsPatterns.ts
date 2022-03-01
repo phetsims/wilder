@@ -106,11 +106,14 @@ const items: Item[] = [];
 
 ////////
 // Example One: Basic subtype creates options and uses supertype options:
-type MyItemSelfOptions = {
+
+// The convention is to name this private type "SelfOptions", though naming collisions below cause us to name them
+// specific to each class.
+type SelfOptions = {
   mySpecialNumber?: number;
 };
 
-type MyItemOptions = MyItemSelfOptions & ItemOptions;
+type MyItemOptions = SelfOptions & ItemOptions;
 
 class MyItem extends Item {
   private mySpecialNumber: number;
@@ -120,7 +123,7 @@ class MyItem extends Item {
     // Here optionize takes all options that it defines, and also its parent options so that those are allowed to be
     // passed through the super call. By default, optionize knows what the combined type of "providedOptions" (defaults
     // to SelfOptions & ParentOptions).
-    const options = optionize<MyItemOptions, MyItemSelfOptions, ItemOptions>( {
+    const options = optionize<MyItemOptions, SelfOptions, ItemOptions>( {
       mySpecialNumber: 2,
       x: 10,
       y: 10
