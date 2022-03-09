@@ -57,6 +57,7 @@
  * (III) Factoring out defaults into "DEFAULT_*_OPTIONS" causes a type inference that doesn't occur when providing an
  * object literal as the "defaults" argument to optionize. This means that you must provide a type where you declare the
  * defaults variable in order to get type safety about the contents of those defaults.
+ * (IV) narrowing the type of a single option is a subtype, but using the full type in its constructor.
  *
  * @author Sam Reid (PhET Interactive Simulations)
  * @author Michael Kauzmann (PhET Interactive Simulations)
@@ -76,6 +77,7 @@ type ItemOptions = {
   children?: Item[];
   x?: number;
   y?: number;
+  size?: number | 'veryLarge';
 };
 
 class Item {
@@ -89,7 +91,8 @@ class Item {
     const options = optionize<ItemOptions>( {
       children: [],
       x: 0,
-      y: 0
+      y: 0,
+      size: 5
     }, providedOptions );
     this.children = options.children;
     this.x = options.x;
@@ -438,6 +441,34 @@ class BlueItem extends Item {
 }
 
 items.push( new BlueItem() );
+
+
+////////
+// Example Eleven: demonstrating Limitation (IV)
+
+type LargeItemSelfOptions = {
+  size?: number
+};
+
+type LargeItemOptions = LargeItemSelfOptions & ItemOptions;
+
+class LargeItem extends Item {
+  constructor( providedOptions?: LargeItemOptions ) {
+
+    const options = optionize<LargeItemOptions, LargeItemSelfOptions, ItemOptions>( {
+
+      // Limitation (IV), I cannot use the type from ItemOptions, but instead I'm internally limited to the public narrowing API of just number.
+      // size: 'veryLarge'
+      size: 4 // TODO: delete this and use 'veryLarge' above instead
+
+    }, providedOptions );
+
+    super( options );
+  }
+}
+
+// items.push( new LargeItem( { size: 'veryLarge' } ) ); // fails, good!
+items.push( new LargeItem( { size: 7 } ) );
 ////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////
