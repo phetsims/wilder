@@ -361,7 +361,7 @@ console.log( new WrapType( {
 type HowSuper = 'totally' | 'a bit' | 'no, not really';
 
 type SuperOptions = {
-  howSuper: HowSuper
+  howSuper: HowSuper;
 }
 
 class Super {
@@ -377,7 +377,7 @@ class Super {
 }
 
 type KingSelfOptions = {
-  hasGoodGroceries?: boolean
+  hasGoodGroceries?: boolean;
 }
 type KingOptions = KingSelfOptions & Partial<SuperOptions>;
 
@@ -414,7 +414,7 @@ const SIM_CONSTANTS = {
 };
 
 type BlueItemSelfOptions = {
-  isSad?: string
+  isSad?: string;
 }
 type BlutItemOptions = BlueItemSelfOptions & ItemOptions;
 
@@ -447,7 +447,7 @@ items.push( new BlueItem() );
 // Example Eleven: demonstrating Limitation (IV)
 
 type LargeItemSelfOptions = {
-  size?: number
+  size?: number;
 };
 
 type LargeItemOptions = LargeItemSelfOptions & ItemOptions;
@@ -508,7 +508,7 @@ type PersonSelfOptions = {
   hasShirt?: boolean;
   height?: number;
   attitude?: string; // (5)
-  personitude?: string,
+  personitude?: string;
 
   // (6) (I) If it is optional here, then it better be in the default options or providedOptions, otherwise, just make
   // it required here for more type safety and less flexibility.

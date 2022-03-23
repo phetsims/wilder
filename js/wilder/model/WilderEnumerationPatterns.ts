@@ -14,7 +14,7 @@ import Enumeration from '../../../../phet-core/js/Enumeration.js';
 import EnumerationValue from '../../../../phet-core/js/EnumerationValue.js';
 
 type WilderEnumerationPatternsOptions = {
-  tandem: Tandem
+  tandem: Tandem;
 };
 
 class WilderEnumerationPatterns {

@@ -27,7 +27,7 @@ declare namespace _ {
 }
 
 type WilderModelOptions = {
-  tandem: Tandem
+  tandem: Tandem;
 };
 
 class WilderModel {
@@ -164,7 +164,7 @@ class WilderModel {
     hardAssert( animals === destObject.mouse.animals );
 
     // Parameter destructuring
-    function destruct( { cat, mouse: { animals: [ firstAnimal ] } }: { cat: number, mouse: { animals: number[] } } ) {
+    function destruct( { cat, mouse: { animals: [ firstAnimal ] } }: { cat: number; mouse: { animals: number[] } } ) {
       return cat + firstAnimal;
     }
 
@@ -172,9 +172,9 @@ class WilderModel {
 
     // Options object destructuring with defaults
     type OptionsType = {
-      tree?: number,
-      forest?: number,
-      leaf?: number
+      tree?: number;
+      forest?: number;
+      leaf?: number;
     };
     const optionsObject: OptionsType = {
       tree: 4,

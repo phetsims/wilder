@@ -12,7 +12,7 @@ import WilderModel from '../model/WilderModel.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 
 type WilderScreenViewOptions = {
-  tandem: Tandem
+  tandem: Tandem;
 };
 
 class WilderScreenView extends ScreenView {

@@ -156,25 +156,25 @@ console.log( g.someField );
 
 //////////////////////////////////////////////////////
 type PoolableOptions<Type extends Constructor> = {
-  defaultArguments?: ConstructorParameters<Type>,
-  initialize?: PoolableInitializer<Type>,
-  maxSize?: number,
-  initialSize?: number,
-  useDefaultConstruction?: boolean
+  defaultArguments?: ConstructorParameters<Type>;
+  initialize?: PoolableInitializer<Type>;
+  maxSize?: number;
+  initialSize?: number;
+  useDefaultConstruction?: boolean;
 };
 interface PoolableInstance {
-  freeToPool(): void
+  freeToPool(): void;
 }
 type PoolableVersion<Type extends Constructor> = InstanceType<Type> & PoolableInstance;
 type PoolableInitializer<Type extends Constructor> = ( ...args: ConstructorParameters<Type> ) => any;
 type PoolableClass<Type extends Constructor> = ( new ( ...args: ConstructorParameters<Type> ) => ( PoolableVersion<Type> ) ) & PoolableType<Type>;
 interface PoolableType<Type extends Constructor> {
-  pool: PoolableVersion<Type>[]
-  dirtyFromPool(): PoolableVersion<Type>
-  createFromPool( ...args: ConstructorParameters<Type> ): PoolableVersion<Type>
-  get poolSize(): number
-  set maxPoolSize( value: number )
-  get maxPoolSize(): number
+  pool: PoolableVersion<Type>[];
+  dirtyFromPool(): PoolableVersion<Type>;
+  createFromPool( ...args: ConstructorParameters<Type> ): PoolableVersion<Type>;
+  get poolSize(): number;
+  set maxPoolSize( value: number );
+  get maxPoolSize(): number;
 }
 const Poolable = <Type extends Constructor>( type: Type, options?: PoolableOptions<Type> ) : PoolableClass<Type> => {
   const filledOptions = merge( {
