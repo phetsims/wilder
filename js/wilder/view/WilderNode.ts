@@ -7,8 +7,7 @@
  */
 
 import merge from '../../../../phet-core/js/merge.js';
-import { Node } from '../../../../scenery/js/imports.js';
-import { Text } from '../../../../scenery/js/imports.js';
+import { Node, Text } from '../../../../scenery/js/imports.js';
 import wilder from '../../wilder.js';
 import Mixable from './Mixable.js';
 
@@ -26,7 +25,7 @@ class WilderNode extends Node {
    * @public
    * Rotates the node by PI, demonstrates a class method.
    */
-  flipOver() {
+  flipOver(): void {
     this.rotate( Math.PI );
   }
 }
