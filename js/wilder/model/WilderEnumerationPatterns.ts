@@ -62,7 +62,7 @@ class WilderEnumerationPatterns {
     class SpecialTreeType extends TreeType {
       static CEDAR = new SpecialTreeType();
 
-      static enumeration = new Enumeration( SpecialTreeType, {
+      static override enumeration = new Enumeration( SpecialTreeType, {
 
         // Match any static member of SpecialTreeType that is instanceof TreeType, so it will include the existing ASH, BIRCH and also the new value CEDAR
         instanceType: TreeType

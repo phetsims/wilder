@@ -214,8 +214,7 @@ class WilderModel {
       get secret() { return this._secret; }
 
       // @public
-      // overridden method
-      dispose() {
+      override dispose() {
         super.dispose();
         this._secret = 0; // Don't tell!
       }
