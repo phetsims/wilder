@@ -22,10 +22,6 @@ import Tandem from '../../../../tandem/js/Tandem.js';
 // constants
 const something = 'foo';
 
-declare namespace _ {
-  function range( a: number, b?: number, c?: number ): number[]; // eslint-disable-line no-unused-vars
-}
-
 type WilderModelOptions = {
   tandem: Tandem;
 };
