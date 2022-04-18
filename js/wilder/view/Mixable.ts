@@ -232,7 +232,6 @@ const Poolable = <Type extends Constructor>( type: Type, options?: PoolableOptio
      * Returns an object with arbitrary state (possibly constructed with the default arguments).
      * @public
      *
-     * @returns {type}
      */
     dirtyFromPool(): PoolableVersion<Type> {
       return pool.length ? pool.pop() : new DefaultConstructor();
@@ -265,7 +264,6 @@ const Poolable = <Type extends Constructor>( type: Type, options?: PoolableOptio
      * Returns the current size of the pool.
      * @public
      *
-     * @returns {number}
      */
     get poolSize() {
       return pool.length;
@@ -287,7 +285,6 @@ const Poolable = <Type extends Constructor>( type: Type, options?: PoolableOptio
      * Returns the maximum pool size.
      * @public
      *
-     * @returns {number}
      */
     get maxPoolSize() {
       return maxPoolSize;
