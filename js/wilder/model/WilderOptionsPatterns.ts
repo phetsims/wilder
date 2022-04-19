@@ -63,8 +63,8 @@
  * @author Michael Kauzmann (PhET Interactive Simulations)
  */
 
+import optionize, { optionize3 } from '../../../../phet-core/js/optionize.js';
 import merge from '../../../../phet-core/js/merge.js';
-import optionize from '../../../../phet-core/js/optionize.js';
 import { OptionizeDefaults } from '../../../../phet-core/js/optionize.js';
 import wilder from '../../wilder.js';
 
@@ -88,7 +88,7 @@ class Item {
   constructor( providedOptions?: ItemOptions ) {
 
     // In the simplest case, optionize just takes the options that this class defines.
-    const options = optionize<ItemOptions>( {
+    const options = optionize<ItemOptions>()( {
       children: [],
       x: 0,
       y: 0,
@@ -126,7 +126,7 @@ class MyItem extends Item {
     // Here optionize takes all options that it defines, and also its parent options so that those are allowed to be
     // passed through the super call. By default, optionize knows what the combined type of "providedOptions" (defaults
     // to SelfOptions & ParentOptions).
-    const options = optionize<MyItemOptions, SelfOptions, ItemOptions>( {
+    const options = optionize<MyItemOptions, SelfOptions, ItemOptions>()( {
       mySpecialNumber: 2,
       x: 10,
       y: 10
@@ -156,7 +156,7 @@ class TreeItem extends Item {
   private treeType: TreeItemSelfOptions[ 'treeType' ];
 
   constructor( providedOptions: TreeItemOptions ) {
-    const options = optionize<TreeItemOptions, TreeItemSelfOptions, ItemOptions>( {}, providedOptions );
+    const options = optionize3<TreeItemOptions, TreeItemSelfOptions, ItemOptions>()( {}, providedOptions );
     super( options );
     this.treeType = options.treeType;
   }
@@ -180,7 +180,7 @@ class ItemContainer {
   private node: Item;
 
   constructor( providedOptions: ItemContainerOptions ) {
-    const options = optionize<ItemContainerOptions>( {
+    const options = optionize<ItemContainerOptions>()( {
       nodeOptions: {
         x: 5,
         y: 5
@@ -211,7 +211,7 @@ class StationaryItem extends Item {
   constructor( providedOptions?: StationaryItemOptions ) {
 
     // Here, since there are no self options, and instead just modified parent options, pass the public options in as the parent options
-    const options = optionize<StationaryItemOptions, StationaryItemSelfOptions, ItemOptions>( {}, providedOptions );
+    const options = optionize<StationaryItemOptions, StationaryItemSelfOptions, ItemOptions>()( {}, providedOptions );
 
     super( options );
   }
@@ -233,7 +233,7 @@ class ChildrenAdapterItem extends Item {
   constructor( providedOptions?: ChildrenAdapterItemOptions ) {
 
     // Adding the third argument makes sure that children is known to be defined, for usage later in the constructor
-    const options = optionize<ChildrenAdapterItemOptions, ChildrenAdapterItemSelfOptions, ItemOptions, 'children'>( {
+    const options = optionize<ChildrenAdapterItemOptions, ChildrenAdapterItemSelfOptions, ItemOptions>()( {
       children: [ new MyItem() ]
     }, providedOptions );
 
@@ -269,15 +269,15 @@ class OtherItem extends Item {
       stuff: 'some stuff',
       x: 10,
       y: 10
-      // blarg: 'hi' // ERROR
+      // ,blarg: 'hi' // ERROR
     };
 
     // Here, since there are no self options, and instead just modified parent options, pass the public options in as the parent options
-    const options = optionize<OtherItemOptions, OtherItemSelfOptions, ItemOptions>( {}, OTHER_ITEM_DEFAULTS, providedOptions );
+    const options = optionize3<OtherItemOptions, OtherItemSelfOptions, ItemOptions>()( {}, OTHER_ITEM_DEFAULTS, providedOptions );
 
     super( options );
 
-    // this.test( options.x ); // TODO: BUG, this should be defined as a number, https://github.com/phetsims/chipper/issues/1128
+    this.test( options.x );
     this.test( options.thing );
   }
 
@@ -303,7 +303,7 @@ class RequiredThing {
   constructor( providedOptions?: RequiredThingOptions ) {
 
     // Here, since there are no self options, and instead just modified parent options, pass the public options in as the parent options
-    const options = optionize<RequiredThingOptions>( {
+    const options = optionize<RequiredThingOptions>()( {
 
       // TODO: this should error, it is required and shouldn't have a default, but you have to have one or more optional
       //       items in the options for that to occur. https://github.com/phetsims/chipper/issues/1128
@@ -336,7 +336,7 @@ class WrapType<T> {
   favoriteGeneric: MyGeneric<T>;
 
   constructor( providedOptions?: WrapTypeOptions<T> ) {
-    const options = optionize<WrapTypeOptions<T>, WrapTypeOptions<T>>( {
+    const options = optionize<WrapTypeOptions<T>, WrapTypeOptions<T>>()( {
       favoriteGeneric: new MyGeneric<T>()
     }, providedOptions );
 
@@ -386,7 +386,7 @@ class King extends Super {
 
     // Without the 4th type arg, the super() call doesn't know that howSuper has been provided. This is a workaround
     // for Limitation (I). Ideally, we wouldn't need the 4th parameter here.
-    const options = optionize<KingOptions, KingSelfOptions, SuperOptions, 'howSuper'>( {
+    const options = optionize<KingOptions, KingSelfOptions, SuperOptions>()( {
       howSuper: 'totally',
       hasGoodGroceries: true
     } );
@@ -428,7 +428,7 @@ class BlueItem extends Item {
       isSad: 'always'
     } );
 
-    const options = optionize<BlutItemOptions, BlueItemSelfOptions, ItemOptions>( {}, defaults, providedOptions );
+    const options = optionize3<BlutItemOptions, BlueItemSelfOptions, ItemOptions>()( {}, defaults, providedOptions );
 
     super( options );
 
@@ -455,7 +455,7 @@ type LargeItemOptions = LargeItemSelfOptions & ItemOptions;
 class LargeItem extends Item {
   constructor( providedOptions?: LargeItemOptions ) {
 
-    const options = optionize<LargeItemOptions, LargeItemSelfOptions, ItemOptions>( {
+    const options = optionize<LargeItemOptions, LargeItemSelfOptions, ItemOptions>()( {
 
       // Limitation (IV), I cannot use the type from ItemOptions, but instead I'm internally limited to the public narrowing API of just number.
       // size: 'veryLarge'
@@ -488,7 +488,7 @@ class Dog {
   isGood?: boolean; // Note that since there was no default, Typescript knows it must support undefined
 
   constructor( providedOptions: DogOptions ) {
-    const options = optionize<DogOptions, DogOptions>( {
+    const options = optionize<DogOptions, DogOptions>()( {
       age: 0,
       isGood: true
     }, providedOptions );
@@ -523,7 +523,7 @@ class Person {
 
   constructor( providedOptions: PersonOptions ) {
 
-    const options = optionize<PersonOptions, PersonSelfOptions>( {
+    const options = optionize<PersonOptions, PersonSelfOptions>()( {
       // (0) (7) New pattern doesn't use `required()` for non-optional options. (like for `name`)
       hasShirt: true,
       height: 7, // <-- I commented this out to see this ERROR
@@ -565,7 +565,7 @@ class Employee extends Person {
     // before optionize because it is required
     console.log( providedOptions.isRequiredAwesome );
 
-    const options = optionize<EmployeeOptions, EmployeeSelfOptions, PersonOptions, 'personitude' | 'dogOptions'>( {
+    const options = optionize<EmployeeOptions, EmployeeSelfOptions, PersonOptions>()( {
         // blarg: true,
         isAwesome: true, // (2)
         // hasShirt: false, // (3)
@@ -615,7 +615,7 @@ type EmployeeOfTheMonthOptions = Omit<EmployeeOptions, 'isRequiredAwesome'>
 class EmployeeOfTheMonth extends Employee {
   constructor( providedOptions: EmployeeOfTheMonthOptions ) { // (8), note that if options are optional, then they get a question mark here.
 
-    const options = optionize<EmployeeOfTheMonthOptions, {}, EmployeeOptions, 'isRequiredAwesome'>( {
+    const options = optionize<EmployeeOfTheMonthOptions, {}, EmployeeOptions>()( {
       // name: 'Bob', // Limitation (I) why doesn't this fail when commented out! It is a required argument to EmployeeOptions but providedOptions is optional?  https://github.com/phetsims/chipper/issues/1128
       isRequiredAwesome: true
     }, providedOptions );
@@ -646,7 +646,7 @@ class WilderOptionsPatterns {
       dogOptions: { name: 'other dog name' }
 
 
-      // countryOfOrigin: 'america' ERROR countryOfOrigin is not in any known options.
+      // countryOfOrigin: 'america' // ERROR countryOfOrigin is not in any known options.
       // attitude: 'hi' // ERROR (5) not allowed in EmployeeOptions
     } );
 
