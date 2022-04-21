@@ -63,9 +63,8 @@
  * @author Michael Kauzmann (PhET Interactive Simulations)
  */
 
-import optionize, { optionize3 } from '../../../../phet-core/js/optionize.js';
+import optionize, { optionize3, OptionizeDefaults } from '../../../../phet-core/js/optionize.js';
 import merge from '../../../../phet-core/js/merge.js';
-import { OptionizeDefaults } from '../../../../phet-core/js/optionize.js';
 import wilder from '../../wilder.js';
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
