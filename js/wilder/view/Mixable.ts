@@ -16,7 +16,6 @@ import Property, { PropertyOptions } from '../../../../axon/js/Property.js';
 
 // Just memoizes first argument.
 function memoize<Key, Value>( func: ( k: Key, ...args: any[] ) => Value ) {
-  assert && assert( typeof func === 'function' );
 
   const map = new Map<Key, Value>();
 
@@ -94,7 +93,6 @@ const Mixable = memoize( <SuperType extends Constructor>( type: SuperType, super
     set someField( value: string ) { this._someField = value; }
 
     /**
-     * @public
      * @override
      */
     setVisible( value: boolean ): this {
@@ -149,8 +147,11 @@ const GenericMixin = <SuperType extends Constructor, T>( type: SuperType, defaul
     set someField( value: T ) { this._someField = value; }
   };
 };
+
 class MixBase {}
+
 class GenericMixed extends GenericMixin( MixBase, 5 ) {}
+
 const g = new GenericMixed();
 console.log( g.someField );
 
@@ -162,21 +163,30 @@ type PoolableOptions<Type extends Constructor> = {
   initialSize?: number;
   useDefaultConstruction?: boolean;
 };
+
 interface PoolableInstance {
   freeToPool(): void;
 }
+
 type PoolableVersion<Type extends Constructor> = InstanceType<Type> & PoolableInstance;
 type PoolableInitializer<Type extends Constructor> = ( ...args: ConstructorParameters<Type> ) => any;
 type PoolableClass<Type extends Constructor> = ( new ( ...args: ConstructorParameters<Type> ) => ( PoolableVersion<Type> ) ) & PoolableType<Type>;
+
 interface PoolableType<Type extends Constructor> {
   pool: PoolableVersion<Type>[];
+
   dirtyFromPool(): PoolableVersion<Type>;
+
   createFromPool( ...args: ConstructorParameters<Type> ): PoolableVersion<Type>;
+
   get poolSize(): number;
+
   set maxPoolSize( value: number );
+
   get maxPoolSize(): number;
 }
-const Poolable = <Type extends Constructor>( type: Type, options?: PoolableOptions<Type> ) : PoolableClass<Type> => {
+
+const Poolable = <Type extends Constructor>( type: Type, options?: PoolableOptions<Type> ): PoolableClass<Type> => {
   const filledOptions = merge( {
     // {Array.<*>} - If an object needs to be created without a direct call (say, to fill the pool initially), these
     // are the arguments that will be passed into the constructor
@@ -230,7 +240,6 @@ const Poolable = <Type extends Constructor>( type: Type, options?: PoolableOptio
 
     /**
      * Returns an object with arbitrary state (possibly constructed with the default arguments).
-     * @public
      *
      */
     dirtyFromPool(): PoolableVersion<Type> {
@@ -240,7 +249,6 @@ const Poolable = <Type extends Constructor>( type: Type, options?: PoolableOptio
     /**
      * Returns an object that behaves as if it was constructed with the given arguments. May result in a new object
      * being created (if the pool is empty), or it may use the constructor to mutate an object from the pool.
-     * @public
      */
     createFromPool( ...args: ConstructorParameters<Type> ): PoolableVersion<Type> {
       let result;
@@ -262,7 +270,6 @@ const Poolable = <Type extends Constructor>( type: Type, options?: PoolableOptio
 
     /**
      * Returns the current size of the pool.
-     * @public
      *
      */
     get poolSize() {
@@ -271,7 +278,6 @@ const Poolable = <Type extends Constructor>( type: Type, options?: PoolableOptio
 
     /**
      * Sets the maximum pool size.
-     * @public
      *
      * @param {number} value
      */
@@ -283,7 +289,6 @@ const Poolable = <Type extends Constructor>( type: Type, options?: PoolableOptio
 
     /**
      * Returns the maximum pool size.
-     * @public
      *
      */
     get maxPoolSize() {
@@ -295,7 +300,6 @@ const Poolable = <Type extends Constructor>( type: Type, options?: PoolableOptio
     /**
      * Adds this object into the pool, so that it can be reused elsewhere. Generally when this is done, no other
      * references to the object should be held (since they should not be used at all).
-     * @public
      */
     freeToPool() {
       if ( pool.length < maxPoolSize ) {
@@ -322,13 +326,13 @@ class VectorImpl {
     this.initialize( x, y );
   }
 
-  // @public
   initialize( x: number, y: number ) {
     this.x = x;
     this.y = y;
     this.z = 0;
   }
 }
+
 const Vector = Poolable( VectorImpl );
 
 const q = new Vector( 1, 2 );

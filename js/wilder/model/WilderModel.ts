@@ -209,7 +209,6 @@ class WilderModel {
 
       get secret() { return this._secret; }
 
-      // @public
       override dispose() {
         super.dispose();
         this._secret = 0; // Don't tell!
@@ -262,7 +261,6 @@ class WilderModel {
   }
 
   /**
-   * @public
    */
   reset() {
     // console.log( 'reset' );
