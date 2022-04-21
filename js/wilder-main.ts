@@ -23,7 +23,7 @@ const simOptions = {
     graphicArts: '',
     thanks: ''
   }
-};; // lint error for testing CT integration
+};
 
 simLauncher.launch( () => {
   const sim = new Sim( wilderTitleString, [ new WilderScreen( {
