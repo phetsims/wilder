@@ -6,7 +6,7 @@
  * @author AUTHOR
  */
 
-import Sim from '../../joist/js/Sim.js';
+import Sim, { SimOptions } from '../../joist/js/Sim.js';
 import simLauncher from '../../joist/js/simLauncher.js';
 import wilderStrings from './wilderStrings.js';
 import WilderScreen from './wilder/WilderScreen.js';
@@ -14,7 +14,7 @@ import Tandem from '../../tandem/js/Tandem.js';
 
 const wilderTitleString = wilderStrings.wilder.title;
 
-const simOptions = {
+const simOptions: SimOptions = {
   credits: {
     leadDesign: '',
     softwareDevelopment: '',
