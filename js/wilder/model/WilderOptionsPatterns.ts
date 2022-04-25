@@ -197,6 +197,31 @@ const container = new ItemContainer( {
 } );
 console.log( container );
 
+////////
+// Example Three Prime: nested options where you do not provide defaults for them.
+type ItemContainer2Options = {
+  nodeOptions?: ItemOptions;
+};
+
+class ItemContainer2 {
+  private node: Item;
+
+  constructor( providedOptions: ItemContainer2Options ) {
+
+    // TODO: Explicitly omit here until we can work out a way for optionize to detect nested options directly. https://github.com/phetsims/chipper/issues/1128
+    const options = optionize<ItemContainer2Options, Omit<ItemContainer2Options, 'nodeOptions'>>()( {}, providedOptions );
+
+    this.node = new Item( options.nodeOptions ); // eslint-disable-line no-html-constructors
+  }
+}
+
+const container2 = new ItemContainer2( {
+  nodeOptions: {
+    children: [ new MyItem() ]
+  }
+} );
+console.log( container2 );
+
 
 ////////
 // Example Four: Narrowing parent options' scope
