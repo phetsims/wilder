@@ -326,7 +326,7 @@ class VectorImpl {
     this.initialize( x, y );
   }
 
-  initialize( x: number, y: number ) {
+  initialize( x: number, y: number ): void {
     this.x = x;
     this.y = y;
     this.z = 0;

@@ -98,7 +98,7 @@ class Item {
     this.y = options.y;
   }
 
-  getChildren() {
+  getChildren(): Item[] {
     return this.children;
   }
 }
@@ -395,7 +395,7 @@ class Super {
     this.howSuper = providedOptions.howSuper;
   }
 
-  isSuper() {
+  isSuper(): HowSuper {
     return this.howSuper;
   }
 }
@@ -522,7 +522,7 @@ class Dog {
     this.isGood = options.isGood;
   }
 
-  printAge() {
+  printAge(): void {
     console.log( this.age );
   }
 }

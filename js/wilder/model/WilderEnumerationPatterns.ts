@@ -32,7 +32,7 @@ class WilderEnumerationPatterns {
         phetioDocumentation: 'Describes the type of the mammal.'
       } );
 
-      sayHello() {
+      sayHello(): void {
         console.log( 'hello' );
       }
     }

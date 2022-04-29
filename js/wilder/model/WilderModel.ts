@@ -209,13 +209,13 @@ class WilderModel {
 
       get secret() { return this._secret; }
 
-      override dispose() {
+      override dispose(): void {
         super.dispose();
         this._secret = 0; // Don't tell!
       }
 
       // @private
-      static createSecretNode() { return new SecretNode( { secret: 0 } ); }
+      static createSecretNode(): SecretNode { return new SecretNode( { secret: 0 } ); }
     }
 
     hardAssert( new SecretNode( { secret: 5 } ).secret === 5 );
@@ -262,7 +262,7 @@ class WilderModel {
 
   /**
    */
-  reset() {
+  reset(): void {
     // console.log( 'reset' );
   }
 }
