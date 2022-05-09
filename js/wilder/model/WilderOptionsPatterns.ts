@@ -2,6 +2,8 @@
 
 /**
  * Demonstrates using PhET Options patterns with inheritance and composition.
+ * See https://github.com/phetsims/phet-info/blob/master/doc/phet-software-design-patterns.md#options-typescript
+ * for additional description.
  *
  * The general structure of options is to define the Type of options that are defined at each level of the hierarchy,
  * as well as a Type for the public, providedOptions for the constructor. Optionize should do the rest for you. All
