@@ -65,7 +65,7 @@ class WilderModel {
       return x * x;
     } )[ 3 ] === 9 );
 
-    const self = this;
+    const self = this; // eslint-disable-line @typescript-eslint/no-this-alias
     [ 1 ].forEach( element => {
       hardAssert( this === self );
     } );
