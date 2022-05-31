@@ -73,9 +73,9 @@ class WilderEnumerationPatterns {
 
     /************************************************************************
      * String union type.
-     * Use this when you need a type, but not values or phet-io support. You may see this more in legacy code, like
-     * LayoutBox, or in APIs where it is preferable for options or parameters to be plain strings.
-     * For instance: new LayoutBox({align:'top'});
+     * Use this when you need a type, but not values or phet-io support. You may see this more in legacy code,
+     * or in APIs where it is preferable for options or parameters to be plain strings.
+     * For example: new HBox( { align:'top' } );
      */
 
     type PetChoice = 'DOG' | 'CAT';
