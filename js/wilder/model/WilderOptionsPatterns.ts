@@ -68,7 +68,7 @@
 import optionize, { optionize3, OptionizeDefaults } from '../../../../phet-core/js/optionize.js';
 import merge from '../../../../phet-core/js/merge.js';
 import wilder from '../../wilder.js';
-import OmitStrict from '../../../../phet-core/js/types/OmitStrict.js';
+import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
 // Basic Examples that utilize common PhET options patterns.
@@ -212,7 +212,7 @@ class ItemContainer2 {
   constructor( providedOptions: ItemContainer2Options ) {
 
     // TODO: Explicitly omit here until we can work out a way for optionize to detect nested options directly. https://github.com/phetsims/chipper/issues/1128
-    const options = optionize<ItemContainer2Options, OmitStrict<ItemContainer2Options, 'nodeOptions'>>()( {}, providedOptions );
+    const options = optionize<ItemContainer2Options, StrictOmit<ItemContainer2Options, 'nodeOptions'>>()( {}, providedOptions );
 
     this.node = new Item( options.nodeOptions ); // eslint-disable-line no-html-constructors
   }
@@ -232,7 +232,7 @@ console.log( container2 );
 type StationaryItemSelfOptions = {};
 
 // Another way to do this in this case would be Pick<ItemOptions, 'children'>, depending on opt-in/opt-out preference for narrowing API
-type StationaryItemOptions = StationaryItemSelfOptions & OmitStrict<ItemOptions, 'x' | 'y'>;
+type StationaryItemOptions = StationaryItemSelfOptions & StrictOmit<ItemOptions, 'x' | 'y'>;
 
 class StationaryItem extends Item {
   constructor( providedOptions?: StationaryItemOptions ) {
@@ -579,7 +579,7 @@ type EmployeeSelfOptions = {
   age?: number;
 };
 
-type EmployeeOptions = EmployeeSelfOptions & OmitStrict<PersonOptions, 'attitude'>;
+type EmployeeOptions = EmployeeSelfOptions & StrictOmit<PersonOptions, 'attitude'>;
 
 class Employee extends Person {
 
@@ -637,7 +637,7 @@ class Employee extends Person {
   }
 }
 
-type EmployeeOfTheMonthOptions = OmitStrict<EmployeeOptions, 'isRequiredAwesome'>
+type EmployeeOfTheMonthOptions = StrictOmit<EmployeeOptions, 'isRequiredAwesome'>
 
 class EmployeeOfTheMonth extends Employee {
   constructor( providedOptions: EmployeeOfTheMonthOptions ) { // (8), note that if options are optional, then they get a question mark here.
