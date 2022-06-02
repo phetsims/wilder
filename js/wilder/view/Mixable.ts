@@ -278,8 +278,6 @@ const Poolable = <Type extends Constructor>( type: Type, options?: PoolableOptio
 
     /**
      * Sets the maximum pool size.
-     *
-     * @param {number} value
      */
     set maxPoolSize( value ) {
       assert && assert( value === Number.POSITIVE_INFINITY || ( Number.isInteger( value ) && value >= 0 ), 'maxPoolSize should be a non-negative integer or infinity' );
