@@ -32,7 +32,6 @@ class WilderModel {
 
   constructor( providedOptions: WilderModelOptions ) {
 
-    // @private
     this.wilderOptionsPatterns = new WilderOptionsPatterns();
     this.wilderEnumerationPatterns = new WilderEnumerationPatterns( {
       tandem: providedOptions.tandem.createTandem( 'wilderEnumerationPatterns' )
@@ -214,7 +213,6 @@ class WilderModel {
         this._secret = 0; // Don't tell!
       }
 
-      // @private
       static createSecretNode(): SecretNode { return new SecretNode( { secret: 0 } ); }
     }
 
@@ -225,8 +223,8 @@ class WilderModel {
     // Unsupported without babel-polyfill, commented out for now. DO NOT USE in simulations. May be used in the future.
     // Iterable class (with a generator method)
     // class RelativePrimes {
+    //   private n: number;
     //   constructor( n ) {
-    //     // @private {number}
     //     this.n = n;
     //   }
     //   *[Symbol.iterator]() {
