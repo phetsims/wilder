@@ -24,15 +24,15 @@ class WilderEnumerationPatterns {
      * The primary enumeration pattern.
      */
     class MammalType extends EnumerationValue {
-      static PUPPY = new MammalType();
-      static KITTY = new MammalType();
+      public static PUPPY = new MammalType();
+      public static KITTY = new MammalType();
 
       // Gets a list of keys, values and mapping between them.  For use in EnumerationProperty and PhET-iO
-      static enumeration = new Enumeration( MammalType, {
+      public static enumeration = new Enumeration( MammalType, {
         phetioDocumentation: 'Describes the type of the mammal.'
       } );
 
-      sayHello(): void {
+      public sayHello(): void {
         console.log( 'hello' );
       }
     }

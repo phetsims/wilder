@@ -213,7 +213,7 @@ class WilderModel {
         this._secret = 0; // Don't tell!
       }
 
-      static createSecretNode(): SecretNode { return new SecretNode( { secret: 0 } ); }
+      public static createSecretNode(): SecretNode { return new SecretNode( { secret: 0 } ); }
     }
 
     hardAssert( new SecretNode( { secret: 5 } ).secret === 5 );
