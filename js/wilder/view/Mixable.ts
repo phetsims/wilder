@@ -233,7 +233,7 @@ const Poolable = <Type extends Constructor>( type: Type, options?: PoolableOptio
 
   extend( type, {
     /**
-     * @private {Array.<type>} - This should not be modified externally. In the future if desired, functions could
+     * This should not be modified externally. In the future if desired, functions could
      * be added to help adding/removing poolable instances manually.
      */
     pool: pool,
