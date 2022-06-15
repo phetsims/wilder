@@ -544,7 +544,7 @@ type PersonSelfOptions = {
   age?: number;
 }
 
-type PersonOptions = PersonSelfOptions & {}; // no parent options
+type PersonOptions = PersonSelfOptions; // no parent options
 
 class Person {
   dog: Dog;

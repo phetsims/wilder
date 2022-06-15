@@ -15,6 +15,7 @@ import wilder from '../../wilder.js';
 import WilderOptionsPatterns from './WilderOptionsPatterns.js';
 import WilderEnumerationPatterns from './WilderEnumerationPatterns.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
+import EmptyObjectType from '../../../../phet-core/js/types/EmptyObjectType.js';
 
 // Commented out for the currently-unsupported ES6 features
 // const Utils = require( '/dot/js/Utils' );
@@ -191,7 +192,7 @@ class WilderModel {
       public _mutatorKeys = [ ...Node.prototype._mutatorKeys, 'secret' ];
       private _secret: number;
 
-      constructor( options?: Partial<{}> ) {
+      constructor( options?: EmptyObjectType ) {
 
         // Can't reference `this` before the super() call
         // Don't pass options here, since want to initialize defaults before passing options to mutate. We still only

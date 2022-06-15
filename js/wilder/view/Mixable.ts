@@ -13,6 +13,7 @@ import merge from '../../../../phet-core/js/merge.js';
 import extend from '../../../../phet-core/js/extend.js';
 import Constructor from '../../../../phet-core/js/types/Constructor.js';
 import Property, { PropertyOptions } from '../../../../axon/js/Property.js';
+import EmptyObjectType from '../../../../phet-core/js/types/EmptyObjectType.js';
 
 // Just memoizes first argument.
 function memoize<Key, Value>( func: ( k: Key, ...args: any[] ) => Value ) {
@@ -74,7 +75,7 @@ const Mixable = memoize( <SuperType extends Constructor>( type: SuperType, super
       const node = args[ 0 ] as Node;
       assert && assert( node instanceof Node );
       const superArguments = args.slice( MIXIN_PARAMETER_COUNT ).slice( 0, superParameterCount );
-      const nodeOptions = args[ superParameterCount + MIXIN_PARAMETER_COUNT ] as ( {} | undefined );
+      const nodeOptions = args[ superParameterCount + MIXIN_PARAMETER_COUNT ] as ( EmptyObjectType | undefined );
 
       // console.log( `mixable passed a node: ${node}` );
       // console.log( `mixable passed node options: ${JSON.stringify( nodeOptions )}` );
@@ -112,14 +113,14 @@ const Mixable = memoize( <SuperType extends Constructor>( type: SuperType, super
 
 /// THIS WILL BE IN EACH MIXING TYPE
 class NodeMixed extends Mixable( Node, 0 ) {
-  constructor( node: Node, options?: {} ) {
+  constructor( node: Node, options?: EmptyObjectType ) {
     // @ts-ignore
     super( node, options );
   }
 }
 
 class TextMixed extends Mixable( Text, 1 ) {
-  constructor( node: Node, text: string, options?: {} ) {
+  constructor( node: Node, text: string, options?: EmptyObjectType ) {
     // @ts-ignore
     super( node, text, options );
   }
@@ -170,7 +171,9 @@ interface PoolableInstance {
 
 type PoolableVersion<Type extends Constructor> = InstanceType<Type> & PoolableInstance;
 type PoolableInitializer<Type extends Constructor> = ( ...args: ConstructorParameters<Type> ) => any;
-type PoolableClass<Type extends Constructor> = ( new ( ...args: ConstructorParameters<Type> ) => ( PoolableVersion<Type> ) ) & PoolableType<Type>;
+type PoolableClass<Type extends Constructor> =
+  ( new ( ...args: ConstructorParameters<Type> ) => ( PoolableVersion<Type> ) )
+  & PoolableType<Type>;
 
 interface PoolableType<Type extends Constructor> {
   pool: PoolableVersion<Type>[];

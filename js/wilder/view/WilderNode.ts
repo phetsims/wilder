@@ -7,12 +7,13 @@
  */
 
 import merge from '../../../../phet-core/js/merge.js';
+import EmptyObjectType from '../../../../phet-core/js/types/EmptyObjectType.js';
 import { Node, Text } from '../../../../scenery/js/imports.js';
 import wilder from '../../wilder.js';
 import Mixable from './Mixable.js';
 
 class WilderNode extends Node {
-  constructor( options?: Partial<{}> ) {
+  constructor( options?: EmptyObjectType ) {
     options = merge( {
       children: [ new Text( 'hello wilder' ) ]
     }, options );
