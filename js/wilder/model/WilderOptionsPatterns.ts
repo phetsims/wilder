@@ -624,8 +624,8 @@ class Employee extends Person {
     // console.log( options.dogOptions.isGood );
 
     // (4) If you have optional usage sites in the constructor, you can leave it optional in the optionize types
-    const a = ( m?: string ) => {};
-    a( options.personitude );
+    const a: string | undefined = options.personitude;
+    console.log( a );
 
     // (4) Optionize knows age is defined here because it is optional in EmployeeSelfOptions, so it must have a default.
     console.log( 'My age is', options.age - 1 ); // cool people seem younger
