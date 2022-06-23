@@ -31,7 +31,7 @@ class WilderModel {
   private wilderOptionsPatterns: WilderOptionsPatterns;
   private wilderEnumerationPatterns: WilderEnumerationPatterns;
 
-  constructor( providedOptions: WilderModelOptions ) {
+  public constructor( providedOptions: WilderModelOptions ) {
 
     this.wilderOptionsPatterns = new WilderOptionsPatterns();
     this.wilderEnumerationPatterns = new WilderEnumerationPatterns( {
@@ -192,7 +192,7 @@ class WilderModel {
       public _mutatorKeys = [ ...Node.prototype._mutatorKeys, 'secret' ];
       private _secret: number;
 
-      constructor( options?: EmptyObjectType ) {
+      public constructor( options?: EmptyObjectType ) {
 
         // Can't reference `this` before the super() call
         // Don't pass options here, since want to initialize defaults before passing options to mutate. We still only
@@ -205,11 +205,11 @@ class WilderModel {
         this.mutate( options );
       }
 
-      set secret( value ) { this._secret = value; }
+      public set secret( value ) { this._secret = value; }
 
-      get secret() { return this._secret; }
+      public get secret() { return this._secret; }
 
-      override dispose(): void {
+      public override dispose(): void {
         super.dispose();
         this._secret = 0; // Don't tell!
       }
@@ -261,7 +261,7 @@ class WilderModel {
 
   /**
    */
-  reset(): void {
+  public reset(): void {
     // console.log( 'reset' );
   }
 }

@@ -16,7 +16,7 @@ type WilderScreenViewOptions = {
 };
 
 class WilderScreenView extends ScreenView {
-  constructor( wilderModel: WilderModel, providedOptions: WilderScreenViewOptions ) {
+  public constructor( wilderModel: WilderModel, providedOptions: WilderScreenViewOptions ) {
     super( providedOptions );
 
     const wilderNode = new WilderNode( { x: 100, y: 100 } );

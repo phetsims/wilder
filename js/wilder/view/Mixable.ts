@@ -34,24 +34,24 @@ function memoize<Key, Value>( func: ( k: Key, ...args: any[] ) => Value ) {
 
 const GenericMix = memoize( <SuperType extends Constructor>( type: SuperType ) => {
   const result = class extends type {
-    _someField: string;
+    private _someField: string;
 
-    constructor( ...args: any[] ) {
+    public constructor( ...args: any[] ) {
       super( ...args );
 
       this._someField = 'Testing';
     }
 
-    get someField(): string { return this._someField; }
+    public get someField(): string { return this._someField; }
 
-    set someField( value: string ) { this._someField = value; }
+    public set someField( value: string ) { this._someField = value; }
   };
 
   return result;
 } );
 
 class PropertyMixed<T> extends GenericMix( Property )<T> {
-  constructor( value: T, options?: PropertyOptions<T> ) {
+  public constructor( value: T, options?: PropertyOptions<T> ) {
     super( value, options );
   }
 }
@@ -68,10 +68,10 @@ const Mixable = memoize( <SuperType extends Constructor>( type: SuperType, super
   assert && assert( _.includes( inheritance( type ), Node ) );
 
   const result = class extends type {
-    _someField: string;
+    private _someField: string;
 
     // Call args to be (Node, ...args: any[])
-    constructor( ...args: any[] ) {
+    public constructor( ...args: any[] ) {
       const node = args[ 0 ] as Node;
 
       // eslint-disable-next-line no-simple-type-checking-assertions
@@ -91,14 +91,14 @@ const Mixable = memoize( <SuperType extends Constructor>( type: SuperType, super
       ( this as unknown as Node ).mutate( nodeOptions );
     }
 
-    get someField(): string { return this._someField; }
+    public get someField(): string { return this._someField; }
 
-    set someField( value: string ) { this._someField = value; }
+    public set someField( value: string ) { this._someField = value; }
 
     /**
      * @override
      */
-    setVisible( value: boolean ): this {
+    public setVisible( value: boolean ): this {
       // console.log( `our bounds: ${( this as unknown as Node ).bounds}` );
 
       // @ts-ignore
@@ -115,14 +115,14 @@ const Mixable = memoize( <SuperType extends Constructor>( type: SuperType, super
 
 /// THIS WILL BE IN EACH MIXING TYPE
 class NodeMixed extends Mixable( Node, 0 ) {
-  constructor( node: Node, options?: EmptyObjectType ) {
+  public constructor( node: Node, options?: EmptyObjectType ) {
     // @ts-ignore
     super( node, options );
   }
 }
 
 class TextMixed extends Mixable( Text, 1 ) {
-  constructor( node: Node, text: string, options?: EmptyObjectType ) {
+  public constructor( node: Node, text: string, options?: EmptyObjectType ) {
     // @ts-ignore
     super( node, text, options );
   }
@@ -137,17 +137,17 @@ console.log( `my bar: ${t.someField}` );
 //////////////////////////////////////////////////////
 const GenericMixin = <SuperType extends Constructor, T>( type: SuperType, defaultValue: T ) => {
   return class extends type {
-    _someField: T;
+    public _someField: T;
 
-    constructor( ...args: any[] ) {
+    public constructor( ...args: any[] ) {
       super( ...args );
 
       this._someField = defaultValue;
     }
 
-    get someField(): T { return this._someField; }
+    public get someField(): T { return this._someField; }
 
-    set someField( value: T ) { this._someField = value; }
+    public set someField( value: T ) { this._someField = value; }
   };
 };
 
@@ -320,16 +320,16 @@ const Poolable = <Type extends Constructor>( type: Type, options?: PoolableOptio
 };
 
 class VectorImpl {
-  x!: number
-  y!: number
+  public x!: number
+  public y!: number
 
   private z!: number;
 
-  constructor( x: number, y: number ) {
+  public constructor( x: number, y: number ) {
     this.initialize( x, y );
   }
 
-  initialize( x: number, y: number ): void {
+  private initialize( x: number, y: number ): void {
     this.x = x;
     this.y = y;
     this.z = 0;

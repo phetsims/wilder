@@ -18,7 +18,7 @@ type WilderEnumerationPatternsOptions = {
 };
 
 class WilderEnumerationPatterns {
-  constructor( providedOptions: WilderEnumerationPatternsOptions ) {
+  public constructor( providedOptions: WilderEnumerationPatternsOptions ) {
 
     /************************************************************************
      * The primary enumeration pattern.
@@ -53,16 +53,16 @@ class WilderEnumerationPatterns {
      * more values. This should be rarely used.
      */
     class TreeType extends EnumerationValue {
-      static ASH = new TreeType();
-      static BIRCH = new TreeType();
+      public static ASH = new TreeType();
+      public static BIRCH = new TreeType();
 
-      static enumeration = new Enumeration( TreeType );
+      public static enumeration = new Enumeration( TreeType );
     }
 
     class SpecialTreeType extends TreeType {
-      static CEDAR = new SpecialTreeType();
+      public static CEDAR = new SpecialTreeType();
 
-      static override enumeration = new Enumeration( SpecialTreeType, {
+      public static override enumeration = new Enumeration( SpecialTreeType, {
 
         // Match any static member of SpecialTreeType that is instanceof TreeType, so it will include the existing ASH, BIRCH and also the new value CEDAR
         instanceType: TreeType

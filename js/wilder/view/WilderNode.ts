@@ -13,7 +13,7 @@ import wilder from '../../wilder.js';
 import Mixable from './Mixable.js';
 
 class WilderNode extends Node {
-  constructor( providedOptions?: NodeOptions ) {
+  public constructor( providedOptions?: NodeOptions ) {
     const options = optionize<NodeOptions, EmptyObjectType, NodeOptions>()( {
       children: [ new Text( 'hello wilder' ) ]
     }, providedOptions );
@@ -25,7 +25,7 @@ class WilderNode extends Node {
   /**
    * Rotates the node by PI, demonstrates a class method.
    */
-  flipOver(): void {
+  public flipOver(): void {
     this.rotate( Math.PI );
   }
 }

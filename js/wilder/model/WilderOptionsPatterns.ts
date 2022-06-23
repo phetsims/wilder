@@ -88,7 +88,7 @@ class Item {
   private x: number;
   private y: number;
 
-  constructor( providedOptions?: ItemOptions ) {
+  public constructor( providedOptions?: ItemOptions ) {
 
     // In the simplest case, optionize just takes the options that this class defines.
     const options = optionize<ItemOptions>()( {
@@ -102,7 +102,7 @@ class Item {
     this.y = options.y;
   }
 
-  getChildren(): Item[] {
+  public getChildren(): Item[] {
     return this.children;
   }
 }
@@ -124,7 +124,7 @@ type MyItemOptions = SelfOptions & ItemOptions;
 class MyItem extends Item {
   private mySpecialNumber: number;
 
-  constructor( providedOptions?: MyItemOptions ) {
+  public constructor( providedOptions?: MyItemOptions ) {
 
     // Here optionize takes all options that it defines, and also its parent options so that those are allowed to be
     // passed through the super call. By default, optionize knows what the combined type of "providedOptions" (defaults
@@ -158,7 +158,7 @@ type TreeItemOptions = TreeItemSelfOptions & ItemOptions;
 class TreeItem extends Item {
   private treeType: TreeItemSelfOptions[ 'treeType' ];
 
-  constructor( providedOptions: TreeItemOptions ) {
+  public constructor( providedOptions: TreeItemOptions ) {
     const options = optionize3<TreeItemOptions, TreeItemSelfOptions, ItemOptions>()( {}, providedOptions );
     super( options );
     this.treeType = options.treeType;
@@ -182,7 +182,7 @@ type ItemContainerOptions = {
 class ItemContainer {
   private node: Item;
 
-  constructor( providedOptions: ItemContainerOptions ) {
+  public constructor( providedOptions: ItemContainerOptions ) {
     const options = optionize<ItemContainerOptions>()( {
       nodeOptions: {
         x: 5,
@@ -210,7 +210,7 @@ type ItemContainer2Options = {
 class ItemContainer2 {
   private node: Item;
 
-  constructor( providedOptions: ItemContainer2Options ) {
+  public constructor( providedOptions: ItemContainer2Options ) {
 
     // TODO: Explicitly omit here until we can work out a way for optionize to detect nested options directly. https://github.com/phetsims/chipper/issues/1128
     const options = optionize<ItemContainer2Options, StrictOmit<ItemContainer2Options, 'nodeOptions'>>()( {}, providedOptions );
@@ -236,7 +236,7 @@ type StationaryItemSelfOptions = EmptyObjectType;
 type StationaryItemOptions = StationaryItemSelfOptions & StrictOmit<ItemOptions, 'x' | 'y'>;
 
 class StationaryItem extends Item {
-  constructor( providedOptions?: StationaryItemOptions ) {
+  public constructor( providedOptions?: StationaryItemOptions ) {
 
     // Here, since there are no self options, and instead just modified parent options, pass the public options in as the parent options
     const options = optionize<StationaryItemOptions, StationaryItemSelfOptions, ItemOptions>()( {}, providedOptions );
@@ -258,7 +258,7 @@ type ChildrenAdapterItemSelfOptions = EmptyObjectType;
 type ChildrenAdapterItemOptions = ChildrenAdapterItemSelfOptions & ItemOptions
 
 class ChildrenAdapterItem extends Item {
-  constructor( providedOptions?: ChildrenAdapterItemOptions ) {
+  public constructor( providedOptions?: ChildrenAdapterItemOptions ) {
 
     // Adding the third argument makes sure that children is known to be defined, for usage later in the constructor
     const options = optionize<ChildrenAdapterItemOptions, ChildrenAdapterItemSelfOptions, ItemOptions>()( {
@@ -289,7 +289,7 @@ type OtherItemSelfOptions = {
 type OtherItemOptions = OtherItemSelfOptions & ItemOptions;
 
 class OtherItem extends Item {
-  constructor( providedOptions?: OtherItemOptions ) {
+  public constructor( providedOptions?: OtherItemOptions ) {
 
     // NOTE: You must apply a type here in order to get "blarg" to error when uncommented
     const OTHER_ITEM_DEFAULTS: OptionizeDefaults<OtherItemSelfOptions, ItemOptions, 'x'> = {
@@ -309,7 +309,7 @@ class OtherItem extends Item {
     this.test( options.thing );
   }
 
-  test( x: number ): void {
+  public test( x: number ): void {
     console.log( x );
   }
 }
@@ -328,7 +328,7 @@ type RequiredThingOptions = {
 
 
 class RequiredThing {
-  constructor( providedOptions?: RequiredThingOptions ) {
+  public constructor( providedOptions?: RequiredThingOptions ) {
 
     // Here, since there are no self options, and instead just modified parent options, pass the public options in as the parent options
     const options = optionize<RequiredThingOptions>()( {
@@ -348,9 +348,9 @@ console.log( new RequiredThing() );
 // Example Eight: An option is generic
 
 class MyGeneric<G> {
-  optionalThing: G | undefined;
+  private optionalThing: G | undefined;
 
-  constructor( optionalThing?: G ) {
+  public constructor( optionalThing?: G ) {
     this.optionalThing = optionalThing;
   }
 }
@@ -361,9 +361,9 @@ type WrapTypeOptions<T> = {
 
 
 class WrapType<T> {
-  favoriteGeneric: MyGeneric<T>;
+  public favoriteGeneric: MyGeneric<T>;
 
-  constructor( providedOptions?: WrapTypeOptions<T> ) {
+  public constructor( providedOptions?: WrapTypeOptions<T> ) {
     const options = optionize<WrapTypeOptions<T>, WrapTypeOptions<T>>()( {
       favoriteGeneric: new MyGeneric<T>()
     }, providedOptions );
@@ -371,7 +371,7 @@ class WrapType<T> {
     this.favoriteGeneric = options.favoriteGeneric;
   }
 
-  getFavoriteItemProperty(): MyGeneric<T> {
+  public getFavoriteItemProperty(): MyGeneric<T> {
     return this.favoriteGeneric;
   }
 }
@@ -393,13 +393,13 @@ type SuperOptions = {
 }
 
 class Super {
-  howSuper: HowSuper;
+  private readonly howSuper: HowSuper;
 
-  constructor( providedOptions: SuperOptions ) {
+  public constructor( providedOptions: SuperOptions ) {
     this.howSuper = providedOptions.howSuper;
   }
 
-  isSuper(): HowSuper {
+  public isSuper(): HowSuper {
     return this.howSuper;
   }
 }
@@ -410,7 +410,7 @@ type KingSelfOptions = {
 type KingOptions = KingSelfOptions & Partial<SuperOptions>;
 
 class King extends Super {
-  constructor( providedOptions?: KingOptions ) {
+  public constructor( providedOptions?: KingOptions ) {
 
     // Without the 4th type arg, the super() call doesn't know that howSuper has been provided. This is a workaround
     // for Limitation (I). Ideally, we wouldn't need the 4th parameter here.
@@ -447,7 +447,7 @@ type BlueItemSelfOptions = {
 type BlutItemOptions = BlueItemSelfOptions & ItemOptions;
 
 class BlueItem extends Item {
-  constructor( providedOptions?: BlutItemOptions ) {
+  public constructor( providedOptions?: BlutItemOptions ) {
 
     // NOTE: isSad can be provided either via the SIM_CONSTANTS objec, or in the object literal, but TypeScript knows
     // if you leave it out entirely.
@@ -463,7 +463,7 @@ class BlueItem extends Item {
     this.test( options.isSad );
   }
 
-  test( isSad: string ): void {
+  public test( isSad: string ): void {
     console.log( isSad );
   }
 }
@@ -481,7 +481,7 @@ type LargeItemSelfOptions = {
 type LargeItemOptions = LargeItemSelfOptions & ItemOptions;
 
 class LargeItem extends Item {
-  constructor( providedOptions?: LargeItemOptions ) {
+  public constructor( providedOptions?: LargeItemOptions ) {
 
     const options = optionize<LargeItemOptions, LargeItemSelfOptions, ItemOptions>()( {
 
@@ -511,11 +511,11 @@ type DogOptions = {
 };
 
 class Dog {
-  age: number;
-  name: string;
-  isGood?: boolean; // Note that since there was no default, Typescript knows it must support undefined
+  private age: number;
+  private name: string;
+  private isGood?: boolean; // Note that since there was no default, Typescript knows it must support undefined
 
-  constructor( providedOptions: DogOptions ) {
+  public constructor( providedOptions: DogOptions ) {
     const options = optionize<DogOptions, DogOptions>()( {
       age: 0,
       isGood: true
@@ -526,7 +526,7 @@ class Dog {
     this.isGood = options.isGood;
   }
 
-  printAge(): void {
+  public printAge(): void {
     console.log( this.age );
   }
 }
@@ -547,9 +547,9 @@ type PersonSelfOptions = {
 type PersonOptions = PersonSelfOptions; // no parent options
 
 class Person {
-  dog: Dog;
+  private dog: Dog;
 
-  constructor( providedOptions: PersonOptions ) {
+  public constructor( providedOptions: PersonOptions ) {
 
     const options = optionize<PersonOptions, PersonSelfOptions>()( {
       // (0) (7) New pattern doesn't use `required()` for non-optional options. (like for `name`)
@@ -588,7 +588,7 @@ class Employee extends Person {
   private isRequiredAwesome: boolean;
   private age: number;
 
-  constructor( providedOptions: EmployeeOptions ) {
+  public constructor( providedOptions: EmployeeOptions ) {
 
     // before optionize because it is required
     console.log( providedOptions.isRequiredAwesome );
@@ -641,7 +641,7 @@ class Employee extends Person {
 type EmployeeOfTheMonthOptions = StrictOmit<EmployeeOptions, 'isRequiredAwesome'>
 
 class EmployeeOfTheMonth extends Employee {
-  constructor( providedOptions: EmployeeOfTheMonthOptions ) { // (8), note that if options are optional, then they get a question mark here.
+  public constructor( providedOptions: EmployeeOfTheMonthOptions ) { // (8), note that if options are optional, then they get a question mark here.
 
     const options = optionize<EmployeeOfTheMonthOptions, EmptyObjectType, EmployeeOptions>()( {
       // name: 'Bob', // Limitation (I) why doesn't this fail when commented out! It is a required argument to EmployeeOptions but providedOptions is optional?  https://github.com/phetsims/chipper/issues/1128
@@ -657,7 +657,7 @@ class WilderOptionsPatterns {
   private charlie: Employee;
   private alice: EmployeeOfTheMonth;
 
-  constructor() {
+  public constructor() {
 
     this.bob = new Employee( {
       isRequiredAwesome: true, // (2)

@@ -16,7 +16,7 @@ type WilderScreenOptions = {
 };
 
 class WilderScreen extends Screen<WilderModel, WilderScreenView> {
-  constructor( providedOptions: WilderScreenOptions ) {
+  public constructor( providedOptions: WilderScreenOptions ) {
 
     const options = {
       backgroundColorProperty: new Property( 'white' ),
