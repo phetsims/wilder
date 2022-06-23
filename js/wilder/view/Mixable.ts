@@ -73,6 +73,8 @@ const Mixable = memoize( <SuperType extends Constructor>( type: SuperType, super
     // Call args to be (Node, ...args: any[])
     constructor( ...args: any[] ) {
       const node = args[ 0 ] as Node;
+
+      // eslint-disable-next-line no-simple-type-checking-assertions
       assert && assert( node instanceof Node );
       const superArguments = args.slice( MIXIN_PARAMETER_COUNT ).slice( 0, superParameterCount );
       const nodeOptions = args[ superParameterCount + MIXIN_PARAMETER_COUNT ] as ( EmptyObjectType | undefined );
