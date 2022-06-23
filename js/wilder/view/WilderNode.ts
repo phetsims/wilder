@@ -6,17 +6,17 @@
  * @author Sam Reid (PhET Interactive Simulations)
  */
 
-import merge from '../../../../phet-core/js/merge.js';
+import optionize from '../../../../phet-core/js/optionize.js';
 import EmptyObjectType from '../../../../phet-core/js/types/EmptyObjectType.js';
-import { Node, Text } from '../../../../scenery/js/imports.js';
+import { Node, NodeOptions, Text } from '../../../../scenery/js/imports.js';
 import wilder from '../../wilder.js';
 import Mixable from './Mixable.js';
 
 class WilderNode extends Node {
-  constructor( options?: EmptyObjectType ) {
-    options = merge( {
+  constructor( providedOptions?: NodeOptions ) {
+    const options = optionize<NodeOptions, EmptyObjectType, NodeOptions>()( {
       children: [ new Text( 'hello wilder' ) ]
-    }, options );
+    }, providedOptions );
     super( options );
 
     Mixable;
