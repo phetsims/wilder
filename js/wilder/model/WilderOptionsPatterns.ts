@@ -152,7 +152,7 @@ items.push( new MyItem( { x: 100, y: 100 } ) );
 
 type TreeItemSelfOptions = {
   treeType: 'cedar' | 'pine';
-}
+};
 type TreeItemOptions = TreeItemSelfOptions & ItemOptions;
 
 class TreeItem extends Item {
@@ -255,7 +255,7 @@ type ChildrenAdapterItemSelfOptions = EmptyObjectType;
 
 // It is a bit safer in common code to keep this alias, even when identical. This way, if you export your public
 // options, you don't skip a level and need to do a global refactor if you want to add an option to this subtype.
-type ChildrenAdapterItemOptions = ChildrenAdapterItemSelfOptions & ItemOptions
+type ChildrenAdapterItemOptions = ChildrenAdapterItemSelfOptions & ItemOptions;
 
 class ChildrenAdapterItem extends Item {
   public constructor( providedOptions?: ChildrenAdapterItemOptions ) {
@@ -390,7 +390,7 @@ type HowSuper = 'totally' | 'a bit' | 'no, not really';
 
 type SuperOptions = {
   howSuper: HowSuper;
-}
+};
 
 class Super {
   private readonly howSuper: HowSuper;
@@ -406,7 +406,7 @@ class Super {
 
 type KingSelfOptions = {
   hasGoodGroceries?: boolean;
-}
+};
 type KingOptions = KingSelfOptions & Partial<SuperOptions>;
 
 class King extends Super {
@@ -443,7 +443,7 @@ const SIM_CONSTANTS = {
 
 type BlueItemSelfOptions = {
   isSad?: string;
-}
+};
 type BlutItemOptions = BlueItemSelfOptions & ItemOptions;
 
 class BlueItem extends Item {
@@ -542,7 +542,7 @@ type PersonSelfOptions = {
   // it required here for more type safety and less flexibility.
   dogOptions?: Partial<DogOptions>;
   age?: number;
-}
+};
 
 type PersonOptions = PersonSelfOptions; // no parent options
 
@@ -638,7 +638,7 @@ class Employee extends Person {
   }
 }
 
-type EmployeeOfTheMonthOptions = StrictOmit<EmployeeOptions, 'isRequiredAwesome'>
+type EmployeeOfTheMonthOptions = StrictOmit<EmployeeOptions, 'isRequiredAwesome'>;
 
 class EmployeeOfTheMonth extends Employee {
   public constructor( providedOptions: EmployeeOfTheMonthOptions ) { // (8), note that if options are optional, then they get a question mark here.
