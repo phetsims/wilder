@@ -65,7 +65,7 @@
  * @author Michael Kauzmann (PhET Interactive Simulations)
  */
 
-import optionize, { optionize3, OptionizeDefaults } from '../../../../phet-core/js/optionize.js';
+import optionize, { combineOptions, optionize3, OptionizeDefaults } from '../../../../phet-core/js/optionize.js';
 import merge from '../../../../phet-core/js/merge.js';
 import wilder from '../../wilder.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
@@ -497,6 +497,25 @@ class LargeItem extends Item {
 
 // items.push( new LargeItem( { size: 'veryLarge' } ) ); // fails, good!
 items.push( new LargeItem( { size: 7 } ) );
+
+/////////
+// Example Twelve: Demonstrating a use case for combineOptions
+// When combining options of the same type, you should use combineOptions to simplify:
+
+class AnotherItem extends Item {
+  public constructor( providedOptions?: ItemOptions ) {
+
+    // AnotherItem options have the same type as ItemOptions. It just sets some defaults.
+    const options = combineOptions<ItemOptions>( {
+      size: 'veryLarge'
+    } );
+
+    super( options );
+  }
+}
+
+items.push( new AnotherItem( { x: 5 } ) );
+
 ////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////
