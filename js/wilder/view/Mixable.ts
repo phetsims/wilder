@@ -33,7 +33,7 @@ function memoize<Key, Value>( func: ( k: Key, ...args: any[] ) => Value ) {
 }
 
 const GenericMix = memoize( <SuperType extends Constructor>( type: SuperType ) => {
-  const result = class extends type {
+  const result = class GenericMixable extends type {
     private _someField: string;
 
     public constructor( ...args: any[] ) {
@@ -67,7 +67,7 @@ const MIXIN_PARAMETER_COUNT = 1;
 const Mixable = memoize( <SuperType extends Constructor>( type: SuperType, superParameterCount: number ) => {
   assert && assert( _.includes( inheritance( type ), Node ) );
 
-  const result = class extends type {
+  const result = class MixableClass extends type {
     private _someField: string;
 
     // Call args to be (Node, ...args: any[])
@@ -136,7 +136,7 @@ console.log( `my bar: ${t.someField}` );
 
 //////////////////////////////////////////////////////
 const GenericMixin = <SuperType extends Constructor, T>( type: SuperType, defaultValue: T ) => {
-  return class extends type {
+  return class GenericMixable extends type {
     public _someField: T;
 
     public constructor( ...args: any[] ) {
