@@ -39,7 +39,7 @@ class WilderModel {
     } );
 
     // We want a built version to error out for these "asserts"
-    function hardAssert( condition: any, message = '' ) {
+    function hardAssert( condition: boolean, message = '' ) {
       if ( !condition ) {
         throw new Error( message );
       }
@@ -78,7 +78,7 @@ class WilderModel {
     hardAssert( defaults( 0 ) === 5 );
 
     // Rest parameters
-    function rest( x: number, y: number, ...others: any[] ) {
+    function rest( x: number, y: number, ...others: number[] ) {
       return x + y + others.length;
     }
 
@@ -93,8 +93,8 @@ class WilderModel {
     hardAssert( `Testing ${2 + 3}` === 'Testing 5' );
 
     // Custom interpolation
-    function quoter( strings: TemplateStringsArray, ...quotations: any[] ) {
-      return interleave( strings, ( i: any ) => `"${quotations[ i ]}"` ).join( '' );
+    function quoter( strings: TemplateStringsArray, ...quotations: ( string | number )[] ) {
+      return interleave( strings, ( i: number ) => `"${quotations[ i ]}"` ).join( '' );
     }
 
     hardAssert( quoter`He said ${something} but then answered ${3 * 2}` === 'He said "foo" but then answered "6"' );

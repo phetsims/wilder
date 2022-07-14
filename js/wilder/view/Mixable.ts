@@ -14,13 +14,14 @@ import extend from '../../../../phet-core/js/extend.js';
 import Constructor from '../../../../phet-core/js/types/Constructor.js';
 import Property, { PropertyOptions } from '../../../../axon/js/Property.js';
 import EmptyObjectType from '../../../../phet-core/js/types/EmptyObjectType.js';
+import IntentionalAny from '../../../../phet-core/js/types/IntentionalAny.js';
 
 // Just memoizes first argument.
-function memoize<Key, Value>( func: ( k: Key, ...args: any[] ) => Value ) {
+function memoize<Key, Value>( func: ( k: Key, ...args: IntentionalAny[] ) => Value ) {
 
   const map = new Map<Key, Value>();
 
-  return ( key: Key, ...args: any[] ) => {
+  return ( key: Key, ...args: IntentionalAny[] ) => {
     if ( map.has( key ) ) {
       return map.get( key )!;
     }
@@ -36,7 +37,7 @@ const GenericMix = memoize( <SuperType extends Constructor>( type: SuperType ) =
   const result = class GenericMixable extends type {
     private _someField: string;
 
-    public constructor( ...args: any[] ) {
+    public constructor( ...args: IntentionalAny[] ) {
       super( ...args );
 
       this._someField = 'Testing';
@@ -70,8 +71,8 @@ const Mixable = memoize( <SuperType extends Constructor>( type: SuperType, super
   const result = class MixableClass extends type {
     private _someField: string;
 
-    // Call args to be (Node, ...args: any[])
-    public constructor( ...args: any[] ) {
+    // Call args to be (Node, ...args: IntentionalAny[])
+    public constructor( ...args: IntentionalAny[] ) {
       const node = args[ 0 ] as Node;
 
       // eslint-disable-next-line no-simple-type-checking-assertions
@@ -139,7 +140,7 @@ const GenericMixin = <SuperType extends Constructor, T>( type: SuperType, defaul
   return class GenericMixable extends type {
     public _someField: T;
 
-    public constructor( ...args: any[] ) {
+    public constructor( ...args: IntentionalAny[] ) {
       super( ...args );
 
       this._someField = defaultValue;
@@ -172,7 +173,7 @@ interface PoolableInstance {
 }
 
 type PoolableVersion<Type extends Constructor> = InstanceType<Type> & PoolableInstance;
-type PoolableInitializer<Type extends Constructor> = ( ...args: ConstructorParameters<Type> ) => any;
+type PoolableInitializer<Type extends Constructor> = ( ...args: ConstructorParameters<Type> ) => IntentionalAny;
 type PoolableClass<Type extends Constructor> =
   ( new ( ...args: ConstructorParameters<Type> ) => ( PoolableVersion<Type> ) )
   & PoolableType<Type>;
