@@ -498,19 +498,138 @@ class LargeItem extends Item {
 // items.push( new LargeItem( { size: 'veryLarge' } ) ); // fails, good!
 items.push( new LargeItem( { size: 7 } ) );
 
+//////////////////////////////////
+//////////////////////////////////
+// Examples using combineOptions
+
 /////////
-// Example Twelve: Demonstrating a use case for combineOptions
-// When combining options of the same type, you should use combineOptions to simplify:
+// Example Twelve: Use combineOptions when passing options to a composed type (example also in design patterns doc)
+
+type ChildOfComposedTypeSelfOptions = EmptyObjectType;
+type ChildOfComposedTypeOptions = {
+  oneOption?: boolean;
+};
+
+class ChildOfComposedType {
+  public constructor( providedOptions?: ChildOfComposedTypeOptions ) {
+    const options = optionize<ChildOfComposedTypeOptions, ChildOfComposedTypeSelfOptions>()( {
+      oneOption: false
+    }, providedOptions );
+
+    console.log( options );
+  }
+}
+
+type ThingWithComposedTypeOptions = {
+  childOptions: ChildOfComposedTypeOptions;
+};
+
+class ThingWithComposedType {
+  private readonly child: ChildOfComposedType;
+
+  // childOptions are required, so no need to optionize. But that could easily be done if needed.
+  public constructor( providedOptions: ThingWithComposedTypeOptions ) {
+
+    this.child = new ChildOfComposedType( combineOptions<ChildOfComposedTypeOptions>( {
+      oneOption: true
+    }, providedOptions.childOptions ) );
+
+  }
+}
+
+console.log( new ThingWithComposedType( { childOptions: {} } ) );
+
+/////////
+// Example Thirteen
+//
+// Use combineOptions in multiple ways to sprinkle in more options after the initial optionize call while keeping the
+// same type from the optionize return type.
+// 1. For nested options
+// 2. For options that depend on other options
+//
+
+type HandleOptions = {
+  length: number; // 0 to 5 units
+};
+
+class Handle {
+  private readonly length: number;
+
+  public constructor( providedOptions?: HandleOptions ) {
+    const options = optionize<HandleOptions>()( {
+      length: 2
+    }, providedOptions );
+
+    this.length = options.length;
+  }
+}
+
+type CoffeeCupOptions = {
+  handleOptions?: HandleOptions;
+  percentFilled?: number;
+  isABigCup?: boolean;
+};
+
+class CoffeeCup {
+  private readonly handle: Handle;
+
+  public constructor( providedOptions?: CoffeeCupOptions ) {
+
+    // Feel free to name "initial" to house the type returned from optionize
+    const initialOptions = optionize<CoffeeCupOptions, StrictOmit<CoffeeCupOptions, 'handleOptions' | 'isABigCup'>>()( {
+      percentFilled: 30
+    }, providedOptions );
+
+    // combineOptions can be helpful when providing defaults to nestedOptions.
+    initialOptions.handleOptions = combineOptions<HandleOptions>( {
+      length: 4 // CoffeeCups have larger handles
+    }, initialOptions.handleOptions );
+
+    // combineOptions can be used when you want to add in options that depend on other options
+    const options: typeof initialOptions = combineOptions<typeof initialOptions>( {
+      isABigCup: initialOptions.percentFilled > 50 // big cups start over half full
+    } );
+
+    this.handle = new Handle( options.handleOptions );
+  }
+}
+
+console.log( new CoffeeCup() );
+
+/////////
+// Example Fourteen
+//
+// combineOptions can be a bit of a shortcut when you have enough context about the specific use case. Here combineOptions
+// is used in a couple different ways where optionize may be more scalable or maintainable (like if in common code), but
+// if needed combineOptions can be simpler.
+
+type UseAnItemOptions = {
+  anOption?: boolean;
+};
 
 class AnotherItem extends Item {
   public constructor( providedOptions?: ItemOptions ) {
 
-    // AnotherItem options have the same type as ItemOptions. It just sets some defaults.
+    // AnotherItem options have the same type as ItemOptions. It just sets one default. This example doesn't make it easy
+    // to add SelfOptions to AnotherItem, or to export AnotherItemOptions if needed elsewhere, but for a
+    // modular/sim-specific case could be reasonable.
     const options = combineOptions<ItemOptions>( {
       size: 'veryLarge'
-    } );
+    }, providedOptions );
 
     super( options );
+  }
+
+  private static USE_AN_ITEM_OPTIONS: UseAnItemOptions = {
+    anOption: true
+  };
+
+  private static useAnItem( useAnItemOptions?: UseAnItemOptions ): void {
+
+    // In this case, there are no "defaults" and we don't need to prevent `anOption` from being undefined, so combineOptions
+    // works well.
+    const options = combineOptions<UseAnItemOptions>( {}, AnotherItem.USE_AN_ITEM_OPTIONS, useAnItemOptions );
+    console.log( options.anOption );
   }
 }
 
