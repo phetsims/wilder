@@ -322,7 +322,7 @@ items.push( new OtherItem() );
 // Another way to do this in this case would be Pick<ItemOptions, 'children'>, depending on opt-in/opt-out preference for narrowing API
 type RequiredThingOptions = {
   requiredNumber: number;
-  requriedString: string;
+  requiredString: string;
   // optional?: number; // Uncomment to get the error in the optionize defaults.
 };
 
