@@ -69,7 +69,7 @@ import optionize, { combineOptions, optionize3, OptionizeDefaults } from '../../
 import merge from '../../../../phet-core/js/merge.js';
 import wilder from '../../wilder.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
-import EmptyObjectType from '../../../../phet-core/js/types/EmptyObjectType.js';
+import { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
 // Basic Examples that utilize common PhET options patterns.
@@ -230,7 +230,7 @@ console.log( container2 );
 ////////
 // Example Four: Narrowing parent options' scope
 
-type StationaryItemSelfOptions = EmptyObjectType;
+type StationaryItemSelfOptions = EmptySelfOptions;
 
 // Another way to do this in this case would be Pick<ItemOptions, 'children'>, depending on opt-in/opt-out preference for narrowing API
 type StationaryItemOptions = StationaryItemSelfOptions & StrictOmit<ItemOptions, 'x' | 'y'>;
@@ -251,7 +251,7 @@ items.push( new StationaryItem() );
 ////////
 // Example Five: Using a parent option in the subtype constructor
 
-type ChildrenAdapterItemSelfOptions = EmptyObjectType;
+type ChildrenAdapterItemSelfOptions = EmptySelfOptions;
 
 // It is a bit safer in common code to keep this alias, even when identical. This way, if you export your public
 // options, you don't skip a level and need to do a global refactor if you want to add an option to this subtype.
@@ -505,7 +505,7 @@ items.push( new LargeItem( { size: 7 } ) );
 /////////
 // Example Twelve: Use combineOptions when passing options to a composed type (example also in design patterns doc)
 
-type ChildOfComposedTypeSelfOptions = EmptyObjectType;
+type ChildOfComposedTypeSelfOptions = EmptySelfOptions;
 type ChildOfComposedTypeOptions = {
   oneOption?: boolean;
 };
@@ -781,7 +781,7 @@ type EmployeeOfTheMonthOptions = StrictOmit<EmployeeOptions, 'isRequiredAwesome'
 class EmployeeOfTheMonth extends Employee {
   public constructor( providedOptions: EmployeeOfTheMonthOptions ) { // (8), note that if options are optional, then they get a question mark here.
 
-    const options = optionize<EmployeeOfTheMonthOptions, EmptyObjectType, EmployeeOptions>()( {
+    const options = optionize<EmployeeOfTheMonthOptions, EmptySelfOptions, EmployeeOptions>()( {
       // name: 'Bob', // Limitation (I) why doesn't this fail when commented out! It is a required argument to EmployeeOptions but providedOptions is optional?  https://github.com/phetsims/chipper/issues/1128
       isRequiredAwesome: true
     }, providedOptions );

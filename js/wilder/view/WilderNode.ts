@@ -7,13 +7,13 @@
  */
 
 import optionize from '../../../../phet-core/js/optionize.js';
-import EmptyObjectType from '../../../../phet-core/js/types/EmptyObjectType.js';
+import { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import { Node, NodeOptions, Text } from '../../../../scenery/js/imports.js';
 import wilder from '../../wilder.js';
 
 class WilderNode extends Node {
   public constructor( providedOptions?: NodeOptions ) {
-    const options = optionize<NodeOptions, EmptyObjectType, NodeOptions>()( {
+    const options = optionize<NodeOptions, EmptySelfOptions, NodeOptions>()( {
       children: [ new Text( 'hello wilder' ) ]
     }, providedOptions );
     super( options );
