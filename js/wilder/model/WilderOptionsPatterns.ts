@@ -65,11 +65,10 @@
  * @author Michael Kauzmann (PhET Interactive Simulations)
  */
 
-import optionize, { combineOptions, optionize3, OptionizeDefaults } from '../../../../phet-core/js/optionize.js';
+import optionize, { combineOptions, EmptySelfOptions, optionize3, OptionizeDefaults } from '../../../../phet-core/js/optionize.js';
 import merge from '../../../../phet-core/js/merge.js';
 import wilder from '../../wilder.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
-import { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
 // Basic Examples that utilize common PhET options patterns.
