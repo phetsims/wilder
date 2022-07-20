@@ -502,16 +502,16 @@ items.push( new LargeItem( { size: 7 } ) );
 // Examples using combineOptions
 
 /////////
-// Example Twelve: Use combineOptions when passing options to a composed type (example also in design patterns doc)
+// Example Twelve: Use combineOptions when passing options to a composed class (example also in design patterns doc)
 
-type ChildOfComposedTypeSelfOptions = EmptySelfOptions;
-type ChildOfComposedTypeOptions = {
+type MemberOfComposedClassSelfOptions = EmptySelfOptions;
+type MemberOfComposedClassOptions = {
   oneOption?: boolean;
 };
 
-class ChildOfComposedType {
-  public constructor( providedOptions?: ChildOfComposedTypeOptions ) {
-    const options = optionize<ChildOfComposedTypeOptions, ChildOfComposedTypeSelfOptions>()( {
+class MemberOfComposedClass {
+  public constructor( providedOptions?: MemberOfComposedClassOptions ) {
+    const options = optionize<MemberOfComposedClassOptions, MemberOfComposedClassSelfOptions>()( {
       oneOption: false
     }, providedOptions );
 
@@ -519,24 +519,24 @@ class ChildOfComposedType {
   }
 }
 
-type ThingWithComposedTypeOptions = {
-  childOptions: ChildOfComposedTypeOptions;
+type ThingWithComposedClassOptions = {
+  childOptions: MemberOfComposedClassOptions;
 };
 
-class ThingWithComposedType {
-  private readonly child: ChildOfComposedType;
+class ThingWithComposedClass {
+  private readonly member: MemberOfComposedClass;
 
   // childOptions are required, so no need to optionize. But that could easily be done if needed.
-  public constructor( providedOptions: ThingWithComposedTypeOptions ) {
+  public constructor( providedOptions: ThingWithComposedClassOptions ) {
 
-    this.child = new ChildOfComposedType( combineOptions<ChildOfComposedTypeOptions>( {
+    this.member = new MemberOfComposedClass( combineOptions<MemberOfComposedClassOptions>( {
       oneOption: true
     }, providedOptions.childOptions ) );
 
   }
 }
 
-console.log( new ThingWithComposedType( { childOptions: {} } ) );
+console.log( new ThingWithComposedClass( { childOptions: {} } ) );
 
 /////////
 // Example Thirteen
