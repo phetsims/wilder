@@ -38,7 +38,7 @@ class WilderModel {
     } );
 
     // We want a built version to error out for these "asserts"
-    function hardAssert( condition: boolean, message = '' ) {
+    function hardAssert( condition: boolean, message = '' ): void {
       if ( !condition ) {
         throw new Error( message );
       }
@@ -70,14 +70,14 @@ class WilderModel {
     } );
 
     // Default function parameters
-    function defaults( x = 1, y = 2, z = 3 ) {
+    function defaults( x = 1, y = 2, z = 3 ): number {
       return x + y + z;
     }
 
     hardAssert( defaults( 0 ) === 5 );
 
     // Rest parameters
-    function rest( x: number, y: number, ...others: number[] ) {
+    function rest( x: number, y: number, ...others: number[] ): number {
       return x + y + others.length;
     }
 
@@ -92,7 +92,7 @@ class WilderModel {
     hardAssert( `Testing ${2 + 3}` === 'Testing 5' );
 
     // Custom interpolation
-    function quoter( strings: TemplateStringsArray, ...quotations: ( string | number )[] ) {
+    function quoter( strings: TemplateStringsArray, ...quotations: ( string | number )[] ): string {
       return interleave( strings, ( i: number ) => `"${quotations[ i ]}"` ).join( '' );
     }
 
@@ -159,7 +159,7 @@ class WilderModel {
     hardAssert( animals === destObject.mouse.animals );
 
     // Parameter destructuring
-    function destruct( { cat, mouse: { animals: [ firstAnimal ] } }: { cat: number; mouse: { animals: number[] } } ) {
+    function destruct( { cat, mouse: { animals: [ firstAnimal ] } }: { cat: number; mouse: { animals: number[] } } ): number {
       return cat + firstAnimal;
     }
 
