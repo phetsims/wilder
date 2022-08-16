@@ -5,11 +5,13 @@
  */
 /* eslint-disable */
 import getStringModule from '../../chipper/js/getStringModule.js';
+import TReadOnlyProperty from '../../axon/js/TReadOnlyProperty.js';
 import wilder from './wilder.js';
 
 type StringsType = {
   'wilder': {
     'title': string;
+    'titleProperty': TReadOnlyProperty<string>;
   }
 };
 
