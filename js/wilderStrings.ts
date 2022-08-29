@@ -11,7 +11,7 @@ import wilder from './wilder.js';
 type StringsType = {
   'wilder': {
     'title': string;
-    'titleProperty': TReadOnlyProperty<string>;
+    'titleStringProperty': TReadOnlyProperty<string>;
   }
 };
 
