@@ -12,7 +12,7 @@ import wilderStrings from './wilderStrings.js';
 import WilderScreen from './wilder/WilderScreen.js';
 import Tandem from '../../tandem/js/Tandem.js';
 
-const wilderTitleString = wilderStrings.wilder.title;
+const wilderTitleStringProperty = wilderStrings.wilder.titleStringProperty;
 
 const simOptions: SimOptions = {
   credits: {
@@ -26,7 +26,7 @@ const simOptions: SimOptions = {
 };
 
 simLauncher.launch( () => {
-  const sim = new Sim( wilderTitleString, [ new WilderScreen( {
+  const sim = new Sim( wilderTitleStringProperty, [ new WilderScreen( {
     tandem: Tandem.ROOT.createTandem( 'wilderScreen' )
   } ) ], simOptions );
   sim.start();
