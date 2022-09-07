@@ -15,8 +15,8 @@ type StringsType = {
   }
 };
 
-const wilderStrings = getStringModule( 'WILDER' ) as StringsType;
+const WilderStrings = getStringModule( 'WILDER' ) as StringsType;
 
-wilder.register( 'wilderStrings', wilderStrings );
+wilder.register( 'WilderStrings', WilderStrings );
 
-export default wilderStrings;
+export default WilderStrings;
