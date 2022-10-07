@@ -267,8 +267,6 @@ class WilderModel {
   public reset(): void {
     // console.log( 'reset' );
   }
-
-  public step(): void { /* no stepping here */ }
 }
 
 wilder.register( 'WilderModel', WilderModel );
