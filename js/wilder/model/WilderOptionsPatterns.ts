@@ -168,7 +168,7 @@ class TreeItem extends Item {
 items.push( new TreeItem( { treeType: 'cedar' } ) );
 items.push( new TreeItem( {
   treeType: 'pine',
-  children: [ new Item() ] // eslint-disable-line no-html-constructors
+  children: [ new Item() ]
 } ) );
 
 
@@ -189,7 +189,7 @@ class ItemContainer {
       }
     }, providedOptions );
 
-    this.node = new Item( options.nodeOptions ); // eslint-disable-line no-html-constructors
+    this.node = new Item( options.nodeOptions );
   }
 }
 
@@ -214,7 +214,7 @@ class ItemContainer2 {
     // TODO: Explicitly omit here until we can work out a way for optionize to detect nested options directly. https://github.com/phetsims/chipper/issues/1128
     const options = optionize<ItemContainer2Options, StrictOmit<ItemContainer2Options, 'nodeOptions'>>()( {}, providedOptions );
 
-    this.node = new Item( options.nodeOptions ); // eslint-disable-line no-html-constructors
+    this.node = new Item( options.nodeOptions );
   }
 }
 
