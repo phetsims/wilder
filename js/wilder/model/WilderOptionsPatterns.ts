@@ -67,6 +67,7 @@
 
 import optionize, { combineOptions, EmptySelfOptions, optionize3, OptionizeDefaults } from '../../../../phet-core/js/optionize.js';
 import merge from '../../../../phet-core/js/merge.js';
+import WithOptional from '../../../../phet-core/js/types/WithOptional.js';
 import wilder from '../../wilder.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 
@@ -384,7 +385,7 @@ console.log( new WrapType( {
 } ) );
 
 ////////
-// Example Nine: A work around to Limitation (I)
+// Example Nine: Supertype has a required option and subtype makes that option optional with a default.
 type HowSuper = 'totally' | 'a bit' | 'no, not really';
 
 type SuperOptions = {
@@ -406,25 +407,28 @@ class Super {
 type KingSelfOptions = {
   hasGoodGroceries?: boolean;
 };
-type KingOptions = KingSelfOptions & Partial<SuperOptions>;
+type KingOptions = KingSelfOptions & WithOptional<SuperOptions, 'howSuper'>;
 
 class King extends Super {
   public constructor( providedOptions?: KingOptions ) {
-
-    // Without the 4th type arg, the super() call doesn't know that howSuper has been provided. This is a workaround
-    // for Limitation (I). Ideally, we wouldn't need the 4th parameter here.
     const options = optionize<KingOptions, KingSelfOptions, SuperOptions>()( {
       howSuper: 'totally',
       hasGoodGroceries: true
-    } );
+    }, providedOptions );
     super( options );
   }
 }
 
-const kingSuper = new King( {
+const kingSuper1 = new King( {
+  hasGoodGroceries: true,
+  howSuper: 'a bit'
+} );
+
+const kingSuper2 = new King( {
   hasGoodGroceries: false
 } );
-console.log( kingSuper );
+console.log( kingSuper1 );
+console.log( kingSuper2 );
 
 
 ////////
