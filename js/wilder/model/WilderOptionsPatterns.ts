@@ -59,7 +59,7 @@
  * (III) Factoring out defaults into "DEFAULT_*_OPTIONS" causes a type inference that doesn't occur when providing an
  * object literal as the "defaults" argument to optionize. This means that you must provide a type where you declare the
  * defaults variable in order to get type safety about the contents of those defaults.
- * (IV) narrowing the type of a single option is a subtype, but using the full type in its constructor.
+ * (IV) narrowing the type of a single option in a subtype, but using the full type in its constructor.
  *
  * @author Sam Reid (PhET Interactive Simulations)
  * @author Michael Kauzmann (PhET Interactive Simulations)
