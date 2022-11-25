@@ -159,7 +159,7 @@ class TreeItem extends Item {
   private treeType: TreeItemSelfOptions[ 'treeType' ];
 
   public constructor( providedOptions: TreeItemOptions ) {
-    const options = optionize3<TreeItemOptions, TreeItemSelfOptions, ItemOptions>()( {}, providedOptions );
+    const options = optionize<TreeItemOptions, TreeItemSelfOptions, ItemOptions>()( {}, providedOptions );
     super( options );
     this.treeType = options.treeType;
   }
