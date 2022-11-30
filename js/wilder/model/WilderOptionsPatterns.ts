@@ -132,8 +132,10 @@ class MyItem extends Item {
     const options = optionize<MyItemOptions, SelfOptions, ItemOptions>()( {
       mySpecialNumber: 2,
       x: 10,
-      y: 10
-      // blarg: false // ERROR - optionize knows what options from this class and the parent are allowed, and no others are accepted.
+      y: 10,
+
+      // @ts-expect-error - optionize knows what options from this class and the parent are allowed, and no others are accepted.
+      blarg: false
     }, providedOptions );
 
     super( options );
