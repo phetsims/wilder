@@ -24,11 +24,11 @@ class WilderEnumerationPatterns {
      * The primary enumeration pattern.
      */
     class MammalType extends EnumerationValue {
-      public static PUPPY = new MammalType();
-      public static KITTY = new MammalType();
+      public static readonly PUPPY = new MammalType();
+      public static readonly KITTY = new MammalType();
 
       // Gets a list of keys, values and mapping between them.  For use in EnumerationProperty and PhET-iO
-      public static enumeration = new Enumeration( MammalType, {
+      public static readonly enumeration = new Enumeration( MammalType, {
         phetioDocumentation: 'Describes the type of the mammal.'
       } );
 
@@ -53,16 +53,16 @@ class WilderEnumerationPatterns {
      * more values. This should be rarely used.
      */
     class TreeType extends EnumerationValue {
-      public static ASH = new TreeType();
-      public static BIRCH = new TreeType();
+      public static readonly ASH = new TreeType();
+      public static readonly BIRCH = new TreeType();
 
-      public static enumeration = new Enumeration( TreeType );
+      public static readonly enumeration = new Enumeration( TreeType );
     }
 
     class SpecialTreeType extends TreeType {
-      public static CEDAR = new SpecialTreeType();
+      public static readonly CEDAR = new SpecialTreeType();
 
-      public static override enumeration = new Enumeration( SpecialTreeType, {
+      public static override readonly enumeration = new Enumeration( SpecialTreeType, {
 
         // Match any static member of SpecialTreeType that is instanceof TreeType, so it will include the existing ASH, BIRCH and also the new value CEDAR
         instanceType: TreeType

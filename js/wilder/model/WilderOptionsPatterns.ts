@@ -625,7 +625,7 @@ class AnotherItem extends Item {
     super( options );
   }
 
-  private static USE_AN_ITEM_OPTIONS: UseAnItemOptions = {
+  private static readonly USE_AN_ITEM_OPTIONS: UseAnItemOptions = {
     anOption: true
   };
 
