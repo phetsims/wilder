@@ -191,7 +191,7 @@ class WilderModel {
     type SecretOptions = SecretSelfOptions & NodeOptions;
     class SecretNode extends Node {
 
-      // @ts-ignore
+      // @ts-expect-error
       public _mutatorKeys = [ ...Node.prototype._mutatorKeys, 'secret' ];
       private _secret: number;
 
