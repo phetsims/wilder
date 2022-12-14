@@ -167,7 +167,8 @@ class TreeItem extends Item {
   }
 }
 
-// items.push( new TreeItem() ); // ERROR: required parameter
+// @ts-expect-error required parameter
+items.push( new TreeItem() );
 items.push( new TreeItem( { treeType: 'cedar' } ) );
 items.push( new TreeItem( {
   treeType: 'pine',
@@ -248,7 +249,9 @@ class StationaryItem extends Item {
 }
 
 items.push( new StationaryItem() );
-// items.push( new StationaryItem( { x: 6 } ) ); // ERROR
+
+// @ts-expect-error x is not in StationaryItemOptions
+items.push( new StationaryItem( { x: 6 } ) );
 
 ////////
 // Example Five: Using a parent option in the subtype constructor
@@ -298,8 +301,10 @@ class OtherItem extends Item {
       thing: 10,
       stuff: 'some stuff',
       x: 10,
-      y: 10
-      // ,blarg: 'hi' // ERROR
+      y: 10,
+
+      // @ts-expect-error - only known keys
+      blarg: 'hi'
     };
 
     // Here, since there are no self options, and instead just modified parent options, pass the public options in as the parent options
@@ -325,7 +330,7 @@ items.push( new OtherItem() );
 type RequiredThingOptions = {
   requiredNumber: number;
   requiredString: string;
-  // optional?: number; // Uncomment to get the error in the optionize defaults.
+  optional?: number; // Uncomment to get the error in the optionize defaults.
 };
 
 
@@ -335,8 +340,7 @@ class RequiredThing {
     // Here, since there are no self options, and instead just modified parent options, pass the public options in as the parent options
     const options = optionize<RequiredThingOptions>()( {
 
-      // TODO: this should error, it is required and shouldn't have a default, but you have to have one or more optional
-      //       items in the options for that to occur. https://github.com/phetsims/chipper/issues/1128
+      // @ts-expect-error - this should error, it is required and shouldn't have a default
       requiredNumber: 10
     }, providedOptions );
 
@@ -640,6 +644,69 @@ class AnotherItem extends Item {
 
 items.push( new AnotherItem( { x: 5 } ) );
 
+/////////
+// Example Fifteen - omit required parent option and specify in defaults
+//
+
+type GalaxyClassOptions = {
+  warpSpeed: number;
+};
+
+class GalaxyClass {
+  private readonly topSpeed: number;
+
+  public constructor( options: GalaxyClassOptions ) {
+    this.topSpeed = options.warpSpeed;
+  }
+}
+
+type EnterpriseOptions = EmptySelfOptions & StrictOmit<GalaxyClassOptions, 'warpSpeed'>;
+
+class EnterpriseC extends GalaxyClass {
+
+  public constructor( providedOptions?: EnterpriseOptions ) {
+
+    const options = optionize<EnterpriseOptions, EmptySelfOptions, GalaxyClassOptions>()( {
+      // warpSpeed: 10 // a lack of this option shows that we don't have a value for a required options
+    }, providedOptions );
+
+    // @ts-expect-error - omitted from providedOptions and not in defaults. Error because if must come from somewhere!!!
+    super( options );
+  }
+}
+
+class EnterpriseD extends GalaxyClass {
+
+  public constructor( providedOptions?: EnterpriseOptions ) {
+
+    const options = optionize<EnterpriseOptions, EmptySelfOptions, GalaxyClassOptions>()( {
+      warpSpeed: 10
+    }, providedOptions );
+
+    super( options );
+  }
+}
+
+type EnterpriseEOptions = EmptySelfOptions & GalaxyClassOptions;
+
+class EnterpriseE extends GalaxyClass {
+
+  public constructor( providedOptions: EnterpriseEOptions ) {
+
+    const options = optionize<EnterpriseEOptions, EmptySelfOptions, GalaxyClassOptions>()( {
+
+      // @ts-expect-error - no defaults for required providedOptions, they will never be used, Limitation (I)
+      warpSpeed: 10
+    }, providedOptions );
+
+    super( options );
+  }
+}
+
+console.log( new EnterpriseC() );
+console.log( new EnterpriseD() );
+console.log( new EnterpriseE( { warpSpeed: 1 } ) );
+
 ////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -798,6 +865,8 @@ class EmployeeOfTheMonth extends Employee {
 class WilderOptionsPatterns {
   private bob: Employee;
   private charlie: Employee;
+  private samanantha: Employee;
+  private tela: Employee;
   private alice: EmployeeOfTheMonth;
 
   public constructor() {
@@ -808,17 +877,33 @@ class WilderOptionsPatterns {
       dogOptions: { age: 3, name: 'dog name' },
       name: 'Bob' // (1)
     } );
+
     this.charlie = new Employee( {
       isRequiredAwesome: true, // (2)
       isAwesome: false, // (2)
       name: 'Charlie', // (1) if you comment this out, it will be an error because it is a required option
       height: 49, // (1)
       hasShirt: true, // (3)
-      dogOptions: { name: 'other dog name' }
+      dogOptions: { name: 'other dog name' },
 
+      // @ts-expect-error countryOfOrigin is not in any known options
+      countryOfOrigin: 'america'
+    } );
 
-      // countryOfOrigin: 'america' // ERROR countryOfOrigin is not in any known options.
-      // attitude: 'hi' // ERROR (5) not allowed in EmployeeOptions
+    this.samanantha = new Employee( {
+
+      // @ts-expect-error // (5) not allowed in EmployeeOptions
+      attitude: 'pretty freaking nice'
+    } );
+
+    // @ts-expect-error needs a isRequiredAwesome
+    this.samanantha = new Employee( {
+      name: 'Samanantha' // (1)
+    } );
+
+    // @ts-expect-error needs a name
+    this.tela = new Employee( {
+      isRequiredAwesome: true // (1)
     } );
 
     this.alice = new EmployeeOfTheMonth( {
