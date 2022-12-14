@@ -670,7 +670,7 @@ class EnterpriseC extends GalaxyClass {
       // warpSpeed: 10 // a lack of this option shows that we don't have a value for a required options
     }, providedOptions );
 
-    // @ts-expect-error - omitted from providedOptions and not in defaults. Error because if must come from somewhere!!!
+    // TODO should be ts-expect-error - omitted from providedOptions and not in defaults. Error because if must come from somewhere!!! https://github.com/phetsims/center-and-variability/issues/142
     super( options );
   }
 }
@@ -695,7 +695,7 @@ class EnterpriseE extends GalaxyClass {
 
     const options = optionize<EnterpriseEOptions, EmptySelfOptions, GalaxyClassOptions>()( {
 
-      // @ts-expect-error - no defaults for required providedOptions, they will never be used, Limitation (I)
+      // TODO should be ts-expect-error - no defaults for required providedOptions, they will never be used, Limitation (I) https://github.com/phetsims/center-and-variability/issues/142
       warpSpeed: 10
     }, providedOptions );
 
