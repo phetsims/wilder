@@ -297,7 +297,7 @@ class OtherItem extends Item {
   public constructor( providedOptions?: OtherItemOptions ) {
 
     // NOTE: You must apply a type here in order to get "blarg" to error when uncommented
-    const OTHER_ITEM_DEFAULTS: OptionizeDefaults<OtherItemSelfOptions, ItemOptions, 'x'> = {
+    const OTHER_ITEM_DEFAULTS: OptionizeDefaults<OtherItemSelfOptions, ItemOptions> = {
       thing: 10,
       stuff: 'some stuff',
       x: 10,
