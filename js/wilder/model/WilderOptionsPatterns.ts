@@ -133,7 +133,7 @@ class MyItem extends Item {
       mySpecialNumber: 2,
       x: 10,
 
-      // @ts-expect-error - optionize knows what options from this class and the parent are allowed, and no others are accepted.
+      // @ts-expect-error INTENTIONAL - optionize knows what options from this class and the parent are allowed, and no others are accepted.
       blarg: false
     }, providedOptions );
 
@@ -176,7 +176,7 @@ class TreeItem extends Item {
   }
 }
 
-// @ts-expect-error required parameter
+// @ts-expect-error INTENTIONAL required parameter
 items.push( new TreeItem() );
 items.push( new TreeItem( { treeType: 'cedar' } ) );
 items.push( new TreeItem( {
@@ -259,7 +259,7 @@ class StationaryItem extends Item {
 
 items.push( new StationaryItem() );
 
-// @ts-expect-error x is not in StationaryItemOptions
+// @ts-expect-error INTENTIONAL x is not in StationaryItemOptions
 items.push( new StationaryItem( { x: 6 } ) );
 
 ////////
@@ -318,7 +318,7 @@ class OtherItem extends Item {
       x: 10,
       y: 10,
 
-      // @ts-expect-error - only known keys
+      // @ts-expect-error INTENTIONAL - only known keys
       blarg: 'hi'
     };
 
@@ -330,15 +330,15 @@ class OtherItem extends Item {
     this.test( options.x );
     this.test( options.thing );
 
-    // TODO: this should be a @ts-expect-error - it can't think that non-provided options are not defined, likely unfixable but still
+    // TODO: this should be a @ts-expect-error INTENTIONAL - it can't think that non-provided options are not defined, likely unfixable but still
     this.test2( options.size );
 
-    // @ts-expect-error - even though x is defined, OptionizeDefaults doesn't know what ItemOptions were provided in
+    // @ts-expect-error INTENTIONAL - even though x is defined, OptionizeDefaults doesn't know what ItemOptions were provided in
     // the object literal. This is an example of a ts-expect-error that may be nice to remove in the future, but
     // currently demonstrates the optionize behavior.
     this.test( OTHER_ITEM_DEFAULTS.x );
 
-    // @ts-expect-error - could be undefined
+    // @ts-expect-error INTENTIONAL - could be undefined
     this.test2( OTHER_ITEM_DEFAULTS.size );
   }
 
@@ -370,7 +370,7 @@ class RequiredThing {
     // Here, since there are no self options, and instead just modified parent options, pass the public options in as the parent options
     const options = optionize<RequiredThingOptions>()( {
 
-      // @ts-expect-error - this should error, it is required and shouldn't have a default
+      // @ts-expect-error INTENTIONAL - this should error, it is required and shouldn't have a default
       requiredNumber: 10
     }, providedOptions );
 
@@ -701,7 +701,7 @@ class EnterpriseC extends GalaxyClass {
       // warpSpeed: 10 // a lack of this option shows that we don't have a value for a required options
     }, providedOptions );
 
-    // TODO should be ts-expect-error - omitted from providedOptions and not in defaults. Error because if must come from somewhere!!! https://github.com/phetsims/center-and-variability/issues/142
+    // TODO should be ts-expect-error INTENTIONAL - omitted from providedOptions and not in defaults. Error because if must come from somewhere!!! https://github.com/phetsims/center-and-variability/issues/142
     super( options );
   }
 }
@@ -726,7 +726,7 @@ class EnterpriseE extends GalaxyClass {
 
     const options = optionize<EnterpriseEOptions, EmptySelfOptions, GalaxyClassOptions>()( {
 
-      // TODO should be ts-expect-error - no defaults for required providedOptions, they will never be used, Limitation (I) https://github.com/phetsims/center-and-variability/issues/142
+      // TODO should be ts-expect-error INTENTIONAL - no defaults for required providedOptions, they will never be used, Limitation (I) https://github.com/phetsims/center-and-variability/issues/142
       warpSpeed: 10
     }, providedOptions );
 
@@ -918,22 +918,22 @@ class WilderOptionsPatterns {
       hasShirt: true, // (3)
       dogOptions: { name: 'other dog name' },
 
-      // @ts-expect-error countryOfOrigin is not in any known options
+      // @ts-expect-error INTENTIONAL countryOfOrigin is not in any known options
       countryOfOrigin: 'america'
     } );
 
     this.samanantha = new Employee( {
 
-      // @ts-expect-error // (5) not allowed in EmployeeOptions
+      // @ts-expect-error INTENTIONAL // (5) not allowed in EmployeeOptions
       attitude: 'pretty freaking nice'
     } );
 
-    // @ts-expect-error needs a isRequiredAwesome
+    // @ts-expect-error INTENTIONAL needs a isRequiredAwesome
     this.samanantha = new Employee( {
       name: 'Samanantha' // (1)
     } );
 
-    // @ts-expect-error needs a name
+    // @ts-expect-error INTENTIONAL needs a name
     this.tela = new Employee( {
       isRequiredAwesome: true // (1)
     } );
