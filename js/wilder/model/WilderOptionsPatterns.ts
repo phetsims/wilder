@@ -132,15 +132,24 @@ class MyItem extends Item {
     const options = optionize<MyItemOptions, SelfOptions, ItemOptions>()( {
       mySpecialNumber: 2,
       x: 10,
-      y: 10,
 
       // @ts-expect-error - optionize knows what options from this class and the parent are allowed, and no others are accepted.
       blarg: false
     }, providedOptions );
 
     super( options );
+    this.myItemTest( options.mySpecialNumber );
+    this.myItemTest( options.x );
+
+    // TODO: y?: number should behave like number|undefined, can we please have a @ts-expect-error on this?
+    //  this should most definitely be considered number|undefined, but for some reason `y?: number` is not wrong here.
+    this.myItemTest( options.y );
 
     this.mySpecialNumber = options.mySpecialNumber;
+  }
+
+  private myItemTest( hi: number ): void {
+    console.log( hi );
   }
 }
 
@@ -270,10 +279,16 @@ class ChildrenAdapterItem extends Item {
       children: [ new MyItem() ]
     }, providedOptions );
 
+    // TODO: options.children should not be optional
     // Without the 'children' type in optionize, typescript would think that options.children could be undefined
     options.children.push( new MyItem() );
 
     super( options );
+    this.hello( options.children );
+  }
+
+  public hello( items: Item[] ): void {
+    console.log( 'hi', items );
   }
 }
 
@@ -314,9 +329,24 @@ class OtherItem extends Item {
 
     this.test( options.x );
     this.test( options.thing );
+
+    // TODO: this should be a @ts-expect-error - it can't think that non-provided options are not defined, likely unfixable but still
+    this.test2( options.size );
+
+    // @ts-expect-error - even though x is defined, OptionizeDefaults doesn't know what ItemOptions were provided in
+    // the object literal. This is an example of a ts-expect-error that may be nice to remove in the future, but
+    // currently demonstrates the optionize behavior.
+    this.test( OTHER_ITEM_DEFAULTS.x );
+
+    // @ts-expect-error - could be undefined
+    this.test2( OTHER_ITEM_DEFAULTS.size );
   }
 
   public test( x: number ): void {
+    console.log( x );
+  }
+
+  public test2( x: number | 'veryLarge' ): void {
     console.log( x );
   }
 }
@@ -494,7 +524,8 @@ class LargeItem extends Item {
 
     const options = optionize<LargeItemOptions, LargeItemSelfOptions, ItemOptions>()( {
 
-      // Limitation (IV), I cannot use the type from ItemOptions, but instead I'm internally limited to the public narrowing API of just number.
+      // Limitation (IV), I cannot use the type from ItemOptions, but instead I'm internally limited to the public
+      // narrowing API of just number.
       // size: 'veryLarge'
       size: 4 // TODO: delete this and use 'veryLarge' above instead
 
@@ -803,6 +834,7 @@ class Employee extends Person {
     // before optionize because it is required
     console.log( providedOptions.isRequiredAwesome );
 
+    // TODO: Shouldn't have to provide name (required parent option) in defaults when it will come from providedOptions, https://github.com/phetsims/center-and-variability/issues/142
     const options = optionize<EmployeeOptions, EmployeeSelfOptions, PersonOptions>()( {
         // blarg: true,
         isAwesome: true, // (2)
