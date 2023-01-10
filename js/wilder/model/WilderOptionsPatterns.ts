@@ -597,6 +597,8 @@ class Handle {
 
   public constructor( providedOptions?: HandleOptions ) {
     const options = optionize<HandleOptions>()( {
+
+      // @ts-expect-error length is required, so it shouldn't get a default
       length: 2
     }, providedOptions );
 
@@ -726,7 +728,7 @@ class EnterpriseE extends GalaxyClass {
 
     const options = optionize<EnterpriseEOptions, EmptySelfOptions, GalaxyClassOptions>()( {
 
-      // TODO should be ts-expect-error INTENTIONAL - no defaults for required providedOptions, they will never be used, Limitation (I) https://github.com/phetsims/center-and-variability/issues/142
+      // @ts-expect-error warpSpeed is required, so you can't have it in the defaults
       warpSpeed: 10
     }, providedOptions );
 
@@ -834,14 +836,22 @@ class Employee extends Person {
     // before optionize because it is required
     console.log( providedOptions.isRequiredAwesome );
 
+    // Not real code, just for the ts-expect-error without ruining type checking on the actual optionize call.
+    optionize<EmployeeOptions, EmployeeSelfOptions, PersonOptions>()( {
+
+      // @ts-expect-error you cannot provide a default for a required option
+      isRequiredAwesome: true
+    } );
+
     // TODO: Shouldn't have to provide name (required parent option) in defaults when it will come from providedOptions, https://github.com/phetsims/center-and-variability/issues/142
     const options = optionize<EmployeeOptions, EmployeeSelfOptions, PersonOptions>()( {
-        // blarg: true,
+
         isAwesome: true, // (2)
-        // hasShirt: false, // (3)
+        hasShirt: false, // (3)
         // personitude: 'hello', // (4).a
         // personitude: PERSON_DEFAULTS.personitude (4).b
         // attitude: 'cool' // (5).a
+
         personitude: 'personable',
         age: 5,
         dogOptions: {
