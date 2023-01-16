@@ -141,7 +141,7 @@ class MyItem extends Item {
     this.myItemTest( options.mySpecialNumber );
     this.myItemTest( options.x );
 
-    // TODO: y?: number should behave like number|undefined, can we please have a @ts-expect-error on this?
+    // TODO: y?: number should behave like number|undefined, can we please have a @ts-expect-error on this?, https://github.com/phetsims/chipper/issues/1128
     //  this should most definitely be considered number|undefined, but for some reason `y?: number` is not wrong here.
     this.myItemTest( options.y );
 
@@ -279,7 +279,7 @@ class ChildrenAdapterItem extends Item {
       children: [ new MyItem() ]
     }, providedOptions );
 
-    // TODO: options.children should not be optional
+    // TODO: options.children should not be optional, https://github.com/phetsims/chipper/issues/1128
     // Without the 'children' type in optionize, typescript would think that options.children could be undefined
     options.children.push( new MyItem() );
 
@@ -330,7 +330,7 @@ class OtherItem extends Item {
     this.test( options.x );
     this.test( options.thing );
 
-    // TODO: this should be a @ts-expect-error INTENTIONAL - it can't think that non-provided options are not defined, likely unfixable but still
+    // TODO: this should be a @ts-expect-error INTENTIONAL - it can't think that non-provided options are not defined, likely unfixable but still, https://github.com/phetsims/chipper/issues/1128
     this.test2( options.size );
 
     // @ts-expect-error INTENTIONAL - even though x is defined, OptionizeDefaults doesn't know what ItemOptions were provided in
@@ -527,7 +527,7 @@ class LargeItem extends Item {
       // Limitation (IV), I cannot use the type from ItemOptions, but instead I'm internally limited to the public
       // narrowing API of just number.
       // size: 'veryLarge'
-      size: 4 // TODO: delete this and use 'veryLarge' above instead
+      size: 4 // TODO: delete this and use 'veryLarge' above instead, https://github.com/phetsims/chipper/issues/1128
 
     }, providedOptions );
 
