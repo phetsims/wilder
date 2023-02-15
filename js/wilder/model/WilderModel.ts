@@ -15,6 +15,7 @@ import wilder from '../../wilder.js';
 import WilderOptionsPatterns from './WilderOptionsPatterns.js';
 import WilderEnumerationPatterns from './WilderEnumerationPatterns.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
+import TModel from '../../../../joist/js/TModel.js';
 
 // Commented out for the currently-unsupported ES6 features
 // const Utils = require( '/dot/js/Utils' );
@@ -26,7 +27,7 @@ type WilderModelOptions = {
   tandem: Tandem;
 };
 
-class WilderModel {
+class WilderModel implements TModel {
   private wilderOptionsPatterns: WilderOptionsPatterns;
   private wilderEnumerationPatterns: WilderEnumerationPatterns;
 
