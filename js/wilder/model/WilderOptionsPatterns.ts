@@ -141,7 +141,7 @@ class MyItem extends Item {
     this.myItemTest( options.mySpecialNumber );
     this.myItemTest( options.x );
 
-    // TODO: y?: number should behave like number|undefined, can we please have a @ts-expect-error on this?, https://github.com/phetsims/chipper/issues/1128
+    // TODO: y?: number should behave like number|undefined, can we please have a @ts-expect-error on this?, https://github.com/phetsims/phet-core/issues/128
     //  this should most definitely be considered number|undefined, but for some reason `y?: number` is not wrong here.
     this.myItemTest( options.y );
 
@@ -224,7 +224,7 @@ class ItemContainer2 {
 
   public constructor( providedOptions: ItemContainer2Options ) {
 
-    // TODO: Explicitly omit here until we can work out a way for optionize to detect nested options directly. https://github.com/phetsims/chipper/issues/1128
+    // TODO: Explicitly omit here until we can work out a way for optionize to detect nested options directly. https://github.com/phetsims/phet-core/issues/128
     const options = optionize<ItemContainer2Options, StrictOmit<ItemContainer2Options, 'nodeOptions'>>()( {}, providedOptions );
 
     this.node = new Item( options.nodeOptions );
@@ -279,7 +279,7 @@ class ChildrenAdapterItem extends Item {
       children: [ new MyItem() ]
     }, providedOptions );
 
-    // TODO: options.children should not be optional, https://github.com/phetsims/chipper/issues/1128
+    // TODO: options.children should not be optional, https://github.com/phetsims/phet-core/issues/128
     // Without the 'children' type in optionize, typescript would think that options.children could be undefined
     options.children.push( new MyItem() );
 
@@ -330,7 +330,7 @@ class OtherItem extends Item {
     this.test( options.x );
     this.test( options.thing );
 
-    // TODO: this should be a @ts-expect-error INTENTIONAL - it can't think that non-provided options are not defined, likely unfixable but still, https://github.com/phetsims/chipper/issues/1128
+    // TODO: this should be a @ts-expect-error INTENTIONAL - it can't think that non-provided options are not defined, likely unfixable but still, https://github.com/phetsims/phet-core/issues/128
     this.test2( options.size );
 
     // @ts-expect-error INTENTIONAL - even though x is defined, OptionizeDefaults doesn't know what ItemOptions were provided in
@@ -471,7 +471,7 @@ console.log( kingSuper2 );
 // Example Ten: Defaults from your subtype AND from a common Constants object
 // optionize currently only provides one argument to supply ALL defaults with, so you must merge them all into a
 // variable (of type OptionizeDefaults<>) and pass that into optionize.
-// TODO: improve on this pattern. Perhaps optionize can take two parameters sometimes and & them together to come up with the defaults? https://github.com/phetsims/chipper/issues/1128
+// TODO: improve on this pattern. Perhaps optionize can take two parameters sometimes and & them together to come up with the defaults? https://github.com/phetsims/phet-core/issues/128
 
 const SIM_CONSTANTS = {
   ITEM_CONSTANTS: {
@@ -527,7 +527,7 @@ class LargeItem extends Item {
       // Limitation (IV), I cannot use the type from ItemOptions, but instead I'm internally limited to the public
       // narrowing API of just number.
       // size: 'veryLarge'
-      size: 4 // TODO: delete this and use 'veryLarge' above instead, https://github.com/phetsims/chipper/issues/1128
+      size: 4 // TODO: delete this and use 'veryLarge' above instead, https://github.com/phetsims/phet-core/issues/128
 
     }, providedOptions );
 
@@ -896,7 +896,7 @@ class EmployeeOfTheMonth extends Employee {
   public constructor( providedOptions: EmployeeOfTheMonthOptions ) { // (8), note that if options are optional, then they get a question mark here.
 
     const options = optionize<EmployeeOfTheMonthOptions, EmptySelfOptions, EmployeeOptions>()( {
-      // name: 'Bob', // Limitation (I) why doesn't this fail when commented out! It is a required argument to EmployeeOptions but providedOptions is optional?  https://github.com/phetsims/chipper/issues/1128
+      // name: 'Bob', // Limitation (I) why doesn't this fail when commented out! It is a required argument to EmployeeOptions but providedOptions is optional?  https://github.com/phetsims/phet-core/issues/128
       isRequiredAwesome: true
     }, providedOptions );
 
