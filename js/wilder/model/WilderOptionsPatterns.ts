@@ -699,11 +699,12 @@ class EnterpriseC extends GalaxyClass {
 
   public constructor( providedOptions?: EnterpriseOptions ) {
 
+    // @ts-expect-error INTENTIONAL - warpSpeed is required, so you can't have it in the defaults
     const options = optionize<EnterpriseOptions, EmptySelfOptions, GalaxyClassOptions>()( {
+
       // warpSpeed: 10 // a lack of this option shows that we don't have a value for a required options
     }, providedOptions );
 
-    // TODO should be ts-expect-error INTENTIONAL - omitted from providedOptions and not in defaults. Error because if must come from somewhere!!! https://github.com/phetsims/center-and-variability/issues/142
     super( options );
   }
 }
@@ -843,7 +844,6 @@ class Employee extends Person {
       isRequiredAwesome: true
     } );
 
-    // TODO: Shouldn't have to provide name (required parent option) in defaults when it will come from providedOptions, https://github.com/phetsims/center-and-variability/issues/142
     const options = optionize<EmployeeOptions, EmployeeSelfOptions, PersonOptions>()( {
 
         isAwesome: true, // (2)
