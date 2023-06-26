@@ -9,13 +9,12 @@
 
 import wilder from '../../wilder.js';
 import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
-import Tandem from '../../../../tandem/js/Tandem.js';
 import Enumeration from '../../../../phet-core/js/Enumeration.js';
 import EnumerationValue from '../../../../phet-core/js/EnumerationValue.js';
+import { PhetioObjectOptions } from '../../../../tandem/js/PhetioObject.js';
+import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 
-type WilderEnumerationPatternsOptions = {
-  tandem: Tandem;
-};
+type WilderEnumerationPatternsOptions = PickRequired<PhetioObjectOptions, 'tandem'>;
 
 class WilderEnumerationPatterns {
   public constructor( providedOptions: WilderEnumerationPatternsOptions ) {

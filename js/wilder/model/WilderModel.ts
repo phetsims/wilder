@@ -14,8 +14,9 @@ import { Node, NodeOptions } from '../../../../scenery/js/imports.js';
 import wilder from '../../wilder.js';
 import WilderOptionsPatterns from './WilderOptionsPatterns.js';
 import WilderEnumerationPatterns from './WilderEnumerationPatterns.js';
-import Tandem from '../../../../tandem/js/Tandem.js';
 import TModel from '../../../../joist/js/TModel.js';
+import { PhetioObjectOptions } from '../../../../tandem/js/PhetioObject.js';
+import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 
 // Commented out for the currently-unsupported ES6 features
 // const Utils = require( '/dot/js/Utils' );
@@ -23,9 +24,7 @@ import TModel from '../../../../joist/js/TModel.js';
 // constants
 const something = 'foo';
 
-type WilderModelOptions = {
-  tandem: Tandem;
-};
+type WilderModelOptions = PickRequired<PhetioObjectOptions, 'tandem'>;
 
 class WilderModel implements TModel {
   private wilderOptionsPatterns: WilderOptionsPatterns;
@@ -190,6 +189,7 @@ class WilderModel implements TModel {
       secret?: number;
     };
     type SecretOptions = SecretSelfOptions & NodeOptions;
+
     class SecretNode extends Node {
 
       // @ts-expect-error

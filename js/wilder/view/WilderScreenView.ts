@@ -9,11 +9,10 @@ import ResetAllButton from '../../../../scenery-phet/js/buttons/ResetAllButton.j
 import wilder from '../../wilder.js';
 import WilderNode from './WilderNode.js';
 import WilderModel from '../model/WilderModel.js';
-import Tandem from '../../../../tandem/js/Tandem.js';
+import { PhetioObjectOptions } from '../../../../tandem/js/PhetioObject.js';
+import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 
-type WilderScreenViewOptions = {
-  tandem: Tandem;
-};
+type WilderScreenViewOptions = PickRequired<PhetioObjectOptions, 'tandem'>;
 
 class WilderScreenView extends ScreenView {
   public constructor( wilderModel: WilderModel, providedOptions: WilderScreenViewOptions ) {
