@@ -2,7 +2,7 @@
 
 /**
  * Demonstrates using PhET Options patterns with inheritance and composition.
- * See https://github.com/phetsims/phet-info/blob/master/doc/phet-software-design-patterns.md#options-typescript
+ * See https://github.com/phetsims/phet-info/blob/main/doc/phet-software-design-patterns.md#options-typescript
  * for additional description.
  *
  * The general structure of options is to define the Type of options that are defined at each level of the hierarchy,
