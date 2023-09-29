@@ -1,8 +1,8 @@
 Wilder
 ================
 
-"Wilder" is an educational simulation in HTML5, by <a href="https://phet.colorado.edu/" target="_blank">PhET Interactive
-Simulations</a>
+"Wilder" is an educational simulation in HTML5, by <a href="https://phet.colorado.edu/" target="_blank">PhET
+Interactive Simulations</a>
 at the University of Colorado Boulder.
 
 *This simulation is under development and has not been published.*
