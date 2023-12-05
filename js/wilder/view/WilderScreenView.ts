@@ -13,6 +13,7 @@ import { PhetioObjectOptions } from '../../../../tandem/js/PhetioObject.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import { Image } from '../../../../scenery/js/imports.js';
 import phetGirlWaggingFinger_svg from '../../../images/phetGirlWaggingFinger_svg.js';
+import test1_svg from '../../../images/test1_svg.js';
 
 type WilderScreenViewOptions = PickRequired<PhetioObjectOptions, 'tandem'>;
 
@@ -27,6 +28,12 @@ class WilderScreenView extends ScreenView {
     this.addChild( new Image( phetGirlWaggingFinger_svg, {
       x: 110,
       y: 80
+    } ) );
+
+    this.addChild( new Image( test1_svg, {
+      x: -100,
+      y: -200,
+      scale: 10
     } ) );
 
     // Reset All button
