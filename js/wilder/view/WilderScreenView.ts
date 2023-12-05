@@ -11,6 +11,8 @@ import WilderNode from './WilderNode.js';
 import WilderModel from '../model/WilderModel.js';
 import { PhetioObjectOptions } from '../../../../tandem/js/PhetioObject.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
+import { Image } from '../../../../scenery/js/imports.js';
+import phetGirlWaggingFinger_svg from '../../../images/phetGirlWaggingFinger_svg.js';
 
 type WilderScreenViewOptions = PickRequired<PhetioObjectOptions, 'tandem'>;
 
@@ -21,6 +23,11 @@ class WilderScreenView extends ScreenView {
     const wilderNode = new WilderNode( { x: 100, y: 100 } );
     wilderNode.flipOver();
     this.addChild( wilderNode );
+
+    this.addChild( new Image( phetGirlWaggingFinger_svg, {
+      x: 110,
+      y: 80
+    } ) );
 
     // Reset All button
     const resetAllButton = new ResetAllButton( {
