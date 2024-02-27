@@ -1,0 +1,14 @@
+{
+  "usa": {
+    "testImageA": "images/test1_svg.ts",
+    "testImageB": "images/test1_svg.ts",
+    "testImageC": "images/phetGirlWaggingFinger_svg.ts",
+    "testImageD": "images/phetGirlWaggingFinger_svg.ts"
+  },
+  "africa": {
+    "testImageA": "images/phetGirlWaggingFinger_svg.ts",
+    "testImageB": "images/test1_svg.ts",
+    "testImageC": "images/test1_svg.ts",
+    "testImageD": "images/phetGirlWaggingFinger_svg.ts"
+  }
+}
