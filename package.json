@@ -22,7 +22,8 @@
     "simFeatures": {
       "supportedRegionsAndCultures": [
         "usa",
-        "africa"
+        "africa",
+        "multi"
       ]
     }
   },
