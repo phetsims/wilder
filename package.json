@@ -24,7 +24,8 @@
         "usa",
         "africa",
         "multi"
-      ]
+      ],
+      "defaultRegionAndCulture": "multi"
     }
   },
   "eslintConfig": {
