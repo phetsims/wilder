@@ -12,7 +12,7 @@ import WilderModel from '../model/WilderModel.js';
 import { PhetioObjectOptions } from '../../../../tandem/js/PhetioObject.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import { HBox, Image } from '../../../../scenery/js/imports.js';
-import wilderImages from '../../wilderImages.js';
+import WilderImages from '../../WilderImages.js';
 
 type WilderScreenViewOptions = PickRequired<PhetioObjectOptions, 'tandem'>;
 
@@ -28,11 +28,11 @@ class WilderScreenView extends ScreenView {
       x: 100,
       y: 100,
       children: [
-        new Image( wilderImages.testImageA, {
+        new Image( WilderImages.testImageAImageProperty, {
           x: 110,
           y: 80
         } ),
-        new Image( wilderImages.testImageC, {
+        new Image( WilderImages.testImageCImageProperty, {
           x: -100,
           y: -200
         } )

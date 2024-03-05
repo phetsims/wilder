@@ -10,19 +10,19 @@ import phetGirlWaggingFinger_svg from '../images/phetGirlWaggingFinger_svg.js';
 import test1_svg from '../images/test1_svg.js';
 
 const WilderImages = {
-  testImageA: new LocalizedImageProperty( 'testImageA', {
+  testImageAImageProperty: new LocalizedImageProperty( 'testImageA', {
     usa: test1_svg,
     africa: phetGirlWaggingFinger_svg
   } ),
-  testImageB: new LocalizedImageProperty( 'testImageB', {
+  testImageBImageProperty: new LocalizedImageProperty( 'testImageB', {
     usa: test1_svg,
     africa: test1_svg
   } ),
-  testImageC: new LocalizedImageProperty( 'testImageC', {
+  testImageCImageProperty: new LocalizedImageProperty( 'testImageC', {
     usa: phetGirlWaggingFinger_svg,
     africa: test1_svg
   } ),
-  testImageD: new LocalizedImageProperty( 'testImageD', {
+  testImageDImageProperty: new LocalizedImageProperty( 'testImageD', {
     usa: phetGirlWaggingFinger_svg,
     africa: phetGirlWaggingFinger_svg
   } )
