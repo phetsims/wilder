@@ -20,8 +20,9 @@ class WilderScreenView extends ScreenView {
   public constructor( wilderModel: WilderModel, providedOptions: WilderScreenViewOptions ) {
     super( providedOptions );
 
-    const wilderNode = new WilderNode( { x: 100, y: 100 } );
+    const wilderNode = new WilderNode();
     wilderNode.flipOver();
+    wilderNode.center = this.layoutBounds.center;
     this.addChild( wilderNode );
 
     this.addChild( new HBox( {

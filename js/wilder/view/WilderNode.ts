@@ -9,11 +9,12 @@
 import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import { Node, NodeOptions, Text } from '../../../../scenery/js/imports.js';
 import wilder from '../../wilder.js';
+import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 
 class WilderNode extends Node {
   public constructor( providedOptions?: NodeOptions ) {
     const options = optionize<NodeOptions, EmptySelfOptions, NodeOptions>()( {
-      children: [ new Text( 'hello wilder' ) ]
+      children: [ new Text( 'Hello upside-down world!', { font: new PhetFont( 30 ) } ) ]
     }, providedOptions );
     super( options );
   }
