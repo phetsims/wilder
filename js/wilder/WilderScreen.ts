@@ -1,7 +1,7 @@
 // Copyright 2018-2023, University of Colorado Boulder
 
 /**
- * @author AUTHOR
+ * @author Jonathan Olson <jonathan.olson@colorado.edu>
  */
 
 import Property from '../../../axon/js/Property.js';

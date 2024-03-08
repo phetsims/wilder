@@ -1,7 +1,7 @@
 // Copyright 2018-2024, University of Colorado Boulder
 
 /**
- * @author AUTHOR
+ * @author Jonathan Olson <jonathan.olson@colorado.edu>
  */
 
 import ScreenView from '../../../../joist/js/ScreenView.js';

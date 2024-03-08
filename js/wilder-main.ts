@@ -3,7 +3,7 @@
 /**
  * Main entry point for the sim.
  *
- * @author AUTHOR
+ * @author Jonathan Olson <jonathan.olson@colorado.edu>
  */
 
 import Sim, { SimOptions } from '../../joist/js/Sim.js';
