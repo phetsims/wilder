@@ -21,11 +21,11 @@
     "supportsOutputJS": true,
     "simFeatures": {
       "supportedRegionsAndCultures": [
-        "usa",
         "africa",
-        "multi"
+        "random",
+        "usa"
       ],
-      "defaultRegionAndCulture": "multi"
+      "defaultRegionAndCulture": "random"
     }
   },
   "eslintConfig": {

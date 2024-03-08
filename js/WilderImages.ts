@@ -11,20 +11,20 @@ import test1_svg from '../images/test1_svg.js';
 
 const WilderImages = {
   testImageAImageProperty: new LocalizedImageProperty( 'testImageA', {
-    usa: test1_svg,
-    africa: phetGirlWaggingFinger_svg
+    africa: phetGirlWaggingFinger_svg,
+    usa: test1_svg
   } ),
   testImageBImageProperty: new LocalizedImageProperty( 'testImageB', {
-    usa: test1_svg,
-    africa: test1_svg
+    africa: test1_svg,
+    usa: test1_svg
   } ),
   testImageCImageProperty: new LocalizedImageProperty( 'testImageC', {
-    usa: phetGirlWaggingFinger_svg,
-    africa: test1_svg
+    africa: test1_svg,
+    usa: phetGirlWaggingFinger_svg
   } ),
   testImageDImageProperty: new LocalizedImageProperty( 'testImageD', {
-    usa: phetGirlWaggingFinger_svg,
-    africa: phetGirlWaggingFinger_svg
+    africa: phetGirlWaggingFinger_svg,
+    usa: phetGirlWaggingFinger_svg
   } )
 };
 
