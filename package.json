@@ -18,15 +18,7 @@
       "phet-io"
     ],
     "simulation": true,
-    "supportsOutputJS": true,
-    "simFeatures": {
-      "supportedRegionsAndCultures": [
-        "africa",
-        "random",
-        "usa"
-      ],
-      "defaultRegionAndCulture": "random"
-    }
+    "supportsOutputJS": true
   },
   "eslintConfig": {
     "extends": "../chipper/eslint/sim_eslintrc.js"
