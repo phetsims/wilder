@@ -1,13 +1,18 @@
 Wilder
 ================
 
-"Wilder" is used to demonstrate and test PhET software development patterns.
+"Wilder" is an educational simulation in HTML5, by <a href="https://phet.colorado.edu/" target="_blank">PhET
+Interactive Simulations</a>
+at the University of Colorado Boulder.
 
-By PhET Interactive Simulations
-https://phet.colorado.edu/
+*This simulation is under development and has not been published.*
 
-NOTE: This repository has dependencies on other repositories. Those repositories much be checked out as siblings to this
-repository in your directory structure. See package.json for a list of dependencies.
+### Documentation
+
+The <a href="https://github.com/phetsims/phet-info/blob/main/doc/phet-development-overview.md" target="_blank">PhET
+Development Overview</a> is the most complete guide to PhET Simulation Development. This guide includes how to obtain
+simulation code and its dependencies, notes about architecture & design, how to test and build the sims, as well as
+other important information.
 
 ### License
 

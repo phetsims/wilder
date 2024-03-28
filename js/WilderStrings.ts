@@ -10,7 +10,6 @@ import wilder from './wilder.js';
 
 type StringsType = {
   'wilder': {
-    'title': string;
     'titleStringProperty': LocalizedStringProperty;
   }
 };
