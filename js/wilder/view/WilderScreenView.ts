@@ -72,6 +72,7 @@ class WilderScreenView extends ScreenView {
     globalHotkeyRegistry.add( new Hotkey( {
       key: 'r',
       fire: () => console.log( 'fire: r' ),
+      ignoredModifierKeys: [ 'shift' ],
       fireOnHold: true,
       fireOnHoldTiming: 'custom',
       fireOnHoldCustomInterval: 300
