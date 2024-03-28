@@ -78,6 +78,12 @@ class WilderScreenView extends ScreenView {
       fireOnHoldCustomInterval: 300
     } ) );
 
+    globalHotkeyRegistry.add( new Hotkey( {
+      key: 'd',
+      fire: () => console.log( 'fire: (second d)' ),
+      allowOverlap: true
+    } ) );
+
     resetAllButton.addInputListener( {
       hotkeys: [
         new Hotkey( {
