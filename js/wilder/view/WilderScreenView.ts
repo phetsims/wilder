@@ -84,6 +84,12 @@ class WilderScreenView extends ScreenView {
       allowOverlap: true
     } ) );
 
+    globalHotkeyRegistry.add( new Hotkey( {
+      key: 'shift',
+      fire: () => console.log( 'fire: shift' ),
+      enabledProperty: extraEnabledProperty
+    } ) );
+
     resetAllButton.addInputListener( {
       hotkeys: [
         new Hotkey( {
