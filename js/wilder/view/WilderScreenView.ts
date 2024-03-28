@@ -15,6 +15,9 @@ import { globalHotkeyRegistry, Hotkey, Text } from '../../../../scenery/js/impor
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import ABSwitch from '../../../../sun/js/ABSwitch.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
+import NumberProperty from '../../../../axon/js/NumberProperty.js';
+import stepTimer from '../../../../axon/js/stepTimer.js';
+import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 
 type WilderScreenViewOptions = PickRequired<PhetioObjectOptions, 'tandem'>;
 
@@ -88,6 +91,32 @@ class WilderScreenView extends ScreenView {
       key: 'shift',
       fire: () => console.log( 'fire: shift' ),
       enabledProperty: extraEnabledProperty
+    } ) );
+
+    // Demo for delayed "combo" hotkeys. Press 'o' and then 'p' within 500ms to trigger the 'p' hotkey.
+    const lastOPressTimeProperty = new NumberProperty( 0 );
+    const currentTimeProperty = new NumberProperty( Date.now() );
+    stepTimer.addListener( dt => {
+      currentTimeProperty.value = Date.now();
+    } );
+    globalHotkeyRegistry.add( new Hotkey( {
+      key: 'o',
+      fire: () => {
+        console.log( 'fire: o (first key)' );
+        lastOPressTimeProperty.value = Date.now();
+      }
+    } ) );
+    globalHotkeyRegistry.add( new Hotkey( {
+      key: 'p',
+      fire: () => {
+        console.log( 'fire: p' );
+      },
+      enabledProperty: new DerivedProperty( [
+        lastOPressTimeProperty,
+        currentTimeProperty
+      ], ( lastOPressTime, currentTime ) => {
+        return lastOPressTime + 500 > currentTime;
+      } )
     } ) );
 
     resetAllButton.addInputListener( {
