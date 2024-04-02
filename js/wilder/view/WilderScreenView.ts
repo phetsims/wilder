@@ -37,7 +37,8 @@ class WilderScreenView extends ScreenView {
     const disabledText = new Text( 'Some Hotkeys Disabled', { font: new PhetFont( 16 ) } );
     const enabledSwitch = new ABSwitch( extraEnabledProperty, true, enabledText, false, disabledText, {
       centerX: this.layoutBounds.centerX,
-      bottom: this.layoutBounds.maxY - 10
+      bottom: this.layoutBounds.maxY - 10,
+      tandem: providedOptions.tandem.createTandem( 'enabledSwitch' )
     } );
     this.addChild( enabledSwitch );
 
