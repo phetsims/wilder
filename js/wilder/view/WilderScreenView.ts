@@ -120,12 +120,38 @@ class WilderScreenView extends ScreenView {
       } )
     } ) );
 
+    this.addInputListener( {
+      hotkeys: [
+        new Hotkey( {
+          key: 'x',
+          fire: () => console.log( 'fire: x (screen view)' )
+        } ),
+        new Hotkey( {
+          key: 'w',
+          fire: () => console.log( 'fire: w (screen view)' )
+        } ),
+        new Hotkey( {
+          key: 'a',
+          fire: () => console.log( 'fire: a (screen view)' )
+        } ),
+        new Hotkey( {
+          key: 's',
+          fire: () => console.log( 'fire: s (screen view)' )
+        } ),
+        new Hotkey( {
+          key: 'd',
+          fire: () => console.log( 'fire: d (screen view)' )
+        } )
+      ]
+    } );
+
     resetAllButton.addInputListener( {
       hotkeys: [
         new Hotkey( {
           key: 'x',
           fire: () => console.log( 'fire: x' ),
-          enabledProperty: extraEnabledProperty
+          enabledProperty: extraEnabledProperty,
+          override: true
         } ),
         new Hotkey( {
           key: 'x',
@@ -135,19 +161,23 @@ class WilderScreenView extends ScreenView {
         } ),
         new Hotkey( {
           key: 'w',
-          fire: () => console.log( 'fire: w' )
+          fire: () => console.log( 'fire: w' ),
+          override: true
         } ),
         new Hotkey( {
           key: 'a',
-          fire: () => console.log( 'fire: a' )
+          fire: () => console.log( 'fire: a' ),
+          override: true
         } ),
         new Hotkey( {
           key: 's',
-          fire: () => console.log( 'fire: s' )
+          fire: () => console.log( 'fire: s' ),
+          override: true
         } ),
         new Hotkey( {
           key: 'd',
-          fire: () => console.log( 'fire: d' )
+          fire: () => console.log( 'fire: d' ),
+          override: true
         } )
       ]
     } );
