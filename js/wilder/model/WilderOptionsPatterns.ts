@@ -842,7 +842,7 @@ class Employee extends Person {
 
       // @ts-expect-error you cannot provide a default for a required option
       isRequiredAwesome: true
-    } );
+    }, providedOptions );
 
     const options = optionize<EmployeeOptions, EmployeeSelfOptions, PersonOptions>()( {
 
