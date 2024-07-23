@@ -11,13 +11,14 @@ import WilderNode from './WilderNode.js';
 import WilderModel from '../model/WilderModel.js';
 import { PhetioObjectOptions } from '../../../../tandem/js/PhetioObject.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
-import { globalHotkeyRegistry, Hotkey, Text } from '../../../../scenery/js/imports.js';
+import { globalHotkeyRegistry, Hotkey, KeyDescriptor, Text } from '../../../../scenery/js/imports.js';
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import ABSwitch from '../../../../sun/js/ABSwitch.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import stepTimer from '../../../../axon/js/stepTimer.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
+import Property from '../../../../axon/js/Property.js';
 
 type WilderScreenViewOptions = PickRequired<PhetioObjectOptions, 'tandem'>;
 
@@ -54,42 +55,47 @@ class WilderScreenView extends ScreenView {
     this.addChild( resetAllButton );
 
     globalHotkeyRegistry.add( new Hotkey( {
-      key: 'y',
+      keyDescriptorProperty: new Property( new KeyDescriptor( { key: 'y' } ) ),
       fire: () => console.log( 'fire: y' )
     } ) );
 
     globalHotkeyRegistry.add( new Hotkey( {
-      key: 't',
+      keyDescriptorProperty: new Property( new KeyDescriptor( { key: 't' } ) ),
       fire: () => console.log( 'fire: t' ),
       fireOnHold: true,
       fireOnHoldTiming: 'browser'
     } ) );
 
     globalHotkeyRegistry.add( new Hotkey( {
-      key: 't',
-      modifierKeys: [ 'shift' ],
+      keyDescriptorProperty: new Property( new KeyDescriptor( { key: 't', modifierKeys: [ 'shift' ] } ) ),
       fire: () => console.log( 'fire: shift+t' ),
       fireOnHold: true,
       fireOnHoldTiming: 'browser'
     } ) );
 
     globalHotkeyRegistry.add( new Hotkey( {
-      key: 'r',
+      keyDescriptorProperty: new Property( new KeyDescriptor( { key: 'r', ignoredModifierKeys: [ 'shift' ] } ) ),
       fire: () => console.log( 'fire: r' ),
-      ignoredModifierKeys: [ 'shift' ],
       fireOnHold: true,
       fireOnHoldTiming: 'custom',
       fireOnHoldCustomInterval: 300
     } ) );
 
+    const keyDescriptorProperty = new Property( new KeyDescriptor( { key: 'f' } ) );
+
+    // Example of changing the key descriptor. When 'd' becomes activated there SHOULD be a detected overlap.
+    // stepTimer.setInterval( () => {
+    //   const nextKey = keyDescriptorProperty.value.key === 'd' ? 'f' : 'd';
+    //   keyDescriptorProperty.value = new KeyDescriptor( { key: nextKey } );
+    // }, 2000 );
+
     globalHotkeyRegistry.add( new Hotkey( {
-      key: 'd',
-      fire: () => console.log( 'fire: (second d)' ),
-      allowOverlap: true
+      keyDescriptorProperty: keyDescriptorProperty,
+      fire: () => console.log( `fire: (global, ${keyDescriptorProperty.value.key})` )
     } ) );
 
     globalHotkeyRegistry.add( new Hotkey( {
-      key: 'shift',
+      keyDescriptorProperty: new Property( new KeyDescriptor( { key: 'shift' } ) ),
       fire: () => console.log( 'fire: shift' ),
       enabledProperty: extraEnabledProperty
     } ) );
@@ -101,14 +107,14 @@ class WilderScreenView extends ScreenView {
       currentTimeProperty.value = Date.now();
     } );
     globalHotkeyRegistry.add( new Hotkey( {
-      key: 'o',
+      keyDescriptorProperty: new Property( new KeyDescriptor( { key: 'o' } ) ),
       fire: () => {
         console.log( 'fire: o (first key)' );
         lastOPressTimeProperty.value = Date.now();
       }
     } ) );
     globalHotkeyRegistry.add( new Hotkey( {
-      key: 'p',
+      keyDescriptorProperty: new Property( new KeyDescriptor( { key: 'p' } ) ),
       fire: () => {
         console.log( 'fire: p' );
       },
@@ -123,23 +129,23 @@ class WilderScreenView extends ScreenView {
     this.addInputListener( {
       hotkeys: [
         new Hotkey( {
-          key: 'x',
+          keyDescriptorProperty: new Property( new KeyDescriptor( { key: 'x' } ) ),
           fire: () => console.log( 'fire: x (screen view)' )
         } ),
         new Hotkey( {
-          key: 'w',
+          keyDescriptorProperty: new Property( new KeyDescriptor( { key: 'w' } ) ),
           fire: () => console.log( 'fire: w (screen view)' )
         } ),
         new Hotkey( {
-          key: 'a',
+          keyDescriptorProperty: new Property( new KeyDescriptor( { key: 'a' } ) ),
           fire: () => console.log( 'fire: a (screen view)' )
         } ),
         new Hotkey( {
-          key: 's',
+          keyDescriptorProperty: new Property( new KeyDescriptor( { key: 's' } ) ),
           fire: () => console.log( 'fire: s (screen view)' )
         } ),
         new Hotkey( {
-          key: 'd',
+          keyDescriptorProperty: new Property( new KeyDescriptor( { key: 'd' } ) ),
           fire: () => console.log( 'fire: d (screen view)' )
         } )
       ]
@@ -148,34 +154,33 @@ class WilderScreenView extends ScreenView {
     resetAllButton.addInputListener( {
       hotkeys: [
         new Hotkey( {
-          key: 'x',
+          keyDescriptorProperty: new Property( new KeyDescriptor( { key: 'x' } ) ),
           fire: () => console.log( 'fire: x' ),
           enabledProperty: extraEnabledProperty,
           override: true
         } ),
         new Hotkey( {
-          key: 'x',
-          modifierKeys: [ 'b' ],
+          keyDescriptorProperty: new Property( new KeyDescriptor( { key: 'x', modifierKeys: [ 'b' ] } ) ),
           fire: () => console.log( 'fire: b+x' ),
           enabledProperty: extraEnabledProperty
         } ),
         new Hotkey( {
-          key: 'w',
+          keyDescriptorProperty: new Property( new KeyDescriptor( { key: 'w' } ) ),
           fire: () => console.log( 'fire: w' ),
           override: true
         } ),
         new Hotkey( {
-          key: 'a',
+          keyDescriptorProperty: new Property( new KeyDescriptor( { key: 'a' } ) ),
           fire: () => console.log( 'fire: a' ),
           override: true
         } ),
         new Hotkey( {
-          key: 's',
+          keyDescriptorProperty: new Property( new KeyDescriptor( { key: 's' } ) ),
           fire: () => console.log( 'fire: s' ),
           override: true
         } ),
         new Hotkey( {
-          key: 'd',
+          keyDescriptorProperty: new Property( new KeyDescriptor( { key: 'd' } ) ),
           fire: () => console.log( 'fire: d' ),
           override: true
         } )
