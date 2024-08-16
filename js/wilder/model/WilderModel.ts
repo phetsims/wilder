@@ -184,6 +184,15 @@ class WilderModel implements TModel {
     hardAssert( forest === 5 );
     hardAssert( leaf === 1024 );
 
+    // Nullish Coalescing Assignment (??=)
+    let helloWorld;
+    helloWorld ??= 'Hello, World!';
+    hardAssert( helloWorld === 'Hello, World!' );
+
+    helloWorld = 'Hi again!';
+    helloWorld ??= 'Hello, World!';
+    hardAssert( helloWorld === 'Hi again!' );
+    console.log( 'helloWorld: should be Hi again!', helloWorld );
 
     type SecretSelfOptions = {
       secret?: number;
