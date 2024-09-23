@@ -8,9 +8,9 @@
 
 import Sim, { SimOptions } from '../../joist/js/Sim.js';
 import simLauncher from '../../joist/js/simLauncher.js';
-import WilderStrings from './WilderStrings.js';
-import WilderScreen from './wilder/WilderScreen.js';
 import Tandem from '../../tandem/js/Tandem.js';
+import WilderScreen from './wilder/WilderScreen.js';
+import WilderStrings from './WilderStrings.js';
 
 const wilderTitleStringProperty = WilderStrings.wilder.titleStringProperty;
 
