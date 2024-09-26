@@ -109,7 +109,7 @@ class WilderModel implements TModel {
     // Object shorthand is not allowed in PhET code! Note that method shorthand is ok, like `{ listener(){} }`
     const a = 5;
     const b = 4;
-    const shortObj = { a, b }; // eslint-disable-line phet-object-shorthand
+    const shortObj = { a: a, b: b };
     hardAssert( shortObj.a === a );
     hardAssert( shortObj.b === b );
 
