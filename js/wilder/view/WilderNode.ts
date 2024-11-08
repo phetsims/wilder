@@ -7,9 +7,9 @@
  */
 
 import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
+import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import { Node, NodeOptions, Text } from '../../../../scenery/js/imports.js';
 import wilder from '../../wilder.js';
-import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 
 class WilderNode extends Node {
   public constructor( providedOptions?: NodeOptions ) {

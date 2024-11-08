@@ -4,21 +4,21 @@
  * @author Jonathan Olson <jonathan.olson@colorado.edu>
  */
 
-import ScreenView from '../../../../joist/js/ScreenView.js';
-import ResetAllButton from '../../../../scenery-phet/js/buttons/ResetAllButton.js';
-import wilder from '../../wilder.js';
-import WilderNode from './WilderNode.js';
-import WilderModel from '../model/WilderModel.js';
-import { PhetioObjectOptions } from '../../../../tandem/js/PhetioObject.js';
-import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
-import { globalHotkeyRegistry, Hotkey, OneKeyStroke, Text } from '../../../../scenery/js/imports.js';
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
-import ABSwitch from '../../../../sun/js/ABSwitch.js';
-import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
-import NumberProperty from '../../../../axon/js/NumberProperty.js';
-import stepTimer from '../../../../axon/js/stepTimer.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
+import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import Property from '../../../../axon/js/Property.js';
+import stepTimer from '../../../../axon/js/stepTimer.js';
+import ScreenView from '../../../../joist/js/ScreenView.js';
+import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
+import ResetAllButton from '../../../../scenery-phet/js/buttons/ResetAllButton.js';
+import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
+import { globalHotkeyRegistry, Hotkey, OneKeyStroke, Text } from '../../../../scenery/js/imports.js';
+import ABSwitch from '../../../../sun/js/ABSwitch.js';
+import { PhetioObjectOptions } from '../../../../tandem/js/PhetioObject.js';
+import wilder from '../../wilder.js';
+import WilderModel from '../model/WilderModel.js';
+import WilderNode from './WilderNode.js';
 
 type WilderScreenViewOptions = PickRequired<PhetioObjectOptions, 'tandem'>;
 

@@ -9,14 +9,14 @@
  * @author Jonathan Olson <jonathan.olson@colorado.edu>
  */
 
-import interleave from '../../../../phet-core/js/interleave.js';
-import { Node, NodeOptions } from '../../../../scenery/js/imports.js';
-import wilder from '../../wilder.js';
-import WilderOptionsPatterns from './WilderOptionsPatterns.js';
-import WilderEnumerationPatterns from './WilderEnumerationPatterns.js';
 import TModel from '../../../../joist/js/TModel.js';
-import { PhetioObjectOptions } from '../../../../tandem/js/PhetioObject.js';
+import interleave from '../../../../phet-core/js/interleave.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
+import { Node, NodeOptions } from '../../../../scenery/js/imports.js';
+import { PhetioObjectOptions } from '../../../../tandem/js/PhetioObject.js';
+import wilder from '../../wilder.js';
+import WilderEnumerationPatterns from './WilderEnumerationPatterns.js';
+import WilderOptionsPatterns from './WilderOptionsPatterns.js';
 
 // Commented out for the currently-unsupported ES6 features
 // const Utils = require( '/dot/js/Utils' );
