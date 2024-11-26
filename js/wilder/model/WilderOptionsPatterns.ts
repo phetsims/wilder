@@ -590,6 +590,7 @@ console.log( new ThingWithComposedClass( { childOptions: {} } ) );
 
 type HandleOptions = {
   length: number; // 0 to 5 units
+  name?: string;
 };
 
 class Handle {
@@ -623,8 +624,9 @@ class CoffeeCup {
     }, providedOptions );
 
     // combineOptions can be helpful when providing defaults to nestedOptions.
-    initialOptions.handleOptions = combineOptions<HandleOptions>( {
-      length: 4 // CoffeeCups have larger handles
+    initialOptions.handleOptions = optionize<Partial<HandleOptions>, Partial<HandleOptions>>()( {
+      length: 4, // CoffeeCups have larger handles
+      name: 'amazing handle'
     }, initialOptions.handleOptions );
 
     // combineOptions can be used when you want to add in options that depend on other options
