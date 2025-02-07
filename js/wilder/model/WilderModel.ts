@@ -12,7 +12,7 @@
 import TModel from '../../../../joist/js/TModel.js';
 import interleave from '../../../../phet-core/js/interleave.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
-import { Node, NodeOptions } from '../../../../scenery/js/imports.js';
+import Node, { NodeOptions } from '../../../../scenery/js/nodes/Node.js';
 import { PhetioObjectOptions } from '../../../../tandem/js/PhetioObject.js';
 import wilder from '../../wilder.js';
 import WilderEnumerationPatterns from './WilderEnumerationPatterns.js';
