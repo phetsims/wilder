@@ -159,7 +159,7 @@ class WilderScreenView extends ScreenView {
           keyStringProperty: new Property( 'x' ),
           fire: () => console.log( 'fire: x' ),
           enabledProperty: extraEnabledProperty,
-          override: true
+          overlapBehavior: 'handle'
         } ),
         new Hotkey( {
           keyStringProperty: new Property( 'b+x' ),
@@ -169,22 +169,22 @@ class WilderScreenView extends ScreenView {
         new Hotkey( {
           keyStringProperty: new Property( 'w' ),
           fire: () => console.log( 'fire: w' ),
-          override: true
+          overlapBehavior: 'handle'
         } ),
         new Hotkey( {
           keyStringProperty: new Property( 'a' ),
           fire: () => console.log( 'fire: a' ),
-          override: true
+          overlapBehavior: 'handle'
         } ),
         new Hotkey( {
           keyStringProperty: new Property( 's' ),
           fire: () => console.log( 'fire: s' ),
-          override: true
+          overlapBehavior: 'handle'
         } ),
         new Hotkey( {
           keyStringProperty: new Property( 'd' ),
           fire: () => console.log( 'fire: d' ),
-          override: true
+          overlapBehavior: 'handle'
         } )
       ]
     } );
