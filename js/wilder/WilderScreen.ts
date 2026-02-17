@@ -1,7 +1,7 @@
 // Copyright 2018-2024, University of Colorado Boulder
 
 /**
- * @author Jonathan Olson <jonathan.olson@colorado.edu>
+ * @author Jonathan Olson (PhET Interactive Simulations)
  */
 
 import Property from '../../../axon/js/Property.js';

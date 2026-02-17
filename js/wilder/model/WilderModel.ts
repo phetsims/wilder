@@ -6,7 +6,7 @@
  * before use. Commented out es6 features in this file are disallowed in the code base. They likely are accompanied by
  * a comment explaining why it is off limits.
  *
- * @author Jonathan Olson <jonathan.olson@colorado.edu>
+ * @author Jonathan Olson (PhET Interactive Simulations)
  */
 
 import TModel from '../../../../joist/js/TModel.js';
