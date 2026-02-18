@@ -1,4 +1,4 @@
-// Copyright 2018-2024, University of Colorado Boulder
+// Copyright 2018-2026, University of Colorado Boulder
 
 /**
  * @author Jonathan Olson (PhET Interactive Simulations)
