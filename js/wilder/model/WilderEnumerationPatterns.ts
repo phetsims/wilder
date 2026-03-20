@@ -12,7 +12,6 @@ import Enumeration from '../../../../phet-core/js/Enumeration.js';
 import EnumerationValue from '../../../../phet-core/js/EnumerationValue.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import { PhetioObjectOptions } from '../../../../tandem/js/PhetioObject.js';
-import wilder from '../../wilder.js';
 
 type WilderEnumerationPatternsOptions = PickRequired<PhetioObjectOptions, 'tandem'>;
 
@@ -112,5 +111,4 @@ class WilderEnumerationPatterns {
   }
 }
 
-wilder.register( 'WilderEnumerationPatterns', WilderEnumerationPatterns );
 export default WilderEnumerationPatterns;

@@ -19,7 +19,6 @@ import { OneKeyStroke } from '../../../../scenery/js/input/KeyDescriptor.js';
 import Text from '../../../../scenery/js/nodes/Text.js';
 import ABSwitch from '../../../../sun/js/ABSwitch.js';
 import { PhetioObjectOptions } from '../../../../tandem/js/PhetioObject.js';
-import wilder from '../../wilder.js';
 import WilderModel from '../model/WilderModel.js';
 import WilderNode from './WilderNode.js';
 
@@ -191,5 +190,4 @@ class WilderScreenView extends ScreenView {
   }
 }
 
-wilder.register( 'WilderScreenView', WilderScreenView );
 export default WilderScreenView;

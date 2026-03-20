@@ -69,7 +69,6 @@ import merge from '../../../../phet-core/js/merge.js';
 import optionize, { combineOptions, EmptySelfOptions, optionize3, OptionizeDefaults } from '../../../../phet-core/js/optionize.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 import WithOptional from '../../../../phet-core/js/types/WithOptional.js';
-import wilder from '../../wilder.js';
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
 // Basic Examples that utilize common PhET options patterns.
@@ -956,5 +955,4 @@ class WilderOptionsPatterns {
   }
 }
 
-wilder.register( 'WilderOptionsPatterns', WilderOptionsPatterns );
 export default WilderOptionsPatterns;

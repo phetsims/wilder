@@ -8,7 +8,6 @@ import Property from '../../../axon/js/Property.js';
 import Screen from '../../../joist/js/Screen.js';
 import PickRequired from '../../../phet-core/js/types/PickRequired.js';
 import { PhetioObjectOptions } from '../../../tandem/js/PhetioObject.js';
-import wilder from '../wilder.js';
 import WilderModel from './model/WilderModel.js';
 import WilderScreenView from './view/WilderScreenView.js';
 
@@ -33,5 +32,4 @@ class WilderScreen extends Screen<WilderModel, WilderScreenView> {
   }
 }
 
-wilder.register( 'WilderScreen', WilderScreen );
 export default WilderScreen;
