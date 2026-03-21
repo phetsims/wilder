@@ -19,4 +19,6 @@ type StringsType = {
 
 const WilderStrings = getStringModule( 'WILDER' ) as StringsType;
 
+wilder.register( 'WilderStrings', WilderStrings );
+
 export default WilderStrings;
